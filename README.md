@@ -6,7 +6,7 @@ Examplo de items
 * item 2
 * item 3
 
-*negrito*
+**negrito**
 _italico_
 
 ## header 2
