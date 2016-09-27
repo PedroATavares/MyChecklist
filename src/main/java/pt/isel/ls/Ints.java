@@ -7,6 +7,9 @@ public class Ints {
 
     public static int indexOfBinary(int[] a, int fromIndex, int toIndex, int n) {
 
+        if(a == null)
+            throw new IllegalArgumentException("This array is null ");
+
         if (fromIndex < 0 || toIndex >a.length)
             throw new IllegalArgumentException("Invalid limits: from(" + fromIndex + ")" + "to(" + toIndex +")");
 

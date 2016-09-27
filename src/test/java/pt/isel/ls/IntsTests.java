@@ -46,7 +46,7 @@ public class IntsTests {
     }
 
     @Test
-    public void indexOfBinary_4_positions(){
+    public void indexOfBinary_with_even_length(){
         int[] v = {1,2,3,4};
         int ix = Ints.indexOfBinary(v, 1, 4, 2);
         assertTrue(ix==1);
@@ -56,5 +56,23 @@ public class IntsTests {
     public void indexOfBinary_limits_too_hight(){
         int[] v = {1,2,3,4};
         int ix = Ints.indexOfBinary(v, 1, 7, 2);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void indexOfBinary_limits_too_low(){
+        int[] v = {1,2,3,4};
+        int ix = Ints.indexOfBinary(v, -1, 3, 2);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void indexOfBinary_empty_array(){
+        int[] v = {};
+        int ix = Ints.indexOfBinary(v, 1, 4, 2);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void indexOfBinary_null_array(){
+        int[] v = null;
+        int ix = Ints.indexOfBinary(v, 1, 4, 2);
     }
 }
