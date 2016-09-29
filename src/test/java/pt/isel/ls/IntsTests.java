@@ -75,4 +75,10 @@ public class IntsTests {
         int[] v = null;
         int ix = Ints.indexOfBinary(v, 1, 4, 2);
     }
+    @Test
+    public void indexOfBinary_even_searched_item_in_middle(){
+        int[] v = {1,2,3,4};
+        int ix = Ints.indexOfBinary(v, 1, 4, 3);
+        assertTrue(ix == 2);
+    }
 }
