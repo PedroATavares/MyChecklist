@@ -10,10 +10,7 @@ import java.util.Properties;
 import static org.junit.Assert.*;
 
 public class ConnectivityTests {
-    final String url="jdbc:sqlserver://localhost;";
     private final SQLServerDataSource src = new SQLServerDataSource();
- //   final String user="jdbcuser";
- //   final String password="jdbcuser";
 
     @Test
     public void connectivity() throws SQLException {
@@ -23,9 +20,12 @@ public class ConnectivityTests {
         Map<String, String> env = System.getenv();
 
         src.setServerName(env.get("SERVER_NAME"));
+        String curr=env.get("DATABASE_NAME");
+        if(curr!=null)src.setDatabaseName(curr);
         src.setUser(env.get("USER"));
         src.setPassword(env.get("PASSWORD"));
         con=src.getConnection();
+
         con.setAutoCommit(false);
 
         PreparedStatement insert1 = con.prepareStatement("insert into student values ('Pedro',5)");
@@ -45,12 +45,5 @@ public class ConnectivityTests {
         rs2.next();
         assertEquals("Sipriano", rs2.getString(1));
         con.rollback();
-
-
-            /*  ResultSet result = statement.executeQuery();
-            while(result.next()){
-                System.out.println(result.getString(1) + ' ' + result.getInt(2));
-            }
-            */
     }
 }
