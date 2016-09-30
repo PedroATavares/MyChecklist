@@ -33,9 +33,12 @@ public class ConnectivityTests {
         Map<String, String> env = System.getenv();
 
         src.setServerName(env.get("SERVER_NAME"));
+        String curr=env.get("DATABASE_NAME");
+        if(curr!=null)src.setDatabaseName(curr);
         src.setUser(env.get("USER"));
         src.setPassword(env.get("PASSWORD"));
         con=src.getConnection();
+
         con.setAutoCommit(false);
 
         PreparedStatement confirm1 = con.prepareStatement("IF object_id('studentTest', 'U') is not null\n" +
@@ -67,6 +70,5 @@ public class ConnectivityTests {
         rs2.next();
         assertEquals("Sipriano", rs2.getString(1));
         con.rollback();
-
     }
 }
