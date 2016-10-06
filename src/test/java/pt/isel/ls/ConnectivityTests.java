@@ -97,7 +97,7 @@ public class ConnectivityTests {
         ResultSet rs2 = st2.executeQuery();
 
         rs2.next();
-        assertEquals("Sipriano", rs2.getString(1));
+        assertEquals("Sipriano", rs2.getBoolean(1));
         con.rollback();
     }
 
