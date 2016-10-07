@@ -52,14 +52,7 @@ public class ConnectivityTests {
     @Test
     public void insert_test() throws SQLException {
         Connection con = null;
-
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
         con=src.getConnection();
-
         con.setAutoCommit(false);
 
         PreparedStatement insert = con.prepareStatement("insert into studentTest values ('Pedro',5)");
@@ -77,14 +70,7 @@ public class ConnectivityTests {
     @Test
     public void update_test() throws SQLException {
         Connection con = null;
-
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
         con=src.getConnection();
-
         con.setAutoCommit(false);
 
         PreparedStatement insert1 = con.prepareStatement("insert into studentTest values ('Pedro',5)");
@@ -104,14 +90,7 @@ public class ConnectivityTests {
     @Test
     public void delete_test() throws SQLException {
         Connection con = null;
-
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
         con=src.getConnection();
-
         con.setAutoCommit(false);
 
         PreparedStatement insert1 = con.prepareStatement("insert into studentTest values ('Pedro',5)");

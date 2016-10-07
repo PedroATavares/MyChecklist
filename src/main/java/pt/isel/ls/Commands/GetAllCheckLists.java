@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by HP on 04/10/2016.
- */
 public class GetAllCheckLists implements Command<List<CheckList>> {
     Connection con;
 
@@ -28,12 +25,12 @@ public class GetAllCheckLists implements Command<List<CheckList>> {
 
         ResultSet rs = stm.executeQuery();
         while (rs.next()){
-            list.add(new CheckList(null,
+            list.add(new CheckList(
                     rs.getInt("cid"),
-                    rs.getString("Name"),
-                    rs.getString("Descrip"),
-                    rs.getString("DueDate"),
-                    rs.getInt("tid")));
+                    rs.getString("name"),
+                    rs.getString("descrip"),
+                    rs.getString("dueDate"),
+                    rs.getInt("tid"), null));
         }
         return  list;
     }

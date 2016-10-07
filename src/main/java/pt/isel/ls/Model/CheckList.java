@@ -2,9 +2,6 @@ package pt.isel.ls.Model;
 
 import java.util.ArrayList;
 
-/**
- * Created by HP on 04/10/2016.
- */
 public class CheckList {
     public final ArrayList<Task> tasks;
     public final int id;
@@ -14,7 +11,7 @@ public class CheckList {
     public int templateId;
 
 
-    public CheckList(ArrayList<Task> tasks, int checklistId, String name, String description, String dueDate, int templateId) {
+    public CheckList( int checklistId, String name, String description, String dueDate, int templateId, ArrayList<Task> tasks) {
         this.tasks = tasks;
         this.id = checklistId;
         this.name = name;

@@ -3,9 +3,6 @@ package pt.isel.ls.Logic;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by HP on 04/10/2016.
- */
 public class Arguments {
    public final  Map<String,String> arguments;
    public final Map<String,String> variableParameters;

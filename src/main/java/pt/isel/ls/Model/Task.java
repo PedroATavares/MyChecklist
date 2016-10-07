@@ -1,8 +1,5 @@
 package pt.isel.ls.Model;
 
-/**
- * Created by HP on 04/10/2016.
- */
 public class Task {
     public final int checklistId;
     public final int id;
@@ -20,4 +17,5 @@ public class Task {
         this.dueDate = dueDate;
         this.isClosed = isClosed;
     }
+
 }
