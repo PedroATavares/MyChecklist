@@ -17,8 +17,8 @@ public class PostCheckLists implements Command<Integer> {
         PreparedStatement stm = con.prepareStatement("insert into CheckList(Name, Descrip, DueDate)" +
                 " values ( ? ,?, ?)", Statement.RETURN_GENERATED_KEYS);
         stm.setString(1, args.arguments.get("name"));
-        stm.setString(2, args.arguments.get("descrip"));
-        stm.setString(3, args.arguments.get("dueDate"));
+        stm.setString(2, args.arguments.get("description"));
+        stm.setDate(3, java.sql.Date.valueOf(args.arguments.get("dueDate")));
 
         stm.executeUpdate();
         ResultSet rs = stm.getGeneratedKeys();

@@ -22,7 +22,7 @@ public class PostTaskByID implements Command<Integer> {
                 Statement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, args.arguments.get("name") );
-        stm.setString(2, args.arguments.get("descrip") );
+        stm.setString(2, args.arguments.get("description") );
         stm.setString(3, args.arguments.get("dueDate") );
         stm.setInt(4, Integer.parseInt( args.variableParameters.get("{cid}") ) );
 

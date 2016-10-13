@@ -17,7 +17,7 @@ public class PostTemplate implements Command<Integer> {
         PreparedStatement stm = con.prepareStatement("insert into Template(Name, Descrip )" +
                 " values ( ?, ?)", Statement.RETURN_GENERATED_KEYS);
         stm.setString(1, args.arguments.get("name") );
-        stm.setString(2, args.arguments.get("descrip") );
+        stm.setString(2, args.arguments.get("description") );
 
         stm.executeUpdate();
         ResultSet rs = stm.getGeneratedKeys();

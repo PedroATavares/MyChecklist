@@ -30,7 +30,7 @@ public class CheckList {
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
-        sb.append("id: ");
+        sb.append("Checklist id: ");
         sb.append(id);
         sb.append('\n');
         sb.append("Name: ");
@@ -44,14 +44,15 @@ public class CheckList {
         else sb.append("Not established.");
         sb.append('\n');
         sb.append("Template Id: ");
-        if(templateId != null)sb.append(templateId);
+        if(templateId != 0)sb.append(templateId);
         else sb.append("Nonexistent.");
         sb.append('\n');
         sb.append('\n');
-        for (int i = 0; i <tasks.size(); i++) {
-            sb.append(tasks.get(i));
-            sb.append('\n');
-        }
+        if(tasks!=null)
+            for (int i = 0; i <tasks.size(); i++) {
+                sb.append(tasks.get(i));
+                sb.append('\n');
+            }
         return sb.toString();
     }
 }

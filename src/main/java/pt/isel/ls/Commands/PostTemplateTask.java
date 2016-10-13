@@ -15,7 +15,7 @@ public class PostTemplateTask implements Command<Integer> {
         PreparedStatement stm = con.prepareStatement("insert into TemplateTask(Name, Descrip, tid)" +
                 " values (? , ?, ? )", Statement.RETURN_GENERATED_KEYS);
         stm.setString(1, args.arguments.get("name") );
-        stm.setString(2, args.arguments.get("descrip") );
+        stm.setString(2, args.arguments.get("description") );
         stm.setInt(3, Integer.parseInt( args.variableParameters.get("{tid}")) );
 
         stm.executeUpdate();

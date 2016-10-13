@@ -17,7 +17,7 @@ public class Template {
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
-        sb.append("id: ");
+        sb.append("Template id: ");
         sb.append(id);
         sb.append('\n');
         sb.append("Name: ");

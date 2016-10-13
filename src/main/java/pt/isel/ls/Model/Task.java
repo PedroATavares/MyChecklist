@@ -20,7 +20,7 @@ public class Task {
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
-        sb.append("id: ");
+        sb.append("Task id: ");
         sb.append(id);
         sb.append('\n');
         sb.append("Name: ");
