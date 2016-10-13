@@ -9,11 +9,10 @@ public class CheckList {
     public final String description;
     public String dueDate;
     public boolean isClosed;
-    public int templateId;
-
-
+    public Integer templateId;
 
     public CheckList( int checklistId, String name, String description, String dueDate, boolean isClosed, int templateId, ArrayList<Task> tasks) {
+
         this.tasks = tasks;
         this.id = checklistId;
         this.name = name;
@@ -28,7 +27,34 @@ public class CheckList {
         this.dueDate = dueDate;
     }
 
-    public void setTemplateId(int templateId) {
+    public void setTemplateId(Integer templateId) {
         this.templateId = templateId;
+    }
+    @Override
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        sb.append("id: ");
+        sb.append(id);
+        sb.append('\n');
+        sb.append("Name: ");
+        sb.append(name);
+        sb.append('\n');
+        sb.append("Description: ");
+        sb.append(description);
+        sb.append('\n');
+        sb.append("Due Date: ");
+        if(dueDate!=null && !dueDate.equals(""))sb.append(dueDate);
+        else sb.append("Not established.");
+        sb.append('\n');
+        sb.append("Template Id: ");
+        if(templateId != null)sb.append(templateId);
+        else sb.append("Nonexistent.");
+        sb.append('\n');
+        sb.append('\n');
+        for (int i = 0; i <tasks.size(); i++) {
+            sb.append(tasks.get(i));
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 }

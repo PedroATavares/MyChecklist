@@ -17,5 +17,26 @@ public class Task {
         this.dueDate = dueDate;
         this.isClosed = isClosed;
     }
+    @Override
+    public String toString(){
+        StringBuilder sb=new StringBuilder();
+        sb.append("id: ");
+        sb.append(id);
+        sb.append('\n');
+        sb.append("Name: ");
+        sb.append(name);
+        sb.append('\n');
+        sb.append("Description: ");
+        sb.append(description);
+        sb.append('\n');
+        sb.append("Due Date: ");
+        if(dueDate!=null && !dueDate.equals(""))sb.append(dueDate);
+        else sb.append("Not established.");
+        sb.append('\n');
+        sb.append("Closed: ");
+        sb.append(isClosed);
+        sb.append('\n');
+        return sb.toString();
+    }
 
 }
