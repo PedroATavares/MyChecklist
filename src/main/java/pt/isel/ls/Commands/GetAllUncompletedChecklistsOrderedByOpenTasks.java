@@ -23,7 +23,7 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<Li
 
     @Override
     public List<CheckList> execute(Arguments args ,Connection con) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("select checkl.* from (select checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid, count(Checklist.cid) as che from checklist inner join task on(task.cid=checklist.cid) where task.isclosed = 'false' group by Checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid ) as checkl order by checkl.cid DESC");
+        PreparedStatement stm = con.prepareStatement("select checkl.* from (select checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid,checklist.IsClosed, count(Checklist.cid) as che from checklist inner join task on(task.cid=checklist.cid) where task.IsClosed = 'false' group by Checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid,checklist.IsClosed) as checkl order by checkl.che DESC\n");
         ArrayList<CheckList> list = new ArrayList<CheckList>();
 
         ResultSet rs = stm.executeQuery();
@@ -33,7 +33,7 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<Li
                     rs.getString("name"),
                     rs.getString("descrip"),
                     rs.getString("dueDate"),
-                    false,
+                    rs.getBoolean("IsClosed"),
                     rs.getInt("tid"),
                     null));
         }
