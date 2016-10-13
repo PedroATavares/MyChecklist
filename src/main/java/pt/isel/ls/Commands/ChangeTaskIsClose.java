@@ -1,9 +1,10 @@
 package pt.isel.ls.Commands;
 
 import pt.isel.ls.Logic.Arguments;
+import pt.isel.ls.Model.CheckList;
 
-import java.io.StringWriter;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ChangeTaskIsClose implements Command<String> {
 
@@ -16,31 +17,46 @@ public class ChangeTaskIsClose implements Command<String> {
     @Override
     public String execute(Arguments args) throws SQLException {
 
-        /*PreparedStatement stm1 = con.prepareStatement("select Task.isClosed from Task\n" +
-                "where cid = ? AND lid = ?");
-
-        stm1.setInt(1, Integer.parseInt( args.variableParameters.get("{cid}") ) );
-        stm1.setInt(2, Integer.parseInt( args.variableParameters.get("{lid}") ) );
-
-        ResultSet rs1 = stm1.executeQuery();
-        rs1.next();
-
-        String isClose = "true";
-        if( rs1.getString(1).equals(isClose) )
-            isClose = "false";*/
-
-        // se recebermos o true ou false nao é preciso isto em cima
-
+        String cid = args.variableParameters.get("{cid}");
+        String lid = args.variableParameters.get("{lid}");
         String isClose = args.arguments.get("isClosed");
-        PreparedStatement stm2 = con.prepareStatement("UPDATE Task\n" +
+
+        PreparedStatement stm1 = con.prepareStatement("UPDATE Task\n" +
                 "SET isClosed = ? \n" +
                 "WHERE cid = ? AND lid = ?");
 
-        stm2.setString(1,isClose );
-        stm2.setInt(2, Integer.parseInt( args.variableParameters.get("{cid}") ) );
-        stm2.setInt(3, Integer.parseInt( args.variableParameters.get("{lid}") ) );
-        stm2.executeUpdate(); // aqui sai 1 se for feito o execute com sucesso, secalhar vamos precisar
+        stm1.setString(1,isClose );
+        stm1.setInt(2, Integer.parseInt(cid) );
+        stm1.setInt(3, Integer.parseInt( lid ) );
+        stm1.executeUpdate();
+
+        if( allTasksClosed( cid )){
+            PreparedStatement stm2 = con.prepareStatement("UPDATE Checklist\n" +
+                    "SET IsClosed='true'\n" +
+                    "WHERE cid= ?;\n");
+            stm2.setInt(1, Integer.parseInt(cid) );
+            stm2.executeUpdate();
+        }
 
         return isClose ;
    }
+
+    private boolean allTasksClosed(String cid) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("select Task.isClosed from " +
+                "Checklist inner join Task\n" +
+                "on Checklist.cid = Task.cid\n" +
+                "where Checklist.cid = ?");
+        stm.setInt(1, Integer.parseInt(cid) );
+        ResultSet rs = stm.executeQuery();
+
+        while (rs.next()){
+            if( !rs.getBoolean("isClosed") )
+                return false;
+        }
+        return true;
+    }
+
+
+
+
 }

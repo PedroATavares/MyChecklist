@@ -2,7 +2,6 @@ package pt.isel.ls.Commands;
 
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Model.CheckList;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,17 +9,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetAllCheckLists implements Command<List<CheckList>> {
+public class GetCheckListsClosed implements Command<List<CheckList>>{
     Connection con;
 
-    public GetAllCheckLists(Connection con) {
+    public GetCheckListsClosed(Connection con) {
         this.con = con;
     }
 
     @Override
     public List<CheckList> execute(Arguments args) throws SQLException {
 
-        PreparedStatement stm = con.prepareStatement("select * from checklist");
+        PreparedStatement stm = con.prepareStatement("select * from Checklist\n" +
+                "where IsClosed = 'true'");
         ArrayList<CheckList> list = new ArrayList<CheckList>();
 
         ResultSet rs = stm.executeQuery();
@@ -31,7 +31,9 @@ public class GetAllCheckLists implements Command<List<CheckList>> {
                     rs.getString("descrip"),
                     rs.getString("dueDate"),
                     rs.getBoolean("isClosed"),
-                    rs.getInt("tid"), null));
+                    rs.getInt("tid"),
+                    null
+            ));
         }
         return  list;
     }

@@ -8,16 +8,20 @@ public class CheckList {
     public final String name;
     public final String description;
     public String dueDate;
+    public boolean isClosed;
     public int templateId;
 
 
-    public CheckList( int checklistId, String name, String description, String dueDate, int templateId, ArrayList<Task> tasks) {
+
+    public CheckList( int checklistId, String name, String description, String dueDate, boolean isClosed, int templateId, ArrayList<Task> tasks) {
         this.tasks = tasks;
         this.id = checklistId;
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
+        this.isClosed = isClosed;
         this.templateId=templateId;
+
     }
 
     public void setDueDate(String dueDate) {
