@@ -33,7 +33,8 @@ public class GetCheckListByID implements Command<CheckList>
                     rs.getString(2),
                     rs.getString(3),
                     rs.getString(4),
-                    rs.getInt(5),
+                    rs.getBoolean(5),
+                    rs.getInt(6),
                     ToolsList.makeListFromResultSet(rs));
         }
         return cl;

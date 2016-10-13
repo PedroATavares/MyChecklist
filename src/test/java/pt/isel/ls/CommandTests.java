@@ -7,8 +7,8 @@ import org.junit.Test;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Model.CheckList;
+import pt.isel.ls.Model.FullTemplate;
 import pt.isel.ls.Model.Template;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,6 +33,7 @@ public class CommandTests {
     public void test_CheckListById() throws SQLException {
 
         Connection  con = src.getConnection();
+
         GetCheckListByID teste = new GetCheckListByID(con);
         Arguments arg = new Arguments();
 
@@ -40,12 +41,15 @@ public class CommandTests {
 
         CheckList result = teste.execute(arg);
         Assert.assertTrue(result.id == 1);
+
         con.close();
     }
 
     @Test
     public void test_PostTemplate() throws SQLException {
         Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
         PostTemplate teste = new PostTemplate(con);
         Arguments arg = new Arguments();
         arg.addArgument("name","Pedro");
@@ -58,12 +62,16 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next() ;
         Assert.assertEquals( res.getString(2), "Pedro" );
+
+        con.rollback();
         con.close();
     }
 
     @Test
     public void test_PostCheckLists() throws SQLException {
         Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
         PostCheckLists teste = new PostCheckLists(con);
         Arguments arg = new Arguments();
 
@@ -78,6 +86,8 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next();
         Assert.assertEquals( res.getString(2), "Edu");
+
+        con.rollback();
         con.close();
     }
 
@@ -85,65 +95,71 @@ public class CommandTests {
     public void test_GetAllCheckLists() throws SQLException {
 
         Connection  con = src.getConnection();
+
         GetAllCheckLists teste = new GetAllCheckLists(con);
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg);
         System.out.print("AllCheckLists-----");
+
         con.close();
 
-        //----------- PRECISAMOS DE ARRANJAR MANEIRA DE TESTAR A CENA PA PASSAR NOS TESTES porque se
-        // fizer normal vai ser igual ao metodo em si e é só parvo !!
+        // VER DOS TESTES
     } // ----- VER
 
     @Test
     public void test_PostTaskByID() throws SQLException {
         Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
         PostTaskByID teste = new PostTaskByID(con);
         Arguments arg = new Arguments();
-
-        Integer input = 4; // para dar pó teste
+        Integer input = 1;
 
         arg.addArgument("name","Goncalo");
         arg.addArgument("descrip","carrega benfas");
         arg.addArgument("dueDate",null);
-        arg.addVariableParameter("{cid}", input.toString()); // ver esta parte do toString
+        arg.addArgument("isClosed", "false");
+        arg.addVariableParameter("{cid}", input.toString());
 
         int result = teste.execute(arg);
         PreparedStatement stm = con.prepareStatement("select * from Task \n" +
                 "where lid = ? AND cid = ? " );
         stm.setInt(1, result);
-        stm.setInt(2, input ); // o que recebe nos variableParameters
+        stm.setInt(2, input );
         ResultSet res = stm.executeQuery();
         res.next();
         Assert.assertEquals( res.getString(3), "Goncalo" );
-        Assert.assertEquals( res.getString(1), input.toString() ); // porque aqui tambem preciso do gajo
+        Assert.assertEquals( res.getString(1), input.toString() );
+
+        con.rollback();
         con.close();
 
-    } //  BOMBA mas é preciso ver ainda a parte do CID (input)
+    }
 
     @Test
     public void test_ChangeTaskIsClose() throws SQLException {
 
         Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
         ChangeTaskIsClose teste = new ChangeTaskIsClose(con);
         Arguments arg = new Arguments();
 
-        Integer input = 4;
+        Integer input = 1;
         arg.addVariableParameter("{cid}", input.toString());
-        arg.addVariableParameter("{lid}", "6");
+        arg.addVariableParameter("{lid}", "2");
         arg.addArgument("isClosed", "true");
-
         String result = teste.execute(arg);
 
         PreparedStatement stm = con.prepareStatement("select * from Task " +
                 "where lid = ?");
-
         stm.setInt( 1, input );
         ResultSet rs = stm.executeQuery();
         rs.next();
-
         Assert.assertEquals(result, rs.getString(6));
+
+        con.setAutoCommit(false);
         con.close();
 
     }
@@ -151,11 +167,13 @@ public class CommandTests {
     @Test
     public void test_PostTemplateTask() throws SQLException {
         Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
         PostTemplateTask teste = new PostTemplateTask(con);
         Arguments arg = new Arguments();
         arg.addArgument("name","Benfica");
         arg.addArgument("descrip","E o maior do mundo");
-        arg.addVariableParameter("{tid}", "8");
+        arg.addVariableParameter("{tid}", "1");
 
         int result = teste.execute(arg);
         PreparedStatement stm = con.prepareStatement("select * from TemplateTask " +
@@ -164,6 +182,8 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next() ;
         Assert.assertEquals( res.getString(3), "Benfica" );
+
+        con.rollback();
         con.close();
     }
 
@@ -171,15 +191,49 @@ public class CommandTests {
     public void test_GetTemplates() throws SQLException {
 
         Connection  con = src.getConnection();
+
         GetTemplates teste = new GetTemplates(con);
         Arguments arg = new Arguments();
 
         List<Template> result = teste.execute(arg);
         System.out.print("All Templates-----");
+
         con.close();
 
         //----------- VER DOS TESTES
     } // ----- VER
 
+    @Test
+    public void test_GetTemplateInfoByID() throws SQLException {
 
+        Connection  con = src.getConnection();
+
+        GetTemplateInfoByID teste = new GetTemplateInfoByID(con);
+        Arguments arg = new Arguments();
+
+        arg.addVariableParameter("{tid}", "1");
+        FullTemplate result = teste.execute(arg);
+
+        System.out.println("--------GetTemplateInfoByID");
+
+        con.close();
+
+        //----------- VER DOS TESTES
+    } // ----- VER
+
+    @Test
+    public void test_GetCheckListsClosed() throws SQLException {
+
+        Connection  con = src.getConnection();
+
+        GetCheckListsClosed teste = new GetCheckListsClosed(con);
+        Arguments arg = new Arguments();
+
+        List<CheckList> result = teste.execute(arg);
+        System.out.print("All CheckLists Closed-----");
+
+        con.close();
+
+        // VER DOS TESTES
+    } // ----- VER
 }

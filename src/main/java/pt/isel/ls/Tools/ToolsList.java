@@ -12,11 +12,11 @@ public class ToolsList {
     public static ArrayList<Task> makeListFromResultSet(ResultSet rs) throws SQLException {
 
         ArrayList<Task> arr = new ArrayList<Task>();
-        arr.add(new Task(rs.getInt(1),rs.getInt(7), rs.getString(8), rs.getString(9),rs.getString(10),rs.getBoolean(11)));
+        arr.add(new Task(rs.getInt(1),rs.getInt(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getBoolean(12)  ));
 
         while ( rs.next() )
         {
-            arr.add(new Task(rs.getInt(1),rs.getInt(7), rs.getString(8), rs.getString(9),rs.getString(10),rs.getBoolean(11)));
+            arr.add(new Task(rs.getInt(1),rs.getInt(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getBoolean(12)  ));
         }
         return arr;
     }

@@ -6,7 +6,7 @@ public class Task {
     public final String name;
     public final String description;
     public final String dueDate;
-    public final boolean isClosed;
+    public boolean isClosed;
 
 
     public Task(int checklistId, int taskId, String name, String description, String dueDate, boolean isClosed) {
