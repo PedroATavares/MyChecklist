@@ -61,7 +61,7 @@ public class CommandTests {
         stm.setInt(1, result);
         ResultSet res = stm.executeQuery();
         res.next() ;
-        Assert.assertEquals( res.getString(2), "Pedro" );
+        Assert.assertEquals(res.getString(2), "Pedro");
 
         con.rollback();
         con.close();
@@ -85,7 +85,7 @@ public class CommandTests {
         stm.setInt(1, result);
         ResultSet res = stm.executeQuery();
         res.next();
-        Assert.assertEquals( res.getString(2), "Edu");
+        Assert.assertEquals(res.getString(2), "Edu");
 
         con.rollback();
         con.close();
@@ -171,8 +171,8 @@ public class CommandTests {
 
         PostTemplateTask teste = new PostTemplateTask(con);
         Arguments arg = new Arguments();
-        arg.addArgument("name","Benfica");
-        arg.addArgument("descrip","E o maior do mundo");
+        arg.addArgument("name", "Benfica");
+        arg.addArgument("descrip", "E o maior do mundo");
         arg.addVariableParameter("{tid}", "1");
 
         int result = teste.execute(arg);
@@ -181,7 +181,7 @@ public class CommandTests {
         stm.setInt(1, result);
         ResultSet res = stm.executeQuery();
         res.next() ;
-        Assert.assertEquals( res.getString(3), "Benfica" );
+        Assert.assertEquals(res.getString(3), "Benfica");
 
         con.rollback();
         con.close();
@@ -236,4 +236,18 @@ public class CommandTests {
 
         // VER DOS TESTES
     } // ----- VER
+    @Test
+    public void test_GetAllUncompletedChecklistsOrderedByOpenTasks() throws SQLException {
+        Connection  con = src.getConnection();
+        GetAllUncompletedChecklistsOrderedByOpenTasks teste = new GetAllUncompletedChecklistsOrderedByOpenTasks(con);
+        Arguments arg = new Arguments();
+
+        List<CheckList> result = teste.execute(arg);
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            System.out.println();
+        }
+
+        con.close();
+    }
 }
