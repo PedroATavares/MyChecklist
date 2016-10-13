@@ -5,14 +5,14 @@ import pt.isel.ls.Logic.Arguments;
 import java.sql.*;
 
 public class PostCheckLists implements Command<Integer> {
-    public final Connection con;
 
-    public PostCheckLists(Connection con) {
-        this.con = con;
+
+    public PostCheckLists() {
+
     }
 
     @Override
-    public Integer execute(Arguments args) throws SQLException {
+    public Integer execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("insert into CheckList(Name, Descrip, DueDate)" +
                 " values ( ? ,?, ?)", Statement.RETURN_GENERATED_KEYS);

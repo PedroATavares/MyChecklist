@@ -13,12 +13,12 @@ import java.util.List;
 public class GetAllCheckLists implements Command<List<CheckList>> {
     Connection con;
 
-    public GetAllCheckLists(Connection con) {
-        this.con = con;
+    public GetAllCheckLists() {
+
     }
 
     @Override
-    public List<CheckList> execute(Arguments args) throws SQLException {
+    public List<CheckList> execute(Arguments args, Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("select * from checklist");
         ArrayList<CheckList> list = new ArrayList<CheckList>();

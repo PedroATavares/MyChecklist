@@ -11,7 +11,13 @@ public class CheckList {
     public boolean isClosed;
     public Integer templateId;
 
-    public CheckList( int checklistId, String name, String description, String dueDate, boolean isClosed, int templateId, ArrayList<Task> tasks) {
+    public CheckList( int checklistId, String name,
+                      String description,
+                      String dueDate,
+                      boolean isClosed,
+                      Integer templateId,
+                      ArrayList<Task> tasks)
+    {
 
         this.tasks = tasks;
         this.id = checklistId;
@@ -47,7 +53,7 @@ public class CheckList {
         else sb.append("Not established.");
         sb.append('\n');
         sb.append("Template Id: ");
-        if(templateId != 0)sb.append(templateId);
+        if(templateId != null|| templateId!=0)sb.append(templateId);
         else sb.append("Nonexistent.");
         sb.append('\n');
         sb.append('\n');

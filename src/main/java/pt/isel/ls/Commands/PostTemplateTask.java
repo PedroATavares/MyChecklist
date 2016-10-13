@@ -4,13 +4,12 @@ import pt.isel.ls.Logic.Arguments;
 import java.sql.*;
 
 public class PostTemplateTask implements Command<Integer> {
-    public final Connection con;
 
-    public PostTemplateTask(Connection con) {
-        this.con = con;
+    public PostTemplateTask() {
     }
+
     @Override
-    public Integer execute(Arguments args) throws SQLException {
+    public Integer execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("insert into TemplateTask(Name, Descrip, tid)" +
                 " values (? , ?, ? )", Statement.RETURN_GENERATED_KEYS);
