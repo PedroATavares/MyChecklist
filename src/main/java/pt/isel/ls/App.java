@@ -45,7 +45,7 @@ public class App {
         manager.addCommand("POST /templates/{tid}/tasks", new PostTemplateTask());
         manager.addCommand("GET /templates/{tid}", new GetTemplateInfoByID());
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
-        //manager.addCommand("GET /checklists/open/sorted/duedate", new ());
+        manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
 
 
