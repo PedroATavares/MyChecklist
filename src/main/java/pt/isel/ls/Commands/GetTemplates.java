@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetTemplates implements Command<List<Template>> {
-    Connection con;
 
-    public GetTemplates(Connection con) {
-        this.con = con;
+    public GetTemplates() {
+
     }
 
     @Override
-    public List<Template> execute(Arguments args) throws SQLException {
+    public List<Template> execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("select * from Template");
         ArrayList<Template> list = new ArrayList<Template>();

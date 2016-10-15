@@ -6,13 +6,12 @@ import java.sql.*;
 
 public class PostTemplate implements Command<Integer> {
 
-    public final Connection con;
 
-    public PostTemplate(Connection con) {
-        this.con = con;
+    public PostTemplate() {
+
     }
     @Override
-    public Integer execute(Arguments args) throws SQLException {
+    public Integer execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("insert into Template(Name, Descrip )" +
                 " values ( ?, ?)", Statement.RETURN_GENERATED_KEYS);

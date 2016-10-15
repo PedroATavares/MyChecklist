@@ -12,14 +12,13 @@ import java.sql.SQLException;
 public class GetCheckListByID implements Command<CheckList>
 {
 
-    public final Connection con;
 
-    public GetCheckListByID(Connection con) {
-        this.con = con;
+    public GetCheckListByID() {
+
     }
 
     @Override
-    public CheckList execute(Arguments args) throws SQLException {
+    public CheckList execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement(" select * from Checklist \n" +
                 "INNER join Task on CheckList.cid = Task.cid \n" +

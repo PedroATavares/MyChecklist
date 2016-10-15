@@ -8,14 +8,12 @@ import java.util.ArrayList;
 
 public class ChangeTaskIsClose implements Command<String> {
 
-    public final Connection con;
 
-    public ChangeTaskIsClose(Connection con) {
-        this.con = con;
+    public ChangeTaskIsClose() {
     }
 
     @Override
-    public String execute(Arguments args) throws SQLException {
+    public String execute(Arguments args,Connection con) throws SQLException {
 
         String cid = args.variableParameters.get("{cid}");
         String lid = args.variableParameters.get("{lid}");
@@ -30,7 +28,7 @@ public class ChangeTaskIsClose implements Command<String> {
         stm1.setInt(3, Integer.parseInt( lid ) );
         stm1.executeUpdate();
 
-        if( allTasksClosed( cid )){
+        if( allTasksClosed( cid ,con)){
             PreparedStatement stm2 = con.prepareStatement("UPDATE Checklist\n" +
                     "SET IsClosed='true'\n" +
                     "WHERE cid= ?;\n");
@@ -41,7 +39,7 @@ public class ChangeTaskIsClose implements Command<String> {
         return isClose ;
    }
 
-    private boolean allTasksClosed(String cid) throws SQLException {
+    private boolean allTasksClosed(String cid,Connection con) throws SQLException {
         PreparedStatement stm = con.prepareStatement("select Task.isClosed from " +
                 "Checklist inner join Task\n" +
                 "on Checklist.cid = Task.cid\n" +

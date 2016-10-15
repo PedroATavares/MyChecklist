@@ -10,15 +10,11 @@ import java.util.ArrayList;
 
 public class GetCheckListsOpenSortedByDueDate implements Command{
 
-
-    public final Connection con;
-
-    public GetCheckListsOpenSortedByDueDate(Connection con) {
-        this.con = con;
+    public GetCheckListsOpenSortedByDueDate() {
     }
 
     @Override
-    public ArrayList<CheckList> execute(Arguments args) throws SQLException {
+    public ArrayList<CheckList> execute(Arguments args, Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement(" select * from Checklist\n" +
                 "where IsClosed = 'false' and DueDate is not null \n" +

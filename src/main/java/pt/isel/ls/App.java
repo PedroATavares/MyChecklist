@@ -22,9 +22,9 @@ public class App {
         initialize();
         Arguments arg= new Arguments();
         Command cmd=manager.searchCommand(args, arg);
-        System.out.println(cmd.execute(arg));
-
-        System.out.print("-----A BOMBAR!!-----");
+        Connection con = src.getConnection();
+        System.out.println(cmd.execute(arg,con));
+        con.close();
     }
 
     private static void initialize() throws SQLServerException {
@@ -34,16 +34,26 @@ public class App {
         src.setUser(env.get("USER"));
         src.setPassword(env.get("PASSWORD"));
 
+        manager.addCommand("POST /templates/{tid}/create", new PostTemplateInstance());
+        manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose());
+        manager.addCommand("GET /checklists", new GetAllCheckLists());
+        manager.addCommand("GET /checklists/{cid}", new GetCheckListByID());
+        manager.addCommand("GET /templates", new GetTemplates());
+        manager.addCommand("POST /checklists", new PostCheckLists());
+        manager.addCommand("POST /checklists/{cid}/tasks", new PostTaskByID());
+        manager.addCommand("POST /templates", new PostTemplate());
+        manager.addCommand("POST /templates/{tid}/tasks", new PostTemplateTask());
+        manager.addCommand("GET /templates/{tid}", new GetTemplateInfoByID());
+        manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
+        //manager.addCommand("GET /checklists/open/sorted/duedate", new ());
+        manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
 
 
 
-        manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose(src.getConnection()));
-        manager.addCommand("GET /checklists", new GetAllCheckLists(src.getConnection()));
-        manager.addCommand("GET /checklists/{cid}", new GetCheckListByID(src.getConnection()));
-        manager.addCommand("GET /templates", new GetTemplates(src.getConnection()));
-        manager.addCommand("POST /checklists", new PostCheckLists(src.getConnection()));
-        manager.addCommand("POST /checklists/{cid}/tasks", new PostTaskByID(src.getConnection()));
-        manager.addCommand("POST /templates", new PostTemplate(src.getConnection()));
-        manager.addCommand("POST /templates/{tid}/tasks", new PostTemplateTask(src.getConnection()));
+
+
+
+
+
     }
 }

@@ -14,17 +14,17 @@ import java.util.List;
 
 public class GetTemplateInfoByID implements Command<FullTemplate> {
 
-    public final Connection con;
 
-    public GetTemplateInfoByID(Connection con) {
-        this.con = con;
+    public GetTemplateInfoByID() {
+
     }
+
     private Template tmp = null;
     private List<CheckList> listCkl = new ArrayList<CheckList>();
     private List<TemplateTask> listTsk = new ArrayList<TemplateTask>();
 
     @Override
-    public FullTemplate execute(Arguments args) throws SQLException {
+    public FullTemplate execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm1 = con.prepareStatement(" select * from Template\n" +
                 "where tid = ?");

@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetCheckListsClosed implements Command<List<CheckList>>{
-    Connection con;
 
-    public GetCheckListsClosed(Connection con) {
-        this.con = con;
+
+    public GetCheckListsClosed() {
+
     }
 
     @Override
-    public List<CheckList> execute(Arguments args) throws SQLException {
+    public List<CheckList> execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("select * from Checklist\n" +
                 "where IsClosed = 'true'");

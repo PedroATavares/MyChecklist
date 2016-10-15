@@ -7,14 +7,13 @@ import java.sql.*;
 
 public class PostTaskByID implements Command<Integer> {
 
-    public final Connection con;
 
-    public PostTaskByID(Connection con) {
-        this.con = con;
+    public PostTaskByID() {
+
     }
 
     @Override
-    public Integer execute(Arguments args) throws SQLException {
+    public Integer execute(Arguments args,Connection con) throws SQLException {
 
         PreparedStatement stm = con.prepareStatement("\n" +
                 "insert into Task ( Name, Descrip, DueDate, cid) " +
