@@ -11,7 +11,7 @@ public class CheckList {
     public boolean isClosed;
     public Integer templateId;
 
-    public CheckList( int checklistId, String name, String description, String dueDate, boolean isClosed, int templateId, ArrayList<Task> tasks) {
+    public CheckList( int checklistId, String name, String description, String dueDate, boolean isClosed, Integer templateId, ArrayList<Task> tasks) {
 
         this.tasks = tasks;
         this.id = checklistId;

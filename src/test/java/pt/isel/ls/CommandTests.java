@@ -236,4 +236,20 @@ public class CommandTests {
 
         // VER DOS TESTES
     } // ----- VER
+
+    @Test
+    public void test_GetCheckListsOpenSortedByDueDate() throws SQLException {
+
+        Connection  con = src.getConnection();
+
+        GetCheckListsOpenSortedByDueDate teste = new GetCheckListsOpenSortedByDueDate(con);
+        Arguments arg = new Arguments();
+
+        List<CheckList> result = teste.execute(arg);
+        System.out.print("All CheckLists sorted by the DueDate-----");
+
+        con.close();
+
+        // VER DOS TESTES
+    } // ----- VER
 }
