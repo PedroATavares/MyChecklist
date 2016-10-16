@@ -21,7 +21,7 @@ public class App {
     public  static void  main(String [] args) throws SQLException, NoSuchCommandException {
         initialize();
         Arguments arg= new Arguments();
-        Command cmd=manager.searchCommand(args, arg);
+        Command cmd= manager.searchCommand(args, arg);
         Connection con = src.getConnection();
         System.out.println(cmd.execute(arg,con));
         con.close();
@@ -35,7 +35,7 @@ public class App {
         src.setPassword(env.get("PASSWORD"));
 
 
-
+        manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
         manager.addCommand("POST /templates/{tid}/create", new PostTemplateInstance());
         manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose());
         manager.addCommand("GET /checklists", new GetAllCheckLists());

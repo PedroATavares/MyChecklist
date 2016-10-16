@@ -23,7 +23,25 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<Li
 
     @Override
     public List<CheckList> execute(Arguments args ,Connection con) throws SQLException {
-        PreparedStatement stm = con.prepareStatement("select checkl.* from (select checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid, count(Checklist.cid) as che from checklist inner join task on(task.cid=checklist.cid) where task.isclosed = 'false' group by Checklist.cid, checklist.Descrip, Checklist.DueDate, Checklist.Name, checklist.tid ) as checkl order by checkl.cid DESC");
+        PreparedStatement stm = con.prepareStatement("select checkl.* from (\n" +
+                "                select checklist.cid,\n" +
+                "                 checklist.Descrip,\n" +
+                "                 Checklist.DueDate,\n" +
+                "                 Checklist.Name,\n" +
+                "                 checklist.tid,\n" +
+                "                 Checklist.IsClosed,\n" +
+                "                 count(Checklist.cid)\n" +
+                "                 as che from checklist inner join task \n" +
+                "                on(task.cid=checklist.cid) \n" +
+                "                where task.isclosed = 'false'\n" +
+                "                 group by Checklist.cid, \n" +
+                "                checklist.Descrip, \n" +
+                "                Checklist.DueDate, \n" +
+                "                Checklist.Name,\n" +
+                "                checklist.tid,\n" +
+                "                checklist.isClosed )\n" +
+                "                as checkl order by checkl.che DESC\n");
+
         ArrayList<CheckList> list = new ArrayList<CheckList>();
 
         ResultSet rs = stm.executeQuery();
