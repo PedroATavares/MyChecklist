@@ -17,6 +17,7 @@ public class PrintTests {
         tasks.add(new Task(5, 3, "Batata", "16", "20-5-2017", false));
         tasks.add(new Task(5, 4, "Pudim", "64", "21-5-2017", true));
         tasks.add(new Task(5, 5, "Pedra", "32", "20-5-2017", false));
+
         CheckList cl = new CheckList(5, "Lista de Compras", "Lista de compras para o frigorifico da Dona Fatima", "22-5-2017",false,4,tasks);
         System.out.println(cl);
     }
@@ -29,6 +30,7 @@ public class PrintTests {
         tasks.add(new Task(5, 3, "Batata", "16", null, false));
         tasks.add(new Task(5, 4, "Pudim", "64", null, true));
         tasks.add(new Task(5, 5, "Pedra", "32", null, false));
+
         CheckList cl = new CheckList(5, "Lista de Compras", "Lista de compras para o frigorifico da Dona Fatima", "22-5-2017",false,null,tasks);
         System.out.println(cl);
     }

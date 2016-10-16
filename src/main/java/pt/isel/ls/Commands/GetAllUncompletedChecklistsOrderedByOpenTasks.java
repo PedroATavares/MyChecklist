@@ -23,6 +23,7 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<Li
 
     @Override
     public List<CheckList> execute(Arguments args ,Connection con) throws SQLException {
+
         PreparedStatement stm = con.prepareStatement("select checkl.* from (\n" +
                 "                select checklist.cid,\n" +
                 "                 checklist.Descrip,\n" +
@@ -51,7 +52,7 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<Li
                     rs.getString("name"),
                     rs.getString("descrip"),
                     rs.getString("dueDate"),
-                    false,
+                    rs.getBoolean("IsClosed"),
                     rs.getInt("tid"),
                     null));
         }

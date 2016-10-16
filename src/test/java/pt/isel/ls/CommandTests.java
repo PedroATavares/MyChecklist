@@ -94,18 +94,15 @@ public class CommandTests {
     @Test
     public void test_GetAllCheckLists() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
 
         GetAllCheckLists teste = new GetAllCheckLists();
         Arguments arg = new Arguments();
 
-        List<CheckList> result = teste.execute(arg,con);
-        System.out.print("AllCheckLists-----");
-
+        List<CheckList> result = teste.execute(arg, con);
         con.close();
 
-        // VER DOS TESTES
-    } // ----- VER
+    }
 
     @Test
     public void test_PostTaskByID() throws SQLException {
@@ -190,52 +187,56 @@ public class CommandTests {
     @Test
     public void test_GetTemplates() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
 
         GetTemplates teste = new GetTemplates();
         Arguments arg = new Arguments();
 
-        List<Template> result = teste.execute(arg,con);
-        System.out.print("All Templates-----");
-
+        List<Template> result = teste.execute(arg, con);
         con.close();
 
-        //----------- VER DOS TESTES
-    } // ----- VER
+    }
 
     @Test
     public void test_GetTemplateInfoByID() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
 
         GetTemplateInfoByID teste = new GetTemplateInfoByID();
         Arguments arg = new Arguments();
 
         arg.addVariableParameter("{tid}", "1");
-        FullTemplate result = teste.execute(arg,con);
-
-        System.out.println("--------GetTemplateInfoByID");
-
+        FullTemplate result = teste.execute(arg, con);
         con.close();
 
-        //----------- VER DOS TESTES
-    } // ----- VER
+    }
 
     @Test
     public void test_GetCheckListsClosed() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
 
         GetCheckListsClosed teste = new GetCheckListsClosed();
         Arguments arg = new Arguments();
 
-        List<CheckList> result = teste.execute(arg,con);
-        System.out.print("All CheckLists Closed-----");
-
+        List<CheckList> result = teste.execute(arg, con);
         con.close();
 
-        // VER DOS TESTES
-    } // ----- VER
+    }
+
+    @Test
+    public void test_GetCheckListsOpenSortedByDueDate() throws SQLException {
+
+        Connection con = src.getConnection();
+
+        GetCheckListsOpenSortedByDueDate teste = new GetCheckListsOpenSortedByDueDate();
+        Arguments arg = new Arguments();
+
+        List<CheckList> result = teste.execute(arg, con);
+        con.close();
+
+    }
+
     @Test
     public void test_GetAllUncompletedChecklistsOrderedByOpenTasks() throws SQLException {
         Connection  con = src.getConnection();
@@ -247,7 +248,6 @@ public class CommandTests {
             System.out.print(result.get(i));
             System.out.println();
         }
-
         con.close();
     }
 }
