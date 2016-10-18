@@ -6,11 +6,9 @@ import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
-import pt.isel.ls.Model.CheckList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 public class App {
@@ -22,6 +20,8 @@ public class App {
         initialize();
         Arguments arg= new Arguments();
         Command cmd= manager.searchCommand(args, arg);
+        if(args.length>=3)
+            manager.fillArguments(args[2], arg);
         Connection con = src.getConnection();
         System.out.println(cmd.execute(arg,con));
         con.close();

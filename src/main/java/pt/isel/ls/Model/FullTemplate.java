@@ -14,4 +14,9 @@ public class FullTemplate {
         this.listCkL = listCkL;
         this.listTsk = listTsk;
     }
+
+    @Override
+    public String toString() {
+        return temp+  "\n Checklists: \n" + listCkL  + "\n Tasks in template: \n" +listTsk + "\n";
+    }
 }

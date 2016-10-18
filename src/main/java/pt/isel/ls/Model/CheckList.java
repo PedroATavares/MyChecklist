@@ -36,6 +36,7 @@ public class CheckList {
     public void setTemplateId(Integer templateId) {
         this.templateId = templateId;
     }
+
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();

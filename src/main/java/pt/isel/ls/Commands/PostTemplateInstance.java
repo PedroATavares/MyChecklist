@@ -28,7 +28,7 @@ public class PostTemplateInstance implements Command<Integer>{
             String desc = args.arguments.get("description");
             String dueDate = args.arguments.get("dueDate");
 
-            selectRs.next();
+           if( !selectRs.next()) throw new SQLException("The Template: " + tid + " has no tasks");
             if (name == null)
                 name = selectRs.getString(2);
             if (desc == null)

@@ -1,0 +1,11 @@
+O encaminhamento dos comandos é realizado atravez de uma árvore feita apartir de Mapas
+um Nó da arvore contem:
+- private Map<String,TreeNode> map;
+- private Command cmd; //Só existe Command nas folhas dos caminhos todos os outros estão a null
+
+Por exemplo se estivermos á procura do comando com o caminho "GET /templates/1"
+
+Procuramos no mapa o TreeNode com a chave "GET", neste procuramos pela chave "templates" e
+finalmente procuramos pela chave "1" que não vai ser encontrada, neste caso procuramos pelos
+parâmetros variáveis ({lid},{cid},{tid}) onde neste caso encontramos o parâmetro variável {tid}
+em que o TreeNode associado contém o comando GetTemplateInfoByID

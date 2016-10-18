@@ -36,9 +36,8 @@ public class GetTemplateInfoByID implements Command<FullTemplate> {
         stm2.setInt(1, Integer.parseInt( args.variableParameters.get("{tid}") ) );
         readToTemplateTask(stm2.executeQuery());
 
-        PreparedStatement stm3 = con.prepareStatement("select Checklist.* from TemplateTask inner join CheckList \n" +
-                "on TemplateTask.tid = CheckList.tid \n" +
-                "where TemplateTask.tid = ?");
+        PreparedStatement stm3 = con.prepareStatement("select * from CheckList \n" +
+                "where tid = ?\n");
         stm3.setInt(1, Integer.parseInt( args.variableParameters.get("{tid}") ) );
         readToChekList(stm3.executeQuery());
 
@@ -60,8 +59,8 @@ public class GetTemplateInfoByID implements Command<FullTemplate> {
     private void readToTemplateTask(ResultSet rs) throws SQLException {
         while (rs.next()){
             listTsk.add(new TemplateTask(
-                    rs.getInt("tid"),
                     rs.getInt("tempTskId"),
+                    rs.getInt("tid"),
                     rs.getString("name"),
                     rs.getString("descrip")
             ));

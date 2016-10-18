@@ -73,12 +73,10 @@ public class CommandManager {
         Command cmd= aux.getCmd();
         if(cmd==null) throw new NoSuchCommandException(comp[0] + comp[1]);
 
-        if(comp.length>=3)
-            fillArguments(comp[2], arg);
         return cmd;
     }
 
-    private void fillArguments(String s, Arguments arg) {
+    public void fillArguments(String s, Arguments arg) {
         String [] split= s.split("\\+");
 
         for(int i=0;i<split.length;i++){

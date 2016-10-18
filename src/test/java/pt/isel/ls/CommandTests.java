@@ -27,6 +27,8 @@ public class CommandTests {
         if(curr!=null)src.setDatabaseName(curr);
         src.setUser(env.get("USER"));
         src.setPassword(env.get("PASSWORD"));
+
+
     }
 
     @Test
