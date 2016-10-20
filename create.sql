@@ -1,5 +1,3 @@
-use LSLoc
-
 if object_id('Task') is not null  DROP TABLE Task
 if object_id('Checklist') is not null  DROP TABLE Checklist
 if object_id('TemplateTask') is not null  DROP TABLE TemplateTask
@@ -49,7 +47,7 @@ insert into TemplateTask (Name,Descrip, tid) values ('Segunda coisa a fazer','ar
 
 insert into Checklist (Name, Descrip, DueDate, tid) values ('Teste 1','Fazer primeiro teste','2010-10-16', null)
 insert into Checklist (Name, Descrip, DueDate, tid) values ('Teste 2','Fazer segundo teste','2010-11-16', 2)
-insert into Checklist (Name, Descrip, DueDate, tid) values ('Teste 3','Fazer terceiro teste','2010-12-16', 1)
+insert into Checklist (Name, Descrip, DueDate, tid) values ('Teste 3','Fazer terceiro teste',null, 1)
 insert into Checklist (Name, Descrip, DueDate, tid,IsClosed) values ('Teste 3','Fazer terceiro teste','2010-9-16', null,'true')
 
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro passo', 'Fazer build','2010-10-15',1,'true')
@@ -60,9 +58,9 @@ insert into Task (Name, Descrip, DueDate, cid) values ('Segunda coisa a fazer', 
 insert into Task (Name, Descrip, DueDate, cid) values ('Segundo passo', 'Fazer build','2010-11-10',2)
 insert into Task (Name, Descrip, DueDate, cid) values ('Terceiro passo', 'Executar o Gato','2010-11-12',2)
 
-insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa a fazer', 'arranjar mais imaginação pra preencher a DB','2010-12-15',3,'true')
-insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-12-10',3,'true')
-insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN','2010-12-12',3,'false')
+insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa a fazer', 'arranjar mais imaginação pra preencher a DB',null,3,'true')
+insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme',null,3,'true')
+insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN',null,3,'false')
 
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa a fazer', 'arranjar mais imaginação pra preencher a DB','2010-9-15',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-9-10',4,'true')
