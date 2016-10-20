@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.io.*;
 
 public class CommandTests {
     private final SQLServerDataSource src = new SQLServerDataSource();
@@ -22,11 +23,53 @@ public class CommandTests {
 
     @Before
     public void initialize() throws SQLException {
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
+        String serverName = env.get("SERVER_NAME");
+        String pass=env.get("PASSWORD");
+        String user=env.get("USER");
+
+
+        src.setServerName(serverName);
+        String database=env.get("DATABASE_NAME");
+        if(database!=null)src.setDatabaseName(database);
+        src.setUser(user);
+        src.setPassword(pass);
+
+       // "sqlcmd -U sa1 -P sa1 -d LSLoc -S DELL -i create.sql"
+        //""
+
+        StringBuilder arguments=new StringBuilder();
+        arguments.append("sqlcmd -U ");
+        arguments.append(user);
+        arguments.append(" -P ");
+        arguments.append(pass);
+        if(database!=null){
+            arguments.append(" -d ");
+            arguments.append(database);
+        }
+        arguments.append(" -S ");
+        arguments.append(serverName);
+        arguments.append(" -i create.sql");
+
+        createData(arguments.toString());
+    }
+
+    private void createData(String command){
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec
+                    (command);
+            BufferedReader input =
+                    new BufferedReader
+                            (new InputStreamReader(p.getInputStream()));
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
+        System.out.println("done");
     }
 
     @Test
@@ -127,7 +170,7 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next();
         Assert.assertEquals( res.getString(3), "Goncalo" );
-        Assert.assertEquals( res.getString(1), input.toString() );
+        Assert.assertEquals(res.getString(1), input.toString() );
 
         con.rollback();
         con.close();
@@ -137,7 +180,7 @@ public class CommandTests {
     @Test
     public void test_ChangeTaskIsClose() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
         con.setAutoCommit(false);
 
         ChangeTaskIsClose teste = new ChangeTaskIsClose();
@@ -151,7 +194,7 @@ public class CommandTests {
 
         PreparedStatement stm = con.prepareStatement("select * from Task " +
                 "where lid = ?");
-        stm.setInt( 1, input );
+        stm.setInt(1, input);
         ResultSet rs = stm.executeQuery();
         rs.next();
         Assert.assertEquals(result, rs.getString(6));
