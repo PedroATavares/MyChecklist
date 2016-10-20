@@ -227,6 +227,34 @@ public class CommandTests {
     }
 
     @Test
+    public void test_PostTemplateInstance() throws SQLException {
+
+        Connection con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTemplateInstance teste = new PostTemplateInstance();
+        Arguments arg = new Arguments();
+        arg.addArgument("name", "Benfica");
+        arg.addArgument("description", "E o maior do mundo");
+        arg.addArgument("duedate", "01-01-2010");
+        arg.addVariableParameter("{tid}", "1");
+
+        int result = teste.execute(arg,con);
+
+        PreparedStatement stm1 = con.prepareStatement("select Checklist.tid from Checklist\n" +
+                "where Checklist.cid = ?" );
+        stm1.setInt(1, result);
+
+        ResultSet res = stm1.executeQuery();
+        res.next();
+
+        Assert.assertEquals(res.getInt(1) , 1 );
+
+        con.rollback();
+        con.close();
+    }
+
+    @Test
     public void test_GetTemplates() throws SQLException {
 
         Connection con = src.getConnection();

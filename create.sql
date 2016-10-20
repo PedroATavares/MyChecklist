@@ -1,4 +1,3 @@
-use LSLoc
 
 if object_id('Task') is not null  DROP TABLE Task
 if object_id('Checklist') is not null  DROP TABLE Checklist
@@ -67,3 +66,16 @@ insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa a fazer', 'arranjar mais imaginação pra preencher a DB','2010-9-15',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-9-10',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN','2010-9-12',4,'true')
+
+
+
+
+select * from Checklist INNER join Task 
+on CheckList.cid = Task.cid 
+where CheckList.cid = 1
+
+
+
+
+
+
