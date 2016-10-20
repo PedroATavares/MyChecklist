@@ -1,6 +1,7 @@
 package pt.isel.ls.Commands;
 
 import pt.isel.ls.Logic.Arguments;
+import pt.isel.ls.Model.CheckList;
 
 import java.sql.*;
 
@@ -46,9 +47,10 @@ public class PostTemplateInstance implements Command<Integer>{
             ResultSet rs1= stm2.getGeneratedKeys();
             rs1.next();
 
+            PreparedStatement stm3 = con.prepareStatement("insert into Task (Name, Descrip, cid)" +
+                    " values (?, ?, ?)");
+
             while (selectRs.next()) {
-                PreparedStatement stm3 = con.prepareStatement("insert into Task (Name, Descrip, cid)" +
-                        " values (?, ?, ?)");
                 stm3.setString(1,selectRs.getString(6));
                 stm3.setString(2,selectRs.getString(7));
                 stm3.setInt(3, rs1.getInt(1));
@@ -57,9 +59,8 @@ public class PostTemplateInstance implements Command<Integer>{
             con.commit();
             return rs1.getInt(1);
         }catch (SQLException e){
-            e.printStackTrace();
             con.rollback();
-            return null;
+            throw e;
         }
     }
 }

@@ -16,15 +16,22 @@ public class App {
     private static final Map<String, String> env = System.getenv();
     private static final CommandManager manager= new CommandManager();
 
-    public  static void  main(String [] args) throws SQLException, NoSuchCommandException {
-        initialize();
-        Arguments arg= new Arguments();
-        Command cmd= manager.searchCommand(args, arg);
-        if(args.length>=3)
-            manager.fillArguments(args[2], arg);
-        Connection con = src.getConnection();
-        System.out.println(cmd.execute(arg,con));
-        con.close();
+    public  static void  main(String [] args)  {
+        try (Connection con = src.getConnection()){
+            initialize();
+            Arguments arg= new Arguments();
+            Command cmd= manager.searchCommand(args, arg);
+            if(args.length>=3)
+                manager.fillArguments(args[2], arg);
+
+            System.out.println(cmd.execute(arg, con));
+        }catch (SQLException e){
+            System.out.print(e.getMessage());
+        }
+        catch(NoSuchCommandException e){
+            System.out.print(e.getMessage());
+        }
+
     }
 
     private static void initialize() throws SQLServerException {

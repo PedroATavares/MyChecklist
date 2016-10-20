@@ -55,7 +55,7 @@ public class CommandTests {
         PostTemplate teste = new PostTemplate();
         Arguments arg = new Arguments();
         arg.addArgument("name","Pedro");
-        arg.addArgument("descrip","E o maior");
+        arg.addArgument("description","E o maior");
 
         int result = teste.execute(arg,con);
         PreparedStatement stm = con.prepareStatement("select * from Template " +
@@ -78,7 +78,7 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         arg.addArgument("name","Edu");
-        arg.addArgument("descrip","E o quase maior");
+        arg.addArgument("description","E o quase maior");
         arg.addArgument("dueDate", null);
 
         int result = teste.execute(arg,con);
@@ -116,7 +116,7 @@ public class CommandTests {
         Integer input = 1;
 
         arg.addArgument("name","Goncalo");
-        arg.addArgument("descrip","carrega benfas");
+        arg.addArgument("description","carrega benfas");
         arg.addArgument("dueDate",null);
         arg.addArgument("isClosed", "false");
         arg.addVariableParameter("{cid}", input.toString());
@@ -171,7 +171,7 @@ public class CommandTests {
         PostTemplateTask teste = new PostTemplateTask();
         Arguments arg = new Arguments();
         arg.addArgument("name", "Benfica");
-        arg.addArgument("descrip", "E o maior do mundo");
+        arg.addArgument("description", "E o maior do mundo");
         arg.addVariableParameter("{tid}", "1");
 
         int result = teste.execute(arg,con);
