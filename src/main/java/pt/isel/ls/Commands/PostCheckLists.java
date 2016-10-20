@@ -18,6 +18,9 @@ public class PostCheckLists implements Command<Integer> {
                 " values ( ? ,?, ?)", Statement.RETURN_GENERATED_KEYS);
         stm.setString(1, args.arguments.get("name"));
         stm.setString(2, args.arguments.get("description"));
+        String date= args.arguments.get("dueDate");
+        if(date==null) stm.setDate(3, null);
+        else
         stm.setDate(3, java.sql.Date.valueOf(args.arguments.get("dueDate")));
 
         stm.executeUpdate();

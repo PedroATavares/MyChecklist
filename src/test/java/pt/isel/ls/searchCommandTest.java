@@ -1,46 +1,21 @@
 package pt.isel.ls;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
-
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
 
-public class App {
-    private static final SQLServerDataSource src = new SQLServerDataSource();
-    private static final Map<String, String> env = System.getenv();
+public class searchCommandTest {
+
     private static final CommandManager manager= new CommandManager();
 
-    public  static void  main(String [] args)  {
-        try (Connection con = src.getConnection()){
-            initialize();
-            Arguments arg= new Arguments();
-            Command cmd= manager.searchCommand(args, arg);
-            if(args.length>=3)
-                manager.fillArguments(args[2], arg);
-
-            System.out.println(cmd.execute(arg, con));
-        }catch (SQLException e){
-            System.out.print(e.getMessage());
-        }
-        catch(NoSuchCommandException e){
-            System.out.print(e.getMessage());
-        }
-
-    }
-
-    private static void initialize() throws SQLServerException {
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)  src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
-
+    @Before
+    public void initialize() throws SQLException {
         manager.addCommand("POST /templates/{tid}/create", new PostTemplateInstance());
         manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose());
         manager.addCommand("GET /checklists", new GetAllCheckLists());
@@ -54,7 +29,34 @@ public class App {
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
+    }
 
+    @Test
+    public void test_SearchForCheckListById() throws NoSuchCommandException, SQLException {
 
+        Arguments arg= new Arguments();
+        String teste = "POST /checklists/1/tasks name=testecmd1+description=descricaoTeste";
+        Command cmd = manager.searchCommand(teste.split(" "),arg);
+
+        Assert.assertTrue(cmd instanceof PostTaskByID);
+    }
+    @Test
+    public void test_SearchForGetCheckListsClosed() throws NoSuchCommandException, SQLException {
+
+        Arguments arg= new Arguments();
+        String teste = "GET /checklists/closed";
+        Command cmd = manager.searchCommand(teste.split(" "),arg);
+
+        Assert.assertTrue(cmd instanceof GetCheckListsClosed );
+    }
+
+    @Test
+    public void test_SearchForChangeTaskIsClose() throws NoSuchCommandException, SQLException {
+
+        Arguments arg= new Arguments();
+        String teste = "POST /checklists/1/tasks/2 isClosed=true";
+        Command cmd = manager.searchCommand(teste.split(" "),arg);
+
+        Assert.assertTrue(cmd instanceof ChangeTaskIsClose );
     }
 }

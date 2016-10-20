@@ -36,6 +36,7 @@ public class CheckList {
     public void setTemplateId(Integer templateId) {
         this.templateId = templateId;
     }
+
     @Override
     public String toString(){
         StringBuilder sb=new StringBuilder();
@@ -53,7 +54,7 @@ public class CheckList {
         else sb.append("Not established.");
         sb.append('\n');
         sb.append("Template Id: ");
-        if(templateId != null|| templateId!=0)sb.append(templateId);
+        if(templateId != null && templateId>0)sb.append(templateId);
         else sb.append("Nonexistent.");
         sb.append('\n');
         sb.append('\n');
