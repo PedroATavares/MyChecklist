@@ -34,7 +34,7 @@ public class CommandTests {
         src.setUser(user);
         src.setPassword(pass);
 
-       // "sqlcmd -U sa1 -P sa1 -d LSLoc -S DELL -i create.sql"
+       // "sqlcmd -U <USERNAME> -P <PASSWORD> -d <DATABASE> -S <SERVER> -i <FILENAME.sql>"
 
         StringBuilder arguments=new StringBuilder();
         arguments.append("sqlcmd -U ");
@@ -142,6 +142,9 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+        Assert.assertEquals(result.size(), 4);
+        for (int i = 0; i < 4 ; i++)
+            Assert.assertEquals(result.get(i).id, i+1);
         con.close();
 
     }
@@ -263,6 +266,8 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<Template> result = teste.execute(arg, con);
+        Assert.assertEquals(result.get(0).id, (Integer)1);
+        Assert.assertEquals(result.get(1).id, (Integer)2);
         con.close();
 
     }
@@ -277,6 +282,9 @@ public class CommandTests {
 
         arg.addVariableParameter("{tid}", "1");
         FullTemplate result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.temp.id, (Integer)1);
+
         con.close();
 
     }
@@ -290,6 +298,10 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.size(), 1);
+        Assert.assertEquals(result.get(0).id, 4);
+
         con.close();
 
     }
@@ -303,6 +315,12 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.size(), 2);
+
+        Assert.assertEquals(result.get(0).dueDate, "2010-10-16");
+        Assert.assertEquals(result.get(1).dueDate, "2010-11-16");
+
         con.close();
 
     }
@@ -314,10 +332,13 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg,con);
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print(result.get(i));
-            System.out.println();
-        }
+
+        Assert.assertEquals(result.size(), 3);
+
+        Assert.assertEquals(result.get(0).id, 2);
+        Assert.assertEquals(result.get(1).id, 1);
+        Assert.assertEquals(result.get(2).id, 3);
+
         con.close();
     }
 }
