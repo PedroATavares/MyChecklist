@@ -6,6 +6,12 @@ import java.sql.*;
 
 public class PostTemplateInstance implements Command {
 
+    private static final int Tid = 1;
+    private static final int TempName = 2;
+    private static final int TempDescript = 3;
+    private static final int TempTaskName = 6;
+    private static final int TempTaskDescript = 7;
+
     public PostTemplateInstance() {
     }
 
@@ -38,9 +44,9 @@ public class PostTemplateInstance implements Command {
            }
 
             if (name == null)
-                name = selectRs.getString(2);
+                name = selectRs.getString(TempName);
             if (desc == null)
-                desc = selectRs.getString(3);
+                desc = selectRs.getString(TempDescript);
             selectRs.beforeFirst();
 
             PreparedStatement stm2 = con.prepareStatement("insert into Checklist (Name, Descrip, DueDate, tid)" +
@@ -61,9 +67,9 @@ public class PostTemplateInstance implements Command {
                     " values (?, ?, ?)");
 
             while (selectRs.next()) {
-                stm3.setString(1,selectRs.getString(6));
-                stm3.setString(2,selectRs.getString(7));
-                stm3.setInt(3, rs1.getInt(1));
+                stm3.setString(1,selectRs.getString(TempTaskName));
+                stm3.setString(2,selectRs.getString(TempTaskDescript));
+                stm3.setInt(3, rs1.getInt(Tid));
                 stm3.executeUpdate();
             }
             con.commit();

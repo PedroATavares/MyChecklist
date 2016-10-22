@@ -9,8 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GetCheckListByID implements Command {
 
+public class GetCheckListByID implements Command {
+    private static final int CheckListCid = 1;
+    private static final int CheckListName = 2;
+    private static final int CheckListDescript = 3;
+    private static final int CheckListDuedate = 4;
+    private static final int CheckListIsClosed = 5;
+    private static final int CheckListTid = 6;
 
     public GetCheckListByID() {
 
@@ -27,12 +33,12 @@ public class GetCheckListByID implements Command {
         CheckList cl = null;
 
         if( rs.next()) {
-            cl = new CheckList(rs.getInt(1),
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    rs.getBoolean(5),
-                    rs.getInt(6),
+            cl = new CheckList(rs.getInt(CheckListCid),
+                    rs.getString(CheckListName),
+                    rs.getString(CheckListDescript),
+                    rs.getString(CheckListDuedate),
+                    rs.getBoolean(CheckListIsClosed),
+                    rs.getInt(CheckListTid),
                     ToolsList.makeListFromResultSet(rs));
         }
         return cl;

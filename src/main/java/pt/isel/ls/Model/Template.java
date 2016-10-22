@@ -16,11 +16,9 @@ public class Template {
         StringBuilder sb=new StringBuilder();
         sb.append("Template id: ");
         sb.append(id);
-        sb.append('\n');
-        sb.append("Name: ");
+        sb.append("\n\tName: ");
         sb.append(name);
-        sb.append('\n');
-        sb.append("Description: ");
+        sb.append("\n\tDescription: ");
         sb.append(description);
         sb.append('\n');
         return sb.toString();

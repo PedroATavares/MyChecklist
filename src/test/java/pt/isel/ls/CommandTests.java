@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.io.*;
 
 public class CommandTests {
     private final SQLServerDataSource src = new SQLServerDataSource();
@@ -23,13 +24,52 @@ public class CommandTests {
 
     @Before
     public void initialize() throws SQLException {
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
+        String serverName = env.get("SERVER_NAME");
+        String pass=env.get("PASSWORD");
+        String user=env.get("USER");
 
 
+        src.setServerName(serverName);
+        String database=env.get("DATABASE_NAME");
+        if(database!=null)src.setDatabaseName(database);
+        src.setUser(user);
+        src.setPassword(pass);
+
+       // "sqlcmd -U <USERNAME> -P <PASSWORD> -d <DATABASE> -S <SERVER> -i <FILENAME.sql>"
+
+        StringBuilder arguments=new StringBuilder();
+        arguments.append("sqlcmd -U ");
+        arguments.append(user);
+        arguments.append(" -P ");
+        arguments.append(pass);
+        if(database!=null){
+            arguments.append(" -d ");
+            arguments.append(database);
+        }
+        arguments.append(" -S ");
+        arguments.append(serverName);
+        arguments.append(" -i create.sql");
+
+        createData(arguments.toString());
+    }
+
+    private void createData(String command){
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec
+                    (command);
+            BufferedReader input =
+                    new BufferedReader
+                            (new InputStreamReader(p.getInputStream()));
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
+        System.out.println("done");
     }
 
     @Test
@@ -103,6 +143,9 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+        Assert.assertEquals(result.size(), 4);
+        for (int i = 0; i < 4 ; i++)
+            Assert.assertEquals(result.get(i).id, i+1);
         con.close();
 
     }
@@ -130,7 +173,7 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next();
         Assert.assertEquals( res.getString(3), "Goncalo" );
-        Assert.assertEquals( res.getString(1), input.toString() );
+        Assert.assertEquals(res.getString(1), input.toString() );
 
         con.rollback();
         con.close();
@@ -140,7 +183,7 @@ public class CommandTests {
     @Test
     public void test_ChangeTaskIsClose() throws SQLException {
 
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
         con.setAutoCommit(false);
 
         ChangeTaskIsClose teste = new ChangeTaskIsClose();
@@ -154,7 +197,7 @@ public class CommandTests {
 
         PreparedStatement stm = con.prepareStatement("select * from Task " +
                 "where lid = ?");
-        stm.setInt( 1, input );
+        stm.setInt(1, input);
         ResultSet rs = stm.executeQuery();
         rs.next();
         Assert.assertEquals(result, rs.getString(6));
@@ -188,6 +231,34 @@ public class CommandTests {
     }
 
     @Test
+    public void test_PostTemplateInstance() throws SQLException {
+
+        Connection con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTemplateInstance teste = new PostTemplateInstance();
+        Arguments arg = new Arguments();
+        arg.addArgument("name", "Benfica");
+        arg.addArgument("description", "E o maior do mundo");
+        arg.addArgument("duedate", "01-01-2010");
+        arg.addVariableParameter("{tid}", "1");
+
+        int result = teste.execute(arg,con);
+
+        PreparedStatement stm1 = con.prepareStatement("select Checklist.tid from Checklist\n" +
+                "where Checklist.cid = ?" );
+        stm1.setInt(1, result);
+
+        ResultSet res = stm1.executeQuery();
+        res.next();
+
+        Assert.assertEquals(res.getInt(1) , 1 );
+
+        con.rollback();
+        con.close();
+    }
+
+    @Test
     public void test_GetTemplates() throws SQLException {
 
         Connection con = src.getConnection();
@@ -196,6 +267,8 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<Template> result = teste.execute(arg, con);
+        Assert.assertEquals(result.get(0).id, (Integer)1);
+        Assert.assertEquals(result.get(1).id, (Integer)2);
         con.close();
 
     }
@@ -210,6 +283,9 @@ public class CommandTests {
 
         arg.addVariableParameter("{tid}", "1");
         FullTemplate result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.temp.id, (Integer)1);
+
         con.close();
 
     }
@@ -223,6 +299,10 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.size(), 1);
+        Assert.assertEquals(result.get(0).id, 4);
+
         con.close();
 
     }
@@ -236,6 +316,12 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg, con);
+
+        Assert.assertEquals(result.size(), 2);
+
+        Assert.assertEquals(result.get(0).dueDate, "2010-10-16");
+        Assert.assertEquals(result.get(1).dueDate, "2010-11-16");
+
         con.close();
 
     }
@@ -247,10 +333,13 @@ public class CommandTests {
         Arguments arg = new Arguments();
 
         List<CheckList> result = teste.execute(arg,con);
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print(result.get(i));
-            System.out.println();
-        }
+
+        Assert.assertEquals(result.size(), 3);
+
+        Assert.assertEquals(result.get(0).id, 2);
+        Assert.assertEquals(result.get(1).id, 1);
+        Assert.assertEquals(result.get(2).id, 3);
+
         con.close();
     }
 }
