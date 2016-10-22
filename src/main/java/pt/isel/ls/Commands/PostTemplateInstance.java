@@ -1,11 +1,10 @@
 package pt.isel.ls.Commands;
 
 import pt.isel.ls.Logic.Arguments;
-import pt.isel.ls.Model.CheckList;
 
 import java.sql.*;
 
-public class PostTemplateInstance implements Command<Integer>{
+public class PostTemplateInstance implements Command {
 
     public PostTemplateInstance() {
     }
@@ -13,6 +12,8 @@ public class PostTemplateInstance implements Command<Integer>{
     @Override
     public Integer execute(Arguments args, Connection con) throws SQLException {
         try {
+            boolean hasTasks=true;
+
             con.setAutoCommit(false);
 
             PreparedStatement selectStm = con.prepareStatement("select * from Template inner join TemplateTask\n" +
@@ -29,12 +30,19 @@ public class PostTemplateInstance implements Command<Integer>{
             String desc = args.arguments.get("description");
             String dueDate = args.arguments.get("dueDate");
 
-           if( !selectRs.next()) throw new SQLException("The Template: " + tid + " has no tasks");
+           if( !selectRs.next()) {
+               PreparedStatement selectTemplate= con.prepareStatement("select * from Template \n" +
+                       "where tid = ?");
+               selectRs = selectTemplate.executeQuery();
+               hasTasks=false;
+           }
+
             if (name == null)
                 name = selectRs.getString(2);
             if (desc == null)
                 desc = selectRs.getString(3);
             selectRs.beforeFirst();
+
             PreparedStatement stm2 = con.prepareStatement("insert into Checklist (Name, Descrip, DueDate, tid)" +
                             " values (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
@@ -46,6 +54,8 @@ public class PostTemplateInstance implements Command<Integer>{
             stm2.executeUpdate();
             ResultSet rs1= stm2.getGeneratedKeys();
             rs1.next();
+
+            if(!hasTasks) return rs1.getInt(1);
 
             PreparedStatement stm3 = con.prepareStatement("insert into Task (Name, Descrip, cid)" +
                     " values (?, ?, ?)");

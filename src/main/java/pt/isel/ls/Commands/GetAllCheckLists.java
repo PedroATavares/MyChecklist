@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetAllCheckLists implements Command<List<CheckList>> {
+public class GetAllCheckLists implements Command {
     Connection con;
 
     public GetAllCheckLists() {

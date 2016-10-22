@@ -4,7 +4,7 @@ import pt.isel.ls.Logic.Arguments;
 
 import java.sql.*;
 
-public class PostCheckLists implements Command<Integer> {
+public class PostCheckLists implements Command {
 
 
     public PostCheckLists() {

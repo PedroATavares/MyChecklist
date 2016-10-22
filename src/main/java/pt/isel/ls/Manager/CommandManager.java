@@ -77,11 +77,11 @@ public class CommandManager {
     }
 
     public void fillArguments(String s, Arguments arg) {
-        String [] split= s.split("\\+");
+        String [] split= s.split("&");
 
         for(int i=0;i<split.length;i++){
             String[] pair= split[i].split("=");
-            arg.addArgument(pair[0],pair[1]);
+            arg.addArgument(pair[0],pair[1].replace('+',' '));
         }
     }
 

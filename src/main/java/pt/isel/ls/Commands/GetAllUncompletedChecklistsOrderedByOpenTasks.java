@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command<List<CheckList>> {
+public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command {
 
     //   GET /checklists/open/sorted/noftasks - returns a list with all uncompleted
     //   checklists, ordered by decreasing number of open tasks.

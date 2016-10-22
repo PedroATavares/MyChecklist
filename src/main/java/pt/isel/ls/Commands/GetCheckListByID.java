@@ -9,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class GetCheckListByID implements Command<CheckList>
-{
+public class GetCheckListByID implements Command {
 
 
     public GetCheckListByID() {

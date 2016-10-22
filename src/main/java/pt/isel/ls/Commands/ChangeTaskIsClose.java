@@ -1,12 +1,10 @@
 package pt.isel.ls.Commands;
 
 import pt.isel.ls.Logic.Arguments;
-import pt.isel.ls.Model.CheckList;
 
 import java.sql.*;
-import java.util.ArrayList;
 
-public class ChangeTaskIsClose implements Command<String> {
+public class ChangeTaskIsClose implements Command {
 
 
     public ChangeTaskIsClose() {

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetTemplates implements Command<List<Template>> {
+public class GetTemplates implements Command {
 
     public GetTemplates() {
 

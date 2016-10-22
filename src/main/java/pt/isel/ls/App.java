@@ -9,6 +9,7 @@ import pt.isel.ls.Manager.CommandManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Map;
 
 public class App {
@@ -16,22 +17,27 @@ public class App {
     private static final Map<String, String> env = System.getenv();
     private static final CommandManager manager= new CommandManager();
 
-    public  static void  main(String [] args)  {
+    public  static void  main(String [] args) throws SQLServerException {
+        if(args.length<2){
+            System.out.println("Please Provide a method and a path");
+            return;
+        }
+        initialize();
         try (Connection con = src.getConnection()){
-            initialize();
-            Arguments arg= new Arguments();
-            Command cmd= manager.searchCommand(args, arg);
+            Arguments cmmandArguments= new Arguments();
+            Command cmd= manager.searchCommand(args, cmmandArguments);
             if(args.length>=3)
-                manager.fillArguments(args[2], arg);
+                manager.fillArguments(args[2], cmmandArguments);
 
-            System.out.println(cmd.execute(arg, con));
-        }catch (SQLException e){
-            System.out.print(e.getMessage());
-        }
-        catch(NoSuchCommandException e){
-            System.out.print(e.getMessage());
-        }
+            System.out.println(cmd.execute(cmmandArguments, con));
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
 
+        } catch (NoSuchCommandException e) {
+            System.out.println(e.getMessage());
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void initialize() throws SQLServerException {

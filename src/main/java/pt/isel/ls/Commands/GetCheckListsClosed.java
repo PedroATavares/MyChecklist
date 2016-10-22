@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetCheckListsClosed implements Command<List<CheckList>>{
+public class GetCheckListsClosed implements Command {
 
 
     public GetCheckListsClosed() {

@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,7 @@ public class CommandTests {
     }
 
     @Test
-    public void test_PostTaskByID() throws SQLException {
+    public void test_PostTaskByID() throws SQLException, ParseException {
         Connection  con = src.getConnection();
         con.setAutoCommit(false);
 

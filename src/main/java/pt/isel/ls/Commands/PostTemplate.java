@@ -4,7 +4,7 @@ package pt.isel.ls.Commands;
 import pt.isel.ls.Logic.Arguments;
 import java.sql.*;
 
-public class PostTemplate implements Command<Integer> {
+public class PostTemplate implements Command {
 
 
     public PostTemplate() {
