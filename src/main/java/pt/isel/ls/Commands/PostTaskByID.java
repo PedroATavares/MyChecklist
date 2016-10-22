@@ -60,8 +60,10 @@ public class PostTaskByID implements Command {
             if(selectRS.getString(dueDatePos)!=null)
              checkDueDate= ft.parse(selectRS.getString(dueDatePos));
 
-            if(checkDueDate==null && dueDate==null) return lid;
-
+            if(checkDueDate==null && dueDate==null) {
+                con.commit();
+                return lid;
+            }
             if(checkDueDate== null || (dueDate!=null&&checkDueDate.before(dueDate))){
                 PreparedStatement update = con.prepareStatement("UPDATE Checklist \n" +
                         "SET dueDate= ? \n" +
