@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CheckList {
     public final ArrayList<Task> tasks;
-    public final ArrayList<Tag> tags;
+    public  ArrayList<Tag> tags;
     public final int id;
     public final String name;
     public final String description;
@@ -18,11 +18,9 @@ public class CheckList {
                       String dueDate,
                       boolean isClosed,
                       Integer templateId,
-                      ArrayList<Task> tasks,
-                      ArrayList<Tag> tags)
+                      ArrayList<Task> tasks)
     {
 
-        this.tags = tags;
         this.tasks = tasks;
         this.id = checklistId;
         this.name = name;
@@ -39,6 +37,9 @@ public class CheckList {
 
     public void setTemplateId(Integer templateId) {
         this.templateId = templateId;
+    }
+    public void setTagOnList(Tag tag) {
+        tags.add(tag);
     }
 
     @Override
