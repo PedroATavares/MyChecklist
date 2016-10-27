@@ -45,6 +45,14 @@ public class TaskParcer implements HtmlParcer<Task> {
 
     @Override
     public String supply(Task source) {
-        return null;
+       return html().with(body().with(
+                h3().withText("TASK"),
+                paragraph().withText("Id: " + source.id ),
+                paragraph().withText("CheckListID: " + source.checklistId),
+                paragraph().withText("Description: " + source.description),
+                paragraph().withText("DueDate: " + source.dueDate)
+        )).toHtml();
+
+
     }
 }

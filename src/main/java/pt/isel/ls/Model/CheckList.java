@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CheckList {
     public final ArrayList<Task> tasks;
+    public final ArrayList<Tag> tags;
     public final int id;
     public final String name;
     public final String description;
@@ -11,14 +12,17 @@ public class CheckList {
     public boolean isClosed;
     public Integer templateId;
 
+
     public CheckList( int checklistId, String name,
                       String description,
                       String dueDate,
                       boolean isClosed,
                       Integer templateId,
-                      ArrayList<Task> tasks)
+                      ArrayList<Task> tasks,
+                      ArrayList<Tag> tags)
     {
 
+        this.tags = tags;
         this.tasks = tasks;
         this.id = checklistId;
         this.name = name;
@@ -57,6 +61,11 @@ public class CheckList {
         if(tasks!=null)
             for (int i = 0; i <tasks.size(); i++) {
                 sb.append(tasks.get(i));
+                sb.append('\n');
+            }
+        if(tags!=null)
+            for (int i = 0; i <tags.size(); i++) {
+                sb.append(tags.get(i));
                 sb.append('\n');
             }
         return sb.toString();
