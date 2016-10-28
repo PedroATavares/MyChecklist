@@ -8,6 +8,7 @@ import pt.isel.ls.Commands.*;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Model.CheckList;
 import pt.isel.ls.Model.FullTemplate;
+import pt.isel.ls.Model.Tag;
 import pt.isel.ls.Model.Template;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -341,5 +342,86 @@ public class CommandTests {
         Assert.assertEquals(result.get(2).id, 3);
 
         con.close();
+    }
+    @Test
+    public void test_GetAllTags() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        GetAllTags teste = new GetAllTags();
+        Arguments arg = new Arguments();
+
+        List<Tag> result = teste.execute(arg,con);
+
+        Assert.assertEquals(result.size(), 2);
+
+        Assert.assertEquals(result.get(0).gid, 1);
+        Assert.assertEquals(result.get(1).gid, 2);
+
+        con.close();
+    }
+    @Test
+    public void test_PostTags() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTags teste = new PostTags();
+        Arguments arg = new Arguments();
+
+        arg.addArgument("name","Bebidas");
+        arg.addArgument("color","Preto");
+
+        Integer result = teste.execute(arg,con);
+
+        GetAllTags testes = new GetAllTags();
+        arg = new Arguments();
+
+        List<Tag> results = testes.execute(arg,con);
+
+        Assert.assertEquals(results.size(), 3);
+
+        con.rollback();
+        con.close();
+
+    }
+    @Test
+         public void test_DeleteTagsByID() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        DeleteTagsByID teste = new DeleteTagsByID();
+        Arguments arg = new Arguments();
+
+        arg.addVariableParameter("{gid}", "1");
+        Integer result = teste.execute(arg,con);
+
+        GetAllTags testes = new GetAllTags();
+        arg = new Arguments();
+
+        List<Tag> results = testes.execute(arg,con);
+
+        Assert.assertEquals(results.size(), 2);
+
+        con.rollback();
+        con.close();
+
+    }
+    @Test
+    public void test_DeleteCheckListWithCidBygID() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        DeleteCheckListWithCidBygID teste = new DeleteCheckListWithCidBygID();
+        Arguments arg = new Arguments();
+
+        arg.addArgument("cid","1");
+        arg.addArgument("gid","1");
+
+
+        Integer result = teste.execute(arg,con);
+
+        Assert.assertEquals(result.intValue(), 1);
+
+        con.rollback();
+        con.close();
+
     }
 }
