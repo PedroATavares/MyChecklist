@@ -1,9 +1,9 @@
+if object_id('TagCheckList') is not null  DROP TABLE TagCheckList
+if object_id('Tag') is not null  DROP TABLE Tag
 if object_id('Task') is not null  DROP TABLE Task
 if object_id('Checklist') is not null  DROP TABLE Checklist
 if object_id('TemplateTask') is not null  DROP TABLE TemplateTask
 if object_id('Template') is not null  DROP TABLE Template
-
--- select * from Checklist
 
 Create Table Template(
 	tid int IDENTITY(1,1) primary key ,
@@ -41,6 +41,19 @@ Create Table Task(
 	constraint task_isClosed_Constraint check (isClosed in ('true','false'))
 )
 
+Create Table Tag(
+	gid int IDENTITY(1,1) primary key,
+	Name varchar(80) unique,
+	Color varchar(80) NOT NULL
+)
+
+Create Table TagCheckList(
+	gid int references Tag,
+	cid int references CheckList,
+	constraint tagId primary key ( gid,cid)
+)
+
+
 insert into Template (Name,Descrip) values ('Estou sempre a fazer isto', 'Para resolver esse problema criei um Template')
 insert into Template (Name,Descrip) values ('Template 2', 'Para resolver esse problema criei um segundo Template')
 
@@ -68,4 +81,11 @@ insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-9-10',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN','2010-9-12',4,'true')
 
+insert into Tag (Name, Color) values ('Fruta', 'Verde')
+insert into Tag (Name, Color) values ('Carne', 'Vermelho')
 
+insert into TagCheckList (gid,cid) values (1, 1)
+insert into TagCheckList (gid,cid) values (1, 2)
+
+insert into TagCheckList (gid,cid) values (2, 3)
+insert into TagCheckList (gid,cid) values (2, 4)

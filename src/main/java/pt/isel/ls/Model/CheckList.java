@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class CheckList {
     public final ArrayList<Task> tasks;
+    public  ArrayList<Tag> tags;
     public final int id;
     public final String name;
     public final String description;
     public String dueDate;
     public boolean isClosed;
     public Integer templateId;
+
 
     public CheckList( int checklistId, String name,
                       String description,
@@ -36,6 +38,9 @@ public class CheckList {
     public void setTemplateId(Integer templateId) {
         this.templateId = templateId;
     }
+    public void setTagOnList(Tag tag) {
+        tags.add(tag);
+    }
 
     @Override
     public String toString(){
@@ -57,6 +62,11 @@ public class CheckList {
         if(tasks!=null)
             for (int i = 0; i <tasks.size(); i++) {
                 sb.append(tasks.get(i));
+                sb.append('\n');
+            }
+        if(tags!=null)
+            for (int i = 0; i <tags.size(); i++) {
+                sb.append(tags.get(i));
                 sb.append('\n');
             }
         return sb.toString();

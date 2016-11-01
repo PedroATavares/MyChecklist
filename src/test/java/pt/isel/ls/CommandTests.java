@@ -9,6 +9,7 @@ import pt.isel.ls.Commands.*;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Model.CheckList;
 import pt.isel.ls.Model.FullTemplate;
+import pt.isel.ls.Model.Tag;
 import pt.isel.ls.Model.Template;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -287,8 +288,92 @@ public class CommandTests {
         con.close();
     }
 
+    @Test
+    public void test_GetAllTags() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        GetAllTags teste = new GetAllTags();
+        Arguments arg = new Arguments();
 
-/*    @Test
+        List<Tag> result = teste.execute(arg,con);
+
+        Assert.assertEquals(result.size(), 2);
+
+        Assert.assertEquals(result.get(0).gid, 1);
+        Assert.assertEquals(result.get(1).gid, 2);
+
+        con.close();
+    }
+
+    @Test
+    public void test_PostTags() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTags teste = new PostTags();
+        Arguments arg = new Arguments();
+
+        arg.addArgument("name","Bebidas");
+        arg.addArgument("color","Preto");
+
+        Integer result = teste.execute(arg,con);
+
+        GetAllTags testes = new GetAllTags();
+        arg = new Arguments();
+
+        List<Tag> results = testes.execute(arg,con);
+
+        Assert.assertEquals(results.size(), 3);
+
+        con.rollback();
+        con.close();
+
+    }
+
+    @Test
+         public void test_DeleteTagsByID() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        DeleteTagsByID teste = new DeleteTagsByID();
+        Arguments arg = new Arguments();
+
+        arg.addVariableParameter("{gid}", "1");
+        Integer result = teste.execute(arg,con);
+
+        GetAllTags testes = new GetAllTags();
+        arg = new Arguments();
+
+        List<Tag> results = testes.execute(arg,con);
+
+        Assert.assertEquals(results.size(), 1);
+        con.rollback();
+        con.close();
+
+    }
+
+    @Test
+    public void test_DeleteCheckListWithCidBygID() throws SQLException,ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        DeleteCheckListWithCidBygID teste = new DeleteCheckListWithCidBygID();
+        Arguments arg = new Arguments();
+
+        arg.addVariableParameter("{cid}", "1");
+        arg.addVariableParameter("{gid}", "1");
+
+
+        Integer result = teste.execute(arg,con);
+
+        Assert.assertEquals(result.intValue(), 1);
+
+        con.rollback();
+        con.close();
+
+    }
+
+    /*
+    @Test
     public void test_PostTemplateInstance() throws SQLException {
 
         Connection con = src.getConnection();
@@ -320,36 +405,34 @@ public class CommandTests {
     }
 */
 
-
-    /* @Test
+    /*
+    @Test
     public void test_PostTaskByID() throws SQLException, ParseException {
-        Connection  con = src.getConnection();
+        Connection con = src.getConnection();
         con.setAutoCommit(false);
 
         PostTaskByID teste = new PostTaskByID();
         Arguments arg = new Arguments();
         Integer input = 1;
 
-        arg.addArgument("name","Goncalo");
-        arg.addArgument("description","carrega benfas");
-        arg.addArgument("dueDate",null);
+        arg.addArgument("name", "Goncalo");
+        arg.addArgument("description", "carrega benfas");
+        arg.addArgument("dueDate", null);
         arg.addArgument("isClosed", "false");
         arg.addVariableParameter("{cid}", input.toString());
 
-        int result = teste.execute(arg,con);
+        int result = teste.execute(arg, con);
         PreparedStatement stm = con.prepareStatement("select * from Task \n" +
-                "where lid = ? AND cid = ? " );
+                "where lid = ? AND cid = ? ");
         stm.setInt(1, result);
-        stm.setInt(2, input );
+        stm.setInt(2, input);
         ResultSet res = stm.executeQuery();
         res.next();
-        Assert.assertEquals( res.getString(3), "Goncalo" );
-        Assert.assertEquals(res.getString(1), input.toString() );
+        Assert.assertEquals(res.getString(3), "Goncalo");
+        Assert.assertEquals(res.getString(1), input.toString());
 
         con.rollback();
         con.close();
-
     }
-*/
-
+    */
 }

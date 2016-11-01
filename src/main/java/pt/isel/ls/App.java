@@ -47,7 +47,10 @@ public class App {
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
-
+        manager.addCommand("POST /tags", new PostTags());
+        manager.addCommand("GET /tags", new GetAllTags());
+        manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());
+        manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
 
     }
 }
