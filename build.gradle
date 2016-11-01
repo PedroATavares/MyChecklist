@@ -2,6 +2,13 @@ apply plugin: 'java'
 
 version = '1.0'
 
+
+task initDb(type:Exec) {
+	commandLine 'sqlcmd' ,'-U' ,'jdbcuser' ,'-P' ,'jdbcuser' ,'-S' ,'localhost' ,'-i' ,'create.sql'
+}
+
+build.dependsOn initDb
+
 dependencies {
     compile fileTree(dir: 'vendor/main', include: '*.jar')
     testCompile fileTree(dir: 'vendor/test', include: '*.jar')

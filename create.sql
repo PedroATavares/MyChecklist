@@ -3,6 +3,8 @@ if object_id('Checklist') is not null  DROP TABLE Checklist
 if object_id('TemplateTask') is not null  DROP TABLE TemplateTask
 if object_id('Template') is not null  DROP TABLE Template
 
+-- select * from Checklist
+
 Create Table Template(
 	tid int IDENTITY(1,1) primary key ,
 	Name varchar(80) NOT NULL,
@@ -65,9 +67,5 @@ insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa a fazer', 'arranjar mais imaginação pra preencher a DB','2010-9-15',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-9-10',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN','2010-9-12',4,'true')
-
-
-
-
 
 

@@ -3,6 +3,7 @@ package pt.isel.ls;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Logic.Arguments;
@@ -19,11 +20,11 @@ import java.util.Map;
 import java.io.*;
 
 public class CommandTests {
-    private final SQLServerDataSource src = new SQLServerDataSource();
-    private final Map<String, String> env = System.getenv();
+    private static final SQLServerDataSource src = new SQLServerDataSource();
+    private static final Map<String, String> env = System.getenv();
 
-    @Before
-    public void initialize() throws SQLException {
+    @BeforeClass
+    public static  void initialize() throws SQLException {
         String serverName = env.get("SERVER_NAME");
         String pass=env.get("PASSWORD");
         String user=env.get("USER");
@@ -51,13 +52,14 @@ public class CommandTests {
         arguments.append(" -i create.sql");
 
         createData(arguments.toString());
+
     }
 
-    private void createData(String command){
+    private static void createData(String command){
         try {
             String line;
-            Process p = Runtime.getRuntime().exec
-                    (command);
+            Process p = Runtime.getRuntime().exec(command);
+
             BufferedReader input =
                     new BufferedReader
                             (new InputStreamReader(p.getInputStream()));
@@ -151,36 +153,6 @@ public class CommandTests {
     }
 
     @Test
-    public void test_PostTaskByID() throws SQLException, ParseException {
-        Connection  con = src.getConnection();
-        con.setAutoCommit(false);
-
-        PostTaskByID teste = new PostTaskByID();
-        Arguments arg = new Arguments();
-        Integer input = 1;
-
-        arg.addArgument("name","Goncalo");
-        arg.addArgument("description","carrega benfas");
-        arg.addArgument("dueDate",null);
-        arg.addArgument("isClosed", "false");
-        arg.addVariableParameter("{cid}", input.toString());
-
-        int result = teste.execute(arg,con);
-        PreparedStatement stm = con.prepareStatement("select * from Task \n" +
-                "where lid = ? AND cid = ? " );
-        stm.setInt(1, result);
-        stm.setInt(2, input );
-        ResultSet res = stm.executeQuery();
-        res.next();
-        Assert.assertEquals( res.getString(3), "Goncalo" );
-        Assert.assertEquals(res.getString(1), input.toString() );
-
-        con.rollback();
-        con.close();
-
-    }
-
-    @Test
     public void test_ChangeTaskIsClose() throws SQLException {
 
         Connection con = src.getConnection();
@@ -225,34 +197,6 @@ public class CommandTests {
         ResultSet res = stm.executeQuery();
         res.next() ;
         Assert.assertEquals(res.getString(3), "Benfica");
-
-        con.rollback();
-        con.close();
-    }
-
-    @Test
-    public void test_PostTemplateInstance() throws SQLException {
-
-        Connection con = src.getConnection();
-        con.setAutoCommit(false);
-
-        PostTemplateInstance teste = new PostTemplateInstance();
-        Arguments arg = new Arguments();
-        arg.addArgument("name", "Benfica");
-        arg.addArgument("description", "E o maior do mundo");
-        arg.addArgument("duedate", "01-01-2010");
-        arg.addVariableParameter("{tid}", "1");
-
-        int result = teste.execute(arg,con);
-
-        PreparedStatement stm1 = con.prepareStatement("select Checklist.tid from Checklist\n" +
-                "where Checklist.cid = ?" );
-        stm1.setInt(1, result);
-
-        ResultSet res = stm1.executeQuery();
-        res.next();
-
-        Assert.assertEquals(res.getInt(1) , 1 );
 
         con.rollback();
         con.close();
@@ -334,12 +278,78 @@ public class CommandTests {
 
         List<CheckList> result = teste.execute(arg,con);
 
-        Assert.assertEquals(result.size(), 3);
+        Assert.assertEquals(3, result.size());
 
-        Assert.assertEquals(result.get(0).id, 2);
-        Assert.assertEquals(result.get(1).id, 1);
-        Assert.assertEquals(result.get(2).id, 3);
+        Assert.assertEquals(2, result.get(0).id);
+        Assert.assertEquals(1, result.get(1).id);
+        Assert.assertEquals(3, result.get(2).id);
 
         con.close();
     }
+
+
+/*    @Test
+    public void test_PostTemplateInstance() throws SQLException {
+
+        Connection con = src.getConnection();
+
+        PostTemplateInstance teste = new PostTemplateInstance();
+        Arguments arg = new Arguments();
+        arg.addArgument("name", "Benfica");
+        arg.addArgument("description", "E o maior do mundo");
+        arg.addArgument("duedate", "01-01-2010");
+        arg.addVariableParameter("{tid}", "1");
+
+        int result = teste.execute(arg,con);
+
+        PreparedStatement stm1 = con.prepareStatement("select Checklist.tid from Checklist\n" +
+                "where Checklist.cid = ?" );
+        stm1.setInt(1, result);
+
+        ResultSet res = stm1.executeQuery();
+        res.next();
+
+        Assert.assertEquals(res.getInt(1) , 1 );
+
+        PreparedStatement stm2 = con.prepareStatement("delete from task where task.cid = " + result );
+        stm2.executeUpdate();
+        stm2 = con.prepareStatement("delete from Checklist where Checklist.cid = " + result );
+        stm2.executeUpdate();
+
+        con.close();
+    }
+*/
+
+
+    /* @Test
+    public void test_PostTaskByID() throws SQLException, ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTaskByID teste = new PostTaskByID();
+        Arguments arg = new Arguments();
+        Integer input = 1;
+
+        arg.addArgument("name","Goncalo");
+        arg.addArgument("description","carrega benfas");
+        arg.addArgument("dueDate",null);
+        arg.addArgument("isClosed", "false");
+        arg.addVariableParameter("{cid}", input.toString());
+
+        int result = teste.execute(arg,con);
+        PreparedStatement stm = con.prepareStatement("select * from Task \n" +
+                "where lid = ? AND cid = ? " );
+        stm.setInt(1, result);
+        stm.setInt(2, input );
+        ResultSet res = stm.executeQuery();
+        res.next();
+        Assert.assertEquals( res.getString(3), "Goncalo" );
+        Assert.assertEquals(res.getString(1), input.toString() );
+
+        con.rollback();
+        con.close();
+
+    }
+*/
+
 }
