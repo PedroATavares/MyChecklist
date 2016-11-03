@@ -1,6 +1,5 @@
 package pt.isel.ls.Manager;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import pt.isel.ls.Commands.Command;
 import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 public class CommandManager {
     private  final ConnectionManager conManager= new ConnectionManager();
-    private TreeNode root;
+    public TreeNode root;
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
 
@@ -69,16 +68,9 @@ public class CommandManager {
         }
     }
 
-<<<<<<< HEAD
-    private TreeNode root;
-    private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
-    private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
-=======
->>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
-
     public void addCommand(String str, Command cmd){
         TreeNode aux;
-        //Map<String,TreeNode> map;
+        Map<String,TreeNode> map;
         int i;
         String[] methodAndPath = str.split(" ");
         String[] divided = getDividedPath(methodAndPath[1]);
@@ -147,9 +139,4 @@ public class CommandManager {
             arg.addArgument(pair[0],pair[1].replace('+',' '));
         }
     }
-    public Map<String,TreeNode>  getMap(){
-        return map;
-    }
-
-
 }

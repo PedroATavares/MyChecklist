@@ -28,4 +28,9 @@ public class GetAllTags implements Command {
         }
         return  list;
     }
+
+    @Override
+    public String ToString() {
+        return "GET /tags - returns the list of all tags.\n";
+    }
 }

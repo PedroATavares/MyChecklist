@@ -45,6 +45,12 @@ public class GetTemplateInfoByID implements Command {
         return result;
     }
 
+    @Override
+    public String ToString() {
+        return"GET /templates/{tid} - returns the details for the template tid," +
+                " including its tasks and the checklists created from it.\n";
+    }
+
     private void readToChekList(ResultSet rs) throws SQLException {
         while (rs.next()) {
             listCkl.add(new CheckList(

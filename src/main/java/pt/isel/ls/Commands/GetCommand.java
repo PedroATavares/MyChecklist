@@ -24,4 +24,9 @@ public class GetCommand implements Command {
     public Object execute(Arguments args, Connection con) throws SQLException, ParseException {
         return cmd.execute(args,con);
     }
+
+    @Override
+    public String ToString() {
+        return null;
+    }
 }

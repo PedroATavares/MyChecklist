@@ -33,4 +33,9 @@ public class DeleteTagsByID implements Command {
 
         return  rs;
     }
+
+    @Override
+    public String ToString() {
+        return "DELETE /tags/{gid} - deletes the tag with gid unique identifier.\n";
+    }
 }

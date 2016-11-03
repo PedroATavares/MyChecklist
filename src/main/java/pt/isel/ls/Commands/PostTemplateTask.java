@@ -23,4 +23,11 @@ public class PostTemplateTask implements Command {
         rs.next();
         return rs.getInt(1);
     }
+
+    @Override
+    public String ToString(){
+        return "POST /templates/{tid}/tasks - submits a new task for the format of the template tid, given the following parameters\n" +
+                "name - the task's short name.\n" +
+                "description - the description.\n";
+    }
 }

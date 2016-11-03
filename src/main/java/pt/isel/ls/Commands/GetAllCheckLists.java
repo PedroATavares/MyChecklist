@@ -35,4 +35,9 @@ public class GetAllCheckLists implements Command {
         }
         return  list;
     }
+
+    @Override
+    public String ToString(){
+        return "GET /checklists - returns a list with all the checklists.\n";
+    }
 }
