@@ -5,6 +5,9 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Html.Parcers.CheckListParcer;
+import pt.isel.ls.Html.Parcers.FullTemplateParcer;
+import pt.isel.ls.Html.Parcers.TagParcer;
+import pt.isel.ls.Html.Parcers.TemplateParcer;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
 
@@ -29,17 +32,11 @@ public class App {
 
     private static void initialize() throws SQLServerException {
 
-        manager.addCommand("POST /templates/{tid}/create",  new GetCommand( new PostTemplateInstance(),
-                null,
-                null
-        ));
-        manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new GetCommand( new ChangeTaskIsClose(),
-                null,
-                null
-        ));
+        manager.addCommand("POST /templates/{tid}/create",new PostTemplateInstance());
+        manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose() );
         manager.addCommand("GET /checklists", new GetCommand( new GetAllCheckLists(),
                 null,
-                null
+                new CheckListParcer()
         ));
 
         manager.addCommand("GET /checklists/{cid}", new GetCommand( new GetCheckListByID(),
@@ -48,60 +45,36 @@ public class App {
         ));
         manager.addCommand("GET /templates", new GetCommand( new GetTemplates(),
                 null,
-                null
+                new TemplateParcer()
         ));
-        manager.addCommand("POST /checklists",  new GetCommand( new PostCheckLists(),
-                null,
-                null
-        ));
-        manager.addCommand("POST /checklists/{cid}/tasks", new GetCommand( new PostTaskByID(),
-                null,
-                null
-        ));
-        manager.addCommand("POST /templates", new GetCommand( new PostTemplate(),
-                null,
-                null
-        ));
-        manager.addCommand("POST /templates/{tid}/tasks", new GetCommand( new PostTemplateTask(),
-                null,
-                null
-        ));
+        manager.addCommand("POST /checklists", new PostCheckLists() );
+        manager.addCommand("POST /checklists/{cid}/tasks", new PostTaskByID() );
+        manager.addCommand("POST /templates", new PostTemplate() );
+        manager.addCommand("POST /templates/{tid}/tasks", new PostTemplateTask());
         manager.addCommand("GET /templates/{tid}", new GetCommand( new GetTemplateInfoByID(),
                 null,
-                null
+                new FullTemplateParcer()
         ));
         manager.addCommand("GET /checklists/closed", new GetCommand( new GetCheckListsClosed(),
                 null,
-                null
+                new CheckListParcer()
         ));
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCommand( new GetCheckListsOpenSortedByDueDate(),
                 null,
-                null
+                new CheckListParcer()
         ));
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetCommand( new GetAllUncompletedChecklistsOrderedByOpenTasks(),
                 null,
-                null
+                new CheckListParcer()
         ));
-        manager.addCommand("POST /checklists/{cid}/tags", new GetCommand( new PostTagInCheckListByID(),
-                null,
-                null
-        ));
+        manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID());
         manager.addCommand("EXIT /", new Exit() );
-        manager.addCommand("POST /tags", new GetCommand( new PostTags(),
-                null,
-                null
-        ));
+        manager.addCommand("POST /tags", new PostTags());
         manager.addCommand("GET /tags", new GetCommand( new GetAllTags(),
                 null,
-                null
+                new TagParcer()
         ));
-        manager.addCommand("DELETE /tags/{gid}", new GetCommand( new DeleteTagsByID(),
-                null,
-                null
-        ));
-        manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new GetCommand( new DeleteCheckListWithCidBygID(),
-                null,
-                null
-        ));
+        manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());
+        manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
     }
 }

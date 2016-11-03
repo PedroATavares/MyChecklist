@@ -2,8 +2,7 @@ package pt.isel.ls.Html.Parcers;
 
 import pt.isel.ls.Html.Source.HtmlElement;
 import pt.isel.ls.Model.TemplateTask;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
@@ -21,7 +20,7 @@ public class TemplateTaskParcer implements HtmlParcer<TemplateTask>{
     }
 
 
-    public static HtmlElement parceList(ArrayList<TemplateTask> templateTasks) {
+    public static HtmlElement parceList(List<TemplateTask> templateTasks) {
         if(templateTasks==null || templateTasks.isEmpty()) return paragraph().withText("No Template Tasks To Show.");
         HtmlElement table = table().with(
                 tr().with(

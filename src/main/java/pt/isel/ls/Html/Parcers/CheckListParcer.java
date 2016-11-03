@@ -4,6 +4,7 @@ import pt.isel.ls.Html.Source.HtmlElement;
 import pt.isel.ls.Model.CheckList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
@@ -28,7 +29,7 @@ public class CheckListParcer implements HtmlParcer<CheckList>{
     }
 
 
-    public static HtmlElement parceList(ArrayList<CheckList> checkLists) {
+    public static HtmlElement parceList(List<CheckList> checkLists) {
         if(checkLists==null || checkLists.isEmpty()) return paragraph().withText("No CheckLists To Show.");
         HtmlElement table = table().with(
                 tr().with(
