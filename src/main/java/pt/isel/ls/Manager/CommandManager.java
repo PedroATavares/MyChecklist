@@ -1,18 +1,80 @@
 package pt.isel.ls.Manager;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import pt.isel.ls.Commands.Command;
+import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CommandManager {
+    private  final ConnectionManager conManager= new ConnectionManager();
+    private TreeNode root;
+    private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
+    private final Map<String,String> headers = new HashMap();
 
+    public void searchAndExecute(String[] args){
+
+        int parametersPos=2;
+
+        Arguments commandArguments = new Arguments();
+        Command cmd=null;
+        Connection con = conManager.getConection();
+        if(con == null) return;
+        try {
+            cmd = searchCommand(args,commandArguments);
+
+            if(args.length>=4){
+                parametersPos=3;
+                fillHeaders(args[2]);
+            }
+
+            if(args.length>=3)
+                fillArguments(args[parametersPos], commandArguments);
+
+            Object result = cmd.execute(commandArguments, con);
+
+            if(cmd instanceof GetCommand){
+                GetCommand getCmd = (GetCommand) cmd;
+                String resultStr = null;
+
+                if (headers.isEmpty())
+                    resultStr = getCmd.htmlParcer.supply(result);
+            }
+
+        } catch (NoSuchCommandException e) {
+            System.out.print("No shuch command in path: " + args[0] + ' ' + args[1]);
+            return;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+
+    private void fillHeaders(String arg) {
+        String [] separated= arg.split("|");
+        for(String div : separated) {
+            String [] div2 = div.split(":");
+            headers.put(div2[0],div2[1]);
+        }
+    }
+
+<<<<<<< HEAD
     private TreeNode root;
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
+=======
+>>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
 
     public void addCommand(String str, Command cmd){
         TreeNode aux;
@@ -88,5 +150,6 @@ public class CommandManager {
     public Map<String,TreeNode>  getMap(){
         return map;
     }
+
 
 }

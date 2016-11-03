@@ -1,8 +1,9 @@
+if object_id('TagCheckList') is not null  DROP TABLE TagCheckList
+if object_id('Tag') is not null  DROP TABLE Tag
 if object_id('Task') is not null  DROP TABLE Task
 if object_id('Checklist') is not null  DROP TABLE Checklist
 if object_id('TemplateTask') is not null  DROP TABLE TemplateTask
 if object_id('Template') is not null  DROP TABLE Template
-if object_id('Tag') is not null  DROP TABLE Tag
 
 Create Table Template(
 	tid int IDENTITY(1,1) primary key ,
@@ -80,8 +81,11 @@ insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Primeiro coisa
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Segundo passo', 'Fazer filme','2010-9-10',4,'true')
 insert into Task (Name, Descrip, DueDate, cid, isclosed) values ('Terceiro passo', 'SUPER-HOMEN','2010-9-12',4,'true')
 
+insert into Tag (Name, Color) values ('Fruta', 'Verde')
+insert into Tag (Name, Color) values ('Carne', 'Vermelho')
 
+insert into TagCheckList (gid,cid) values (1, 1)
+insert into TagCheckList (gid,cid) values (1, 2)
 
-
-
-
+insert into TagCheckList (gid,cid) values (2, 3)
+insert into TagCheckList (gid,cid) values (2, 4)

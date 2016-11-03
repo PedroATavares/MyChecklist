@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
+import pt.isel.ls.Html.Parcers.CheckListParcer;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
 
@@ -13,8 +14,6 @@ import java.text.ParseException;
 import java.util.Map;
 
 public class App {
-    private static final SQLServerDataSource src = new SQLServerDataSource();
-    private static final Map<String, String> env = System.getenv();
     private static final CommandManager manager= new CommandManager();
 
     public  static void  main(String [] args) throws SQLServerException {
@@ -23,34 +22,22 @@ public class App {
             return;
         }
         initialize();
-        try (Connection con = src.getConnection()){
-            Arguments cmmandArguments= new Arguments();
-            Command cmd= manager.searchCommand(args, cmmandArguments);
-            if(args.length>=3)
-                manager.fillArguments(args[2], cmmandArguments);
 
-            System.out.println(cmd.execute(cmmandArguments, con));
-        }catch (SQLException e) {
-            System.out.println(e.getMessage());
+            manager.searchAndExecute(args);
 
-        } catch (NoSuchCommandException e) {
-            System.out.println(e.getMessage());
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     private static void initialize() throws SQLServerException {
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)  src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
 
         manager.addCommand("POST /templates/{tid}/create", new PostTemplateInstance());
         manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose());
         manager.addCommand("GET /checklists", new GetAllCheckLists());
-        manager.addCommand("GET /checklists/{cid}", new GetCheckListByID());
+
+        manager.addCommand("GET /checklists/{cid}", new GetCommand( new GetCheckListByID(),
+                null,
+                new CheckListParcer()
+        ));
+
         manager.addCommand("GET /templates", new GetTemplates());
         manager.addCommand("POST /checklists", new PostCheckLists());
         manager.addCommand("POST /checklists/{cid}/tasks", new PostTaskByID());
@@ -60,7 +47,15 @@ public class App {
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
+<<<<<<< HEAD
         manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID() );
         manager.addCommand("EXIT /", new Exit() );
+=======
+        manager.addCommand("POST /tags", new PostTags());
+        manager.addCommand("GET /tags", new GetAllTags());
+        manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());
+        manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
+
+>>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
     }
 }
