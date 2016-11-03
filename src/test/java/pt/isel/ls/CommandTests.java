@@ -436,7 +436,7 @@ public class CommandTests {
         con.rollback();
         con.close();
     }
-<<<<<<< HEAD
+*/
 
     @Test
     public void test_PostTagInCheckListByID() throws SQLException, ParseException {
@@ -464,6 +464,7 @@ public class CommandTests {
         con.rollback();
         con.close();
     }
+
     @Test
     public void test_Exit() throws SQLException, ParseException {
         Connection  con = src.getConnection();
@@ -472,7 +473,5 @@ public class CommandTests {
         int result = teste.execute(null, null);
     }
 
-=======
-    */
->>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
+
 }

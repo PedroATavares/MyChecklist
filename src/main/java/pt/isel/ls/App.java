@@ -23,7 +23,7 @@ public class App {
         }
         initialize();
 
-            manager.searchAndExecute(args);
+        manager.searchAndExecute(args);
 
     }
 
@@ -37,7 +37,6 @@ public class App {
                 null,
                 new CheckListParcer()
         ));
-
         manager.addCommand("GET /templates", new GetTemplates());
         manager.addCommand("POST /checklists", new PostCheckLists());
         manager.addCommand("POST /checklists/{cid}/tasks", new PostTaskByID());
@@ -47,15 +46,12 @@ public class App {
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
-<<<<<<< HEAD
         manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID() );
         manager.addCommand("EXIT /", new Exit() );
-=======
         manager.addCommand("POST /tags", new PostTags());
         manager.addCommand("GET /tags", new GetAllTags());
         manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());
         manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
 
->>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
     }
 }

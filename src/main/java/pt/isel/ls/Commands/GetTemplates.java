@@ -31,4 +31,5 @@ public class GetTemplates implements Command {
         }
         return  list;
     }
+
 }
