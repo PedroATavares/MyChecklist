@@ -1,6 +1,7 @@
 package pt.isel.ls;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.io.*;
+import java.util.Objects;
 
 public class CommandTests {
     private final SQLServerDataSource src = new SQLServerDataSource();
@@ -342,4 +344,39 @@ public class CommandTests {
 
         con.close();
     }
+
+    @Test
+    public void test_PostTagInCheckListByID() throws SQLException, ParseException {
+        Connection  con = src.getConnection();
+        con.setAutoCommit(false);
+
+        PostTagInCheckListByID teste = new PostTagInCheckListByID();
+        Arguments arg = new Arguments();
+        arg.addArgument("gid", "2");
+        arg.addVariableParameter("{cid}", "1");
+
+        int result = teste.execute(arg,con);
+
+        PreparedStatement stm = con.prepareStatement("select * from TagCheckList\n" +
+                "where TagCheckList.tcid = ?" );
+
+        stm.setInt(1, result);
+
+        ResultSet res = stm.executeQuery();
+        res.next();
+
+        Assert.assertEquals(res.getInt(2) , 2 );
+        Assert.assertEquals(res.getInt(3) , 1 );
+
+        con.rollback();
+        con.close();
+    }
+    @Test
+    public void test_Exit() throws SQLException, ParseException {
+        Connection  con = src.getConnection();
+
+        Exit teste = new Exit();
+        int result = teste.execute(null, null);
+    }
+
 }

@@ -60,7 +60,7 @@ public class App {
         manager.addCommand("GET /checklists/closed", new GetCheckListsClosed());
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCheckListsOpenSortedByDueDate());
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetAllUncompletedChecklistsOrderedByOpenTasks());
-
-
+        manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID() );
+        manager.addCommand("EXIT /", new Exit() );
     }
 }

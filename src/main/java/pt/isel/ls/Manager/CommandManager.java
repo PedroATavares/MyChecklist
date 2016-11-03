@@ -10,13 +10,14 @@ import java.util.Map;
 
 public class CommandManager {
 
-        private TreeNode root;
-        private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
+    private TreeNode root;
+    private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
+    private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
 
     public void addCommand(String str, Command cmd){
         TreeNode aux;
+        //Map<String,TreeNode> map;
         int i;
-        Map<String,TreeNode> map;
         String[] methodAndPath = str.split(" ");
         String[] divided = getDividedPath(methodAndPath[1]);
 
@@ -83,6 +84,9 @@ public class CommandManager {
             String[] pair= split[i].split("=");
             arg.addArgument(pair[0],pair[1].replace('+',' '));
         }
+    }
+    public Map<String,TreeNode>  getMap(){
+        return map;
     }
 
 }
