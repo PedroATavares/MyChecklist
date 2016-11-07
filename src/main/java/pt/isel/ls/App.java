@@ -12,18 +12,25 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.Scanner;
 
 public class App {
     private static final CommandManager manager= new CommandManager();
 
     public  static void  main(String [] args) throws SQLServerException {
-        if(args.length<2){
-            System.out.println("Please Provide a method and a path");
-            return;
-        }
+
         initialize();
 
+        if (args.length>=2)
             manager.searchAndExecute(args);
+        else{
+            Scanner sc = new Scanner(System.in);
+            while(true){
+                System.out.print('>');
+                String input =sc.nextLine();
+                manager.searchAndExecute(input.split(" "));
+            }
+        }
 
     }
 

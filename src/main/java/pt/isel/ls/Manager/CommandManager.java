@@ -1,12 +1,14 @@
 package pt.isel.ls.Manager;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import pt.isel.ls.Commands.Command;
 import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -22,8 +24,6 @@ public class CommandManager {
 
     public void searchAndExecute(String[] args){
 
-        int parametersPos=2;
-
         Arguments commandArguments = new Arguments();
         Command cmd=null;
         Connection con = conManager.getConection();
@@ -31,26 +31,19 @@ public class CommandManager {
         try {
             cmd = searchCommand(args,commandArguments);
 
-            if(args.length>=4){
-                parametersPos=3;
-                fillHeaders(args[2]);
-            }
-
-            if(args.length>=3)
-                fillArguments(args[parametersPos], commandArguments);
+            fillParametersAndHeaders(args, commandArguments);
 
             Object result = cmd.execute(commandArguments, con);
 
             if(cmd instanceof GetCommand){
-                GetCommand getCmd = (GetCommand) cmd;
-                String resultStr = null;
-
-                if (headers.isEmpty())
-                    resultStr = getCmd.htmlParcer.supply(result);
+                String resultStr = getResultString(cmd, result);
+                if(resultStr!= null)
+                    handlePrint(resultStr);
             }
 
+            headers.clear();
         } catch (NoSuchCommandException e) {
-            System.out.print("No shuch command in path: " + args[0] + ' ' + args[1]);
+            System.out.println("No shuch command in path: " + args[0] + ' ' + args[1]);
             return;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -61,8 +54,71 @@ public class CommandManager {
 
     }
 
+    private void handlePrint(String resultStr) {
+        String fileName=headers.get("file-name");
+        if(fileName==null){
+            System.out.println(resultStr);
+            return;
+        }
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(fileName);
+            writer.println(resultStr);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot write in file: " + fileName);
+        }
+    }
+
+    private String getResultString(Command cmd, Object result) {
+        GetCommand getCmd = (GetCommand) cmd;
+        String accept = headers.get("accept");
+
+        String resultStr = null;
+        if(accept == null ){
+            resultStr = getCmd.htmlParcer.supply(result);
+        }else {
+            if(accept.equals("text/plain")){
+                resultStr= result.toString();
+            }else{
+                if(accept.equals("application/json")){
+                    resultStr = getCmd.jsonParser.supply(result);
+                }else {
+                    if(accept.equals("text/html")) {
+                        resultStr = getCmd.htmlParcer.supply(result);
+                    } else
+                        System.out.println( "accept:" + accept + " not recgonized");
+                }
+            }
+        }
+
+        return resultStr;
+    }
+
+    private void fillParametersAndHeaders(String[] args, Arguments commandArguments) {
+        int parametersPos=2;
+
+        if(args.length>=4){
+            parametersPos=3;
+            fillHeaders(args[2]);
+        }
+
+        if(args.length>=3 && !isHeaders(args[parametersPos]))
+            fillArguments(args[parametersPos], commandArguments);
+        else
+            if(args.length>=3 && isHeaders(args[parametersPos])){
+                fillHeaders(args[parametersPos]);
+            }
+    }
+
+    private boolean isHeaders(String arg) {
+        String [] split= arg.split(":");
+        return split.length!=1;
+    }
+
     private void fillHeaders(String arg) {
-        String [] separated= arg.split("|");
+        String [] separated= arg.split("\\|");
         for(String div : separated) {
             String [] div2 = div.split(":");
             headers.put(div2[0],div2[1]);
@@ -141,6 +197,5 @@ public class CommandManager {
             arg.addArgument(pair[0],pair[1].replace('+',' '));
         }
     }
-
 
 }

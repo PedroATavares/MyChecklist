@@ -89,3 +89,6 @@ insert into TagCheckList (gid,cid) values (1, 2)
 
 insert into TagCheckList (gid,cid) values (2, 3)
 insert into TagCheckList (gid,cid) values (2, 4)
+
+-- select * from tag
+-- delete from TagCheckList where gid= 1
