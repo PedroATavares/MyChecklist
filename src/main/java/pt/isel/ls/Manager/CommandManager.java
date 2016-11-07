@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class CommandManager {
     private  final ConnectionManager conManager= new ConnectionManager();
-    private TreeNode root;
+    public TreeNode root;
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
 
@@ -43,7 +43,7 @@ public class CommandManager {
 
             headers.clear();
         } catch (NoSuchCommandException e) {
-            System.out.println("No shuch command in path: " + args[0] + ' ' + args[1]);
+            System.out.println(e.getMessage());
             return;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -125,11 +125,10 @@ public class CommandManager {
         }
     }
 
-
     public void addCommand(String str, Command cmd){
         TreeNode aux;
-        int i;
         Map<String,TreeNode> map;
+        int i;
         String[] methodAndPath = str.split(" ");
         String[] divided = getDividedPath(methodAndPath[1]);
 
@@ -147,7 +146,9 @@ public class CommandManager {
             if(aux==null) map.put(divided[i], aux= new TreeNode());
             map=aux.getMap();
         }
-        aux=map.get(divided[i]);
+        if(divided.length!=0)
+            aux=map.get(divided[i]);
+
         if(aux==null)
             map.put(divided[i],aux= new TreeNode());
 
@@ -155,14 +156,17 @@ public class CommandManager {
     }
 
     private String[] getDividedPath(String path) {
-        String[] divided  =path.split("/");
-        return Arrays.copyOfRange(divided,1,divided.length);
+        return path.split("/");
+
     }
 
     public Command searchCommand(String[] comp,Arguments arg) throws NoSuchCommandException {
         TreeNode aux=null;
         Map<String,TreeNode> map;
         int i;
+
+        if(comp.length<2) throw new NoSuchCommandException(comp[0] );
+
         String[] divided = getDividedPath(comp[1]);
 
         map= root.getMap();

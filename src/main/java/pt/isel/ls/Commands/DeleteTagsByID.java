@@ -12,14 +12,6 @@ import java.text.ParseException;
 public class DeleteTagsByID implements Command {
     @Override
     public Integer execute(Arguments args, Connection con) throws SQLException, ParseException {
-        /*
-        PreparedStatement stm = con.prepareStatement("delete from TagCheckList where gid= ? " +
-                "delete from Tag where gid= ? ");
-
-        stm.setInt(1, Integer.parseInt( args.variableParameters.get("{gid}") ) );
-
-        stm.setInt(2, Integer.parseInt( args.variableParameters.get("{gid}") ) );
-        stm.executeQuery().getRow();*/
 
         int gidarg=Integer.parseInt( args.variableParameters.get("{gid}") );
         PreparedStatement stm = con.prepareStatement(" delete from TagCheckList where gid= ? ");
@@ -32,5 +24,10 @@ public class DeleteTagsByID implements Command {
 
 
         return  rs;
+    }
+
+    @Override
+    public String ToString() {
+        return "DELETE /tags/{gid} - deletes the tag with gid unique identifier.\n";
     }
 }

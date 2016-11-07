@@ -22,4 +22,11 @@ public class PostTags implements Command{
         rs.next();
         return rs.getInt(1);
     }
+
+    @Override
+    public String ToString() {
+        return "POST /tags - creates a new tag and returns its identifier, given the following parameters\n" +
+                "name - the tag unique name;\n" +
+                "color - a color to associate with the tag.\n";
+    }
 }

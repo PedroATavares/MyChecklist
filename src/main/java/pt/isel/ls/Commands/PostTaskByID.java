@@ -83,4 +83,11 @@ public class PostTaskByID implements Command {
             throw e;
         }
     }
+    @Override
+    public String ToString(){
+        return "POST /checklists/{cid}/tasks - submits a new task for the checklist cid, given the following parameters\n"+
+                "name - the task's short name.\n"+
+                "description - the description.\n"+
+                "dueDate - an optional due date for the task completion.\n";
+    }
 }

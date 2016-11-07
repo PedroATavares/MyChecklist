@@ -31,4 +31,10 @@ public class GetTemplates implements Command {
         }
         return  list;
     }
+
+    @Override
+    public String ToString() {
+        return "GET /templates - returns a list with all the templates.\n";
+    }
+
 }
