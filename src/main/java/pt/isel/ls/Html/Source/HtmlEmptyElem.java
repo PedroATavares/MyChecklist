@@ -38,4 +38,12 @@ public class HtmlEmptyElem implements HtmlElement {
         this.txt=txt;
         return this;
     }
+
+    @Override
+    public HtmlElement withAttribute(HtmlAttribute... attributes) {
+        for (HtmlAttribute atr : attributes){
+            tag.addAttribute(atr);
+        }
+        return this;
+    }
 }

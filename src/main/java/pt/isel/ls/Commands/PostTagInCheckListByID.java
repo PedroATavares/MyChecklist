@@ -29,7 +29,7 @@ public class PostTagInCheckListByID  implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "POST /checklists/{cid}/tags - associate a tag to the cid checklist, given the following parameters\n" +
                 "gid- the tag unique identifier.\n";
     }

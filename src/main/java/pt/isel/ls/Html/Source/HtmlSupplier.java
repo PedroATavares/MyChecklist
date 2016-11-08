@@ -26,6 +26,8 @@ public class HtmlSupplier {
 
     public static HtmlElement table(){return new HtmlNestedElement("table");}
 
+    public static HtmlAttribute attribute(String key,String value){return new HtmlAttribute(key, value);}
+
     /*Table Row*/
     public static HtmlElement tr(){return new HtmlNestedElement("tr");}
 

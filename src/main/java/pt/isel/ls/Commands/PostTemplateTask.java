@@ -25,7 +25,7 @@ public class PostTemplateTask implements Command {
     }
 
     @Override
-    public String ToString(){
+    public String toString(){
         return "POST /templates/{tid}/tasks - submits a new task for the format of the template tid, given the following parameters\n" +
                 "name - the task's short name.\n" +
                 "description - the description.\n";

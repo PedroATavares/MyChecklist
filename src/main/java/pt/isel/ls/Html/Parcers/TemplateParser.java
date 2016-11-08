@@ -18,7 +18,8 @@ public class TemplateParser implements HtmlParser<List<Template>> {
                         th().withText("Name"),
                         th().withText("Descricao")
                 )
-        );
+        ).withAttribute(attribute("style", "width:50%"),
+                attribute("border", "1"));
 
         for (Template t : templates) {
             table.with(makeRow(t));

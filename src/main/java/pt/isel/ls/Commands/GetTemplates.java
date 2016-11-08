@@ -33,7 +33,7 @@ public class GetTemplates implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "GET /templates - returns a list with all the templates.\n";
     }
 

@@ -1,7 +1,7 @@
 package pt.isel.ls.Commands;
 
 
-import pt.isel.ls.Html.Parcers.HtmlParcer;
+import pt.isel.ls.Html.Parcers.HtmlParser;
 import pt.isel.ls.Json.Parcers.JsonParcer;
 import pt.isel.ls.Logic.Arguments;
 
@@ -13,12 +13,12 @@ public class GetCommand implements Command {
 
     public final Command cmd;
     public final JsonParcer jsonParser;
-    public final HtmlParcer htmlParcer;
+    public final HtmlParser htmlParser;
 
-    public GetCommand(Command cmd, JsonParcer jsonParser, HtmlParcer htmlParcer) {
+    public GetCommand(Command cmd, JsonParcer jsonParser, HtmlParser htmlParser) {
         this.cmd = cmd;
         this.jsonParser = jsonParser;
-        this.htmlParcer = htmlParcer;
+        this.htmlParser = htmlParser;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class GetCommand implements Command {
     }
 
     @Override
-    public String ToString() {
-        return null;
+    public String toString() {
+        return cmd.toString();
     }
 }

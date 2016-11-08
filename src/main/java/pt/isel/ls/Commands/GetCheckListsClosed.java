@@ -39,7 +39,7 @@ public class GetCheckListsClosed implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "GET /checklists/closed - returns a list with all completed checklists.\n";
     }
 }

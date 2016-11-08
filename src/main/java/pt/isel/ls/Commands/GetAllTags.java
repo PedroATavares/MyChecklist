@@ -30,7 +30,7 @@ public class GetAllTags implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "GET /tags - returns the list of all tags.\n";
     }
 }

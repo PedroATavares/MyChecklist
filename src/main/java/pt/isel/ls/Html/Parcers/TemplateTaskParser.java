@@ -29,7 +29,8 @@ public class TemplateTaskParser implements HtmlParser<TemplateTask> {
                         th().withText("Name"),
                         th().withText("Descricao")
                 )
-        );
+        ).withAttribute(attribute("style", "width:50%"),
+                attribute("border", "1"));
 
         for (TemplateTask tt: templateTasks) {
             table.with(makeRow(tt));

@@ -8,11 +8,9 @@ import pt.isel.ls.Logic.TreeNode;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,7 +75,7 @@ public class CommandManager {
 
         String resultStr = null;
         if(accept == null ){
-            resultStr = getCmd.htmlParcer.supply(result);
+            resultStr = getCmd.htmlParser.supply(result);
         }else {
             if(accept.equals("text/plain")){
                 resultStr= result.toString();
@@ -86,7 +84,7 @@ public class CommandManager {
                     resultStr = getCmd.jsonParser.supply(result);
                 }else {
                     if(accept.equals("text/html")) {
-                        resultStr = getCmd.htmlParcer.supply(result);
+                        resultStr = getCmd.htmlParser.supply(result);
                     } else
                         System.out.println( "accept:" + accept + " not recgonized");
                 }

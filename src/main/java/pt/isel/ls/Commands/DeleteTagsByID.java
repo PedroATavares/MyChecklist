@@ -27,7 +27,7 @@ public class DeleteTagsByID implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "DELETE /tags/{gid} - deletes the tag with gid unique identifier.\n";
     }
 }

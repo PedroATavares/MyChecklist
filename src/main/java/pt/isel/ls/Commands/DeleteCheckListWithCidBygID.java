@@ -19,7 +19,7 @@ public class DeleteCheckListWithCidBygID implements Command{
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "DELETE /checklists/{cid}/tags/{gid} - deletes the association between the cid checklist and the gid tag.\n";
     }
 }

@@ -24,7 +24,7 @@ public class PostTags implements Command{
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "POST /tags - creates a new tag and returns its identifier, given the following parameters\n" +
                 "name - the tag unique name;\n" +
                 "color - a color to associate with the tag.\n";

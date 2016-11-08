@@ -18,7 +18,7 @@ public class Exit implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "EXIT / - ends the application.";
     }
 }

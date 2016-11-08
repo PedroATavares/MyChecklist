@@ -81,7 +81,7 @@ public class PostTemplateInstance implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "POST /templates/{tid}/create - creates a new checklist with the tasks of the template tid, given the following parameters\n" +
                 "name - an optional checklist name. If absent, the checklist will have the template's name.\n" +
                 "description - an optional checklist description. If absent, the checklist will have the template's description.\n" +

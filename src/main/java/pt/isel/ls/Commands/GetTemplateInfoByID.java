@@ -46,7 +46,7 @@ public class GetTemplateInfoByID implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return"GET /templates/{tid} - returns the details for the template tid," +
                 " including its tasks and the checklists created from it.\n";
     }

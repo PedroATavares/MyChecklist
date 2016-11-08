@@ -20,7 +20,8 @@ public class TaskParser implements HtmlParser<Task> {
                         td().withText("Due Date"),
                         td().withText("Is Closed")
                 )
-        );
+        ).withAttribute(attribute("style", "width:50%"),
+                attribute("border", "1"));
 
         for (Task t: list) {
             table.with(makeRow(t));

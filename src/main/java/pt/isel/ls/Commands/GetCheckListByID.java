@@ -44,7 +44,7 @@ public class GetCheckListByID implements Command {
         return cl;
     }
     @Override
-    public String ToString(){
+    public String toString(){
         return "GET /checklists/{cid} - returns the detailed information for the checklist identified by cid," +
                 " including its tasks and the template from which it was created (if any).\n";
     }

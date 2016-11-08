@@ -5,7 +5,7 @@ import pt.isel.ls.Model.FullTemplate;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
-public class FullTemplateParser implements HtmlParcer<FullTemplate> {
+public class FullTemplateParser implements HtmlParser<FullTemplate> {
 
     @Override
     public String supply(FullTemplate source) {
@@ -14,7 +14,7 @@ public class FullTemplateParser implements HtmlParcer<FullTemplate> {
                 h3().withText("Checklists"),
                 ChecklistParser.parceList(source.listCkL),
                 h3().withText("Tasks"),
-                TemplateTaskParcer.parceList(source.listTsk)
+                TemplateTaskParser.parceList(source.listTsk)
         ).toHtml();
     }
 

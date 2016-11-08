@@ -30,7 +30,7 @@ public class PostCheckLists implements Command {
         return rs.getInt(1);
     }
     @Override
-    public String ToString(){
+    public String toString(){
         return "POST /checklists - creates a new checklist, given the following parameters \n"+
                 "name - short name.\n"+
                 "description - the checklist description.\n"+

@@ -56,7 +56,7 @@ public class GetAllUncompletedChecklistsOrderedByOpenTasks implements Command {
     }
 
     @Override
-    public String ToString() {
+    public String toString() {
         return "GET /checklists/open/sorted/noftasks - returns a list with all uncompleted checklists, " +
                 "ordered by decreasing number of open tasks.\n";
     }
