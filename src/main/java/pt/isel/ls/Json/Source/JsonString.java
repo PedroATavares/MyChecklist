@@ -1,7 +1,7 @@
 package pt.isel.ls.Json.Source;
 
 public class JsonString implements JsonElement{
-    private final String name;
+    private String name;
     private final String value;
 
     public JsonString(String name, String value) {
@@ -9,8 +9,13 @@ public class JsonString implements JsonElement{
         this.value = value;
     }
 
+    public JsonString(String value) {
+        this.value = value;
+    }
+
     @Override
     public String toJson() {
+        if(name == null) return '\"'+ value + "\" \n";
         return '\"' + name + "\": " + '\"' + value + '\"'+ '\n';
     }
 }

@@ -81,7 +81,7 @@ public class CommandManager {
                 resultStr= result.toString();
             }else{
                 if(accept.equals("application/json")){
-                    resultStr = getCmd.jsonParser.supply(result);
+                    resultStr = getCmd.jsonParser.supply(result).toJson();
                 }else {
                     if(accept.equals("text/html")) {
                         resultStr = getCmd.htmlParser.supply(result);

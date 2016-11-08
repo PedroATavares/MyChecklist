@@ -1,7 +1,7 @@
 package pt.isel.ls.Json.Source;
 
 public class JsonInt implements JsonElement {
-    private final String name;
+    private String name;
     private final int value;
 
     public JsonInt(String name, int value) {
@@ -9,8 +9,13 @@ public class JsonInt implements JsonElement {
         this.value = value;
     }
 
+    public JsonInt(int value) {
+        this.value = value;
+    }
+
     @Override
     public String toJson() {
+        if(name ==null) return value + "\n";
         return '\"' + name + "\": " + value + '\n';
     }
 }
