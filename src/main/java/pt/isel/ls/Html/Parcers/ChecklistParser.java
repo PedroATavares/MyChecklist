@@ -8,7 +8,7 @@ import java.util.List;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
-public class CheckListParcer implements HtmlParcer<CheckList>{
+public class ChecklistParser implements HtmlParcer<CheckList>{
 
 
     @Override
@@ -33,12 +33,12 @@ public class CheckListParcer implements HtmlParcer<CheckList>{
         if(checkLists==null || checkLists.isEmpty()) return paragraph().withText("No CheckLists To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        td().withText("Id"),
-                        td().withText("Template Id"),
-                        td().withText("Name"),
-                        td().withText("Descricao"),
-                        td().withText("Due Date"),
-                        td().withText("Is Closed")
+                        th().withText("Id"),
+                        th().withText("Template Id"),
+                        th().withText("Name"),
+                        th().withText("Descricao"),
+                        th().withText("Due Date"),
+                        th().withText("Is Closed")
                 )
         );
 

@@ -9,7 +9,7 @@ import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 import static pt.isel.ls.Html.Source.HtmlSupplier.paragraph;
 
 
-public class TagParcer implements HtmlParcer<Tag> {
+public class TagParser implements HtmlParser<Tag> {
 
     public static HtmlElement parceList(ArrayList<Tag> tags) {
         if(tags==null || tags.isEmpty()) return paragraph().withText("No Tags To Show.");
@@ -45,7 +45,7 @@ public class TagParcer implements HtmlParcer<Tag> {
                 paragraph().withText("Id: " + source.gid ),
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Color: " + source.color),
-                paragraph().withText("Checklists: " + CheckListParcer.parceList(source.checkLists))
+                paragraph().withText("Checklists: " + ChecklistParser.parceList(source.checkLists))
         )).toHtml();
     }
 }
