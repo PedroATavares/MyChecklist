@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.*;
@@ -28,9 +29,9 @@ public class CommandTests {
 
     @BeforeClass
     public static  void initialize() throws SQLException {
-        String serverName = env.get("SERVER_NAME");
-        String pass=env.get("PASSWORD");
-        String user=env.get("USER");
+        String serverName = env.get("LS_DBCONN_TEST_SQLSRV");
+        HashMap<String,String> map=new HashMap<>();
+        
 
 
         src.setServerName(serverName);
@@ -54,7 +55,7 @@ public class CommandTests {
         arguments.append(serverName);
         arguments.append(" -i create.sql");
 
-        createData(arguments.toString());
+       // createData(arguments.toString());
 
     }
 
@@ -451,27 +452,19 @@ public class CommandTests {
         int result = teste.execute(arg,con);
 
         PreparedStatement stm = con.prepareStatement("select * from TagCheckList\n" +
-                "where TagCheckList.tcid = ?" );
+                "where TagCheckList.cid = 1 and gid=2" );
 
-        stm.setInt(1, result);
 
         ResultSet res = stm.executeQuery();
         res.next();
 
-        Assert.assertEquals(res.getInt(2) , 2 );
-        Assert.assertEquals(res.getInt(3) , 1 );
+        Assert.assertEquals(res.getInt(1) , 2 );
+        Assert.assertEquals(res.getInt(2) , 1 );
 
         con.rollback();
         con.close();
     }
 
-    @Test
-    public void test_Exit() throws SQLException, ParseException {
-        Connection  con = src.getConnection();
-
-        Exit teste = new Exit();
-        int result = teste.execute(null, null);
-    }
 
 
 }

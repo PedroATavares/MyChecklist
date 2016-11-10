@@ -12,7 +12,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandManager {
     private  final ConnectionManager conManager= new ConnectionManager();
@@ -175,6 +177,22 @@ public class CommandManager {
         for (i=0;i<divided.length;i++){
             aux=map.get(divided[i]);
             if(aux==null) {
+                Set<String> set=map.keySet();
+                Iterator<String> iter = set.iterator();
+                String variable=null;
+                while(iter.hasNext()){
+                    String key = iter.next();
+                    if(key.contains("{")) {
+                        variable=key;
+                        break;
+                    }
+                }
+
+                if (variable== null) throw new NoSuchCommandException(comp[0] + comp[1]);
+
+                aux=map.get(variable);
+                arg.addVariableParameter(variable,divided[i]);
+                /*
                 int k;
                 for (k=0;k<variables.length;k++){
                     aux=map.get(variables[k]);
@@ -182,6 +200,7 @@ public class CommandManager {
                 }
                 if (aux==null) throw new NoSuchCommandException(comp[0] + comp[1]);
                 arg.addVariableParameter(variables[k],divided[i]);
+                */
             }
             map=aux.getMap();
         }

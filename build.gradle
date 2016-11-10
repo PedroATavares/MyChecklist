@@ -4,10 +4,39 @@ version = '1.0'
 
 
 task initDb(type:Exec) {
-	commandLine 'sqlcmd' ,'-U' ,'jdbcuser' ,'-P' ,'jdbcuser' ,'-S' ,'localhost' ,'-i' ,'create.sql'
+	def home = "$System.env.LS_DBCONN_APP_SQLSRV"
+
+	def (server, database, user, password) = home.split(';')
+
+	def (serverName,serverValue) = server.split('=')
+
+	def(databaseName,databaseValue) = database.split('=')
+
+	def(userName,userValue) = user.split('=')
+
+	def(passwordName,passwordValue) = password.split('=')
+
+	commandLine 'sqlcmd' ,'-U' ,userValue ,'-P' , passwordValue ,'-S' , serverValue ,'-d', databaseValue,'-i' ,'create.sql'
+}
+
+task initDbTests(type:Exec) {
+	def home = "$System.env.LS_DBCONN_TEST_SQLSRV"
+
+	def (server, database, user, password) = home.split(';')
+
+	def (serverName,serverValue) = server.split('=')
+
+	def(databaseName,databaseValue) = database.split('=')
+
+	def(userName,userValue) = user.split('=')
+
+	def(passwordName,passwordValue) = password.split('=')
+
+	commandLine 'sqlcmd' ,'-U' ,userValue ,'-P' , passwordValue ,'-S' , serverValue ,'-d', databaseValue,'-i' ,'create.sql'
 }
 
 build.dependsOn initDb
+test.dependsOn initDbTests
 
 dependencies {
     compile fileTree(dir: 'vendor/main', include: '*.jar')
