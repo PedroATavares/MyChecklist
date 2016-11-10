@@ -2,21 +2,19 @@ package pt.isel.ls.Json.Parcers;
 
 import pt.isel.ls.Json.Source.JsonElement;
 import pt.isel.ls.Json.Source.JsonNestedElement;
-import pt.isel.ls.Model.Task;
-
+import pt.isel.ls.Model.Tag;
 import java.util.List;
-
-import static pt.isel.ls.Json.Parcers.TaskJsonParser.makeEntitie;
+import static pt.isel.ls.Json.Parcers.TagJsonParser.makeEntitie;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
 import static pt.isel.ls.Json.Source.JsonSupplier.jsonArray;
 
-public class TaskListJonParcer implements JsonParcer<List<Task>> {
-
+public class TagListJsonParser implements JsonParcer<List<Tag>>  {
     @Override
-    public JsonElement supply(List<Task> source) {
+    public JsonElement supply(List<Tag> source) {
+
         JsonNestedElement root = jsonObject().whith(
                 jsonArray("class").whith(
-                        jsonString("task"),
+                        jsonString("tag"),
                         jsonString("collection")
                 ),
                 jsonObject("properties").whith(
@@ -27,10 +25,9 @@ public class TaskListJonParcer implements JsonParcer<List<Task>> {
         JsonNestedElement entities=jsonArray("entities");
         root.whith(entities);
 
-        for (Task t : source) {
-            entities.whith(makeEntitie(t));
+        for ( Tag c : source) {
+            entities.whith(makeEntitie(c));
         }
         return root;
     }
-
 }
