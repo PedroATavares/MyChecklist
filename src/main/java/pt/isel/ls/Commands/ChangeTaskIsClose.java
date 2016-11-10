@@ -52,7 +52,11 @@ public class ChangeTaskIsClose implements Command {
         return true;
     }
 
-
+    @Override
+    public String toString(){
+        return "POST /checklists/{cid}/tasks/{lid} - changes the state of the task identified by lid, belonging to the checklist identified by cid, given the following parameters\n"+
+                "isClosed - true or false\n";
+    }
 
 
 }

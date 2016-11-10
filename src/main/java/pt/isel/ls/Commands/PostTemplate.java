@@ -24,4 +24,10 @@ public class PostTemplate implements Command {
         rs.next();
         return rs.getInt(1);
     }
+    @Override
+    public String toString(){
+        return "POST /templates - creates a new template, given the following parameters\n" +
+                "name - short name.\n" +
+                "description - the template description.\n";
+    }
 }

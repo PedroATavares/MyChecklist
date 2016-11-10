@@ -2,12 +2,11 @@ package pt.isel.ls.Html.Parcers;
 
 import pt.isel.ls.Html.Source.HtmlElement;
 import pt.isel.ls.Model.TemplateTask;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
-public class TemplateTaskParcer implements HtmlParcer<TemplateTask>{
+public class TemplateTaskParser implements HtmlParser<TemplateTask> {
 
     @Override
     public String supply(TemplateTask source) {
@@ -21,16 +20,17 @@ public class TemplateTaskParcer implements HtmlParcer<TemplateTask>{
     }
 
 
-    public static HtmlElement parceList(ArrayList<TemplateTask> templateTasks) {
+    public static HtmlElement parceList(List<TemplateTask> templateTasks) {
         if(templateTasks==null || templateTasks.isEmpty()) return paragraph().withText("No Template Tasks To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        td().withText("Id"),
-                        td().withText("Template Id"),
-                        td().withText("Name"),
-                        td().withText("Descricao")
+                        th().withText("Id"),
+                        th().withText("Template Id"),
+                        th().withText("Name"),
+                        th().withText("Descricao")
                 )
-        );
+        ).withAttribute(attribute("style", "width:50%"),
+                attribute("border", "1"));
 
         for (TemplateTask tt: templateTasks) {
             table.with(makeRow(tt));

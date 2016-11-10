@@ -33,4 +33,10 @@ public class GetCheckListsOpenSortedByDueDate implements Command{
         }
         return  list;
     }
+
+    @Override
+    public String toString() {
+        return "GET /checklists/open/sorted/duedate - returns a list with all uncompleted checklists," +
+                " ordered by increasing completion date (if any).\n";
+    }
 }

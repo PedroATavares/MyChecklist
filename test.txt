@@ -1,0 +1,25 @@
+Checklist id: 1
+	Name: Teste 1
+	Description: Fazer primeiro teste
+	Due Date: 2010-10-16
+	Template Id: Nonexistent.
+
+Task id: 1
+	Name: Primeiro passo
+	Description: Fazer build
+	Due Date: 2010-10-15
+	Closed: true
+
+Task id: 2
+	Name: Segundo passo
+	Description: Executar testes
+	Due Date: 2010-10-10
+	Closed: false
+
+Task id: 3
+	Name: Terceiro passo
+	Description: Batman
+	Due Date: 2010-10-12
+	Closed: false
+
+

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonArray implements JsonNestedElement {
-    private final String name;
+    private String name;
     List<JsonElement> fields;
 
     public JsonArray(String name) {
         this.name = name;
+        fields= new ArrayList<>();
+    }
+
+    public JsonArray() {
         fields= new ArrayList<>();
     }
 
@@ -23,12 +27,15 @@ public class JsonArray implements JsonNestedElement {
     @Override
     public String toJson() {
         StringBuilder sb = new StringBuilder();
-        sb.append('\"' + name + "\":" + "[ \n");
+        if(name!=null)
+            sb.append('\"' + name + "\":\n");
+        sb.append( "[ \n");
         for (JsonElement e :fields) {
             sb.append(e.toJson());
             sb.append(", \n");
         }
-        sb.delete(sb.lastIndexOf(","),sb.lastIndexOf("\n"));
+        if(sb.lastIndexOf(",")!=-1)
+            sb.delete(sb.lastIndexOf(","),sb.lastIndexOf("\n"));
         sb.append("]\n");
         return sb.toString();
     }

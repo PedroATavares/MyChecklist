@@ -1,7 +1,7 @@
 package pt.isel.ls.Json.Source;
 
 public class JsonBolean implements JsonElement{
-    private final String name;
+    private String name;
     private final boolean value;
 
     public JsonBolean(String name, boolean value) {
@@ -9,8 +9,13 @@ public class JsonBolean implements JsonElement{
         this.value = value;
     }
 
+    public JsonBolean(boolean value) {
+        this.value = value;
+    }
+
     @Override
     public String toJson() {
+        if(name== null) return  value + "\n";
         return '\"' + name + "\": " + value + '\n';
     }
 }

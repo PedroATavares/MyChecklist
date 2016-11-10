@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonObject implements JsonNestedElement{
-    private final String name;
+    private String name;
     List<JsonElement> fields;
 
 
@@ -13,13 +13,23 @@ public class JsonObject implements JsonNestedElement{
         fields=new ArrayList<>();
     }
 
+    public JsonObject() {
+        fields=new ArrayList<>();
+    }
+
     @Override
     public String toJson() {
         StringBuilder sb = new StringBuilder();
+        if(name != null){
+            sb.append('\"' + name + "\":");
+        }
         sb.append("{ \n");
         for (JsonElement e :fields)
-            sb.append(e.toJson());
-        sb.append("}");
+            sb.append(e.toJson() + ", \n");
+        if(sb.lastIndexOf(",")!=-1)
+            sb.delete(sb.lastIndexOf(","),sb.length()-1);
+
+        sb.append("} \n");
         return sb.toString();
     }
 

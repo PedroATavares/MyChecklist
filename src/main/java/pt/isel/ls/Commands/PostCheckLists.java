@@ -29,4 +29,11 @@ public class PostCheckLists implements Command {
         rs.next();
         return rs.getInt(1);
     }
+    @Override
+    public String toString(){
+        return "POST /checklists - creates a new checklist, given the following parameters \n"+
+                "name - short name.\n"+
+                "description - the checklist description.\n"+
+                "dueDate - an optional due date for the completion of the checklist\n";
+    }
 }

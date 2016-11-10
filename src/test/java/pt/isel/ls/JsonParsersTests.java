@@ -1,12 +1,6 @@
 package pt.isel.ls;
 
 import org.junit.Test;
-import pt.isel.ls.Html.Parcers.CheckListParcer;
-import pt.isel.ls.Html.Parcers.HtmlParcer;
-import pt.isel.ls.Model.CheckList;
-import pt.isel.ls.Model.Task;
-
-import java.util.ArrayList;
 
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
 

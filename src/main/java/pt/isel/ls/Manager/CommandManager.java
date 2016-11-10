@@ -1,29 +1,27 @@
 package pt.isel.ls.Manager;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import pt.isel.ls.Commands.Command;
 import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandManager {
     private  final ConnectionManager conManager= new ConnectionManager();
-    private TreeNode root;
+    public TreeNode root;
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
     public void searchAndExecute(String[] args){
-
-        int parametersPos=2;
 
         Arguments commandArguments = new Arguments();
         Command cmd=null;
@@ -32,26 +30,19 @@ public class CommandManager {
         try {
             cmd = searchCommand(args,commandArguments);
 
-            if(args.length>=4){
-                parametersPos=3;
-                fillHeaders(args[2]);
-            }
-
-            if(args.length>=3)
-                fillArguments(args[parametersPos], commandArguments);
+            fillParametersAndHeaders(args, commandArguments);
 
             Object result = cmd.execute(commandArguments, con);
 
             if(cmd instanceof GetCommand){
-                GetCommand getCmd = (GetCommand) cmd;
-                String resultStr = null;
-
-                if (headers.isEmpty())
-                    resultStr = getCmd.htmlParcer.supply(result);
+                String resultStr = getResultString(cmd, result);
+                if(resultStr!= null)
+                    handlePrint(resultStr);
             }
 
+            headers.clear();
         } catch (NoSuchCommandException e) {
-            System.out.print("No shuch command in path: " + args[0] + ' ' + args[1]);
+            System.out.println(e.getMessage());
             return;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -62,8 +53,71 @@ public class CommandManager {
 
     }
 
+    private void handlePrint(String resultStr) {
+        String fileName=headers.get("file-name");
+        if(fileName==null){
+            System.out.println(resultStr);
+            return;
+        }
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(fileName);
+            writer.println(resultStr);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot write in file: " + fileName);
+        }
+    }
+
+    private String getResultString(Command cmd, Object result) {
+        GetCommand getCmd = (GetCommand) cmd;
+        String accept = headers.get("accept");
+
+        String resultStr = null;
+        if(accept == null ){
+            resultStr = getCmd.htmlParser.supply(result);
+        }else {
+            if(accept.equals("text/plain")){
+                resultStr= result.toString();
+            }else{
+                if(accept.equals("application/json")){
+                    resultStr = getCmd.jsonParser.supply(result).toJson();
+                }else {
+                    if(accept.equals("text/html")) {
+                        resultStr = getCmd.htmlParser.supply(result);
+                    } else
+                        System.out.println( "accept:" + accept + " not recgonized");
+                }
+            }
+        }
+
+        return resultStr;
+    }
+
+    private void fillParametersAndHeaders(String[] args, Arguments commandArguments) {
+        int parametersPos=2;
+
+        if(args.length>=4){
+            parametersPos=3;
+            fillHeaders(args[2]);
+        }
+
+        if(args.length>=3 && !isHeaders(args[parametersPos]))
+            fillArguments(args[parametersPos], commandArguments);
+        else
+            if(args.length>=3 && isHeaders(args[parametersPos])){
+                fillHeaders(args[parametersPos]);
+            }
+    }
+
+    private boolean isHeaders(String arg) {
+        String [] split= arg.split(":");
+        return split.length!=1;
+    }
+
     private void fillHeaders(String arg) {
-        String [] separated= arg.split("|");
+        String [] separated= arg.split("\\|");
         for(String div : separated) {
             String [] div2 = div.split(":");
             headers.put(div2[0],div2[1]);
@@ -72,7 +126,7 @@ public class CommandManager {
 
     public void addCommand(String str, Command cmd){
         TreeNode aux;
-        //Map<String,TreeNode> map;
+        Map<String,TreeNode> map;
         int i;
         String[] methodAndPath = str.split(" ");
         String[] divided = getDividedPath(methodAndPath[1]);
@@ -91,7 +145,9 @@ public class CommandManager {
             if(aux==null) map.put(divided[i], aux= new TreeNode());
             map=aux.getMap();
         }
-        aux=map.get(divided[i]);
+        if(divided.length!=0)
+            aux=map.get(divided[i]);
+
         if(aux==null)
             map.put(divided[i],aux= new TreeNode());
 
@@ -99,14 +155,17 @@ public class CommandManager {
     }
 
     private String[] getDividedPath(String path) {
-        String[] divided  =path.split("/");
-        return Arrays.copyOfRange(divided,1,divided.length);
+        return path.split("/");
+
     }
 
     public Command searchCommand(String[] comp,Arguments arg) throws NoSuchCommandException {
         TreeNode aux=null;
         Map<String,TreeNode> map;
         int i;
+
+        if(comp.length<2) throw new NoSuchCommandException(comp[0] );
+
         String[] divided = getDividedPath(comp[1]);
 
         map= root.getMap();
@@ -141,9 +200,5 @@ public class CommandManager {
             arg.addArgument(pair[0],pair[1].replace('+',' '));
         }
     }
-    public Map<String,TreeNode>  getMap(){
-        return map;
-    }
-
 
 }

@@ -1,11 +1,13 @@
 package pt.isel.ls.Html.Parcers;
 
+import pt.isel.ls.Html.Source.HtmlElement;
 import pt.isel.ls.Model.Template;
 
-import static pt.isel.ls.Html.Source.HtmlSupplier.*;
-import static pt.isel.ls.Html.Source.HtmlSupplier.paragraph;
+import java.util.List;
 
-public class TemplateParcer implements HtmlParcer<Template> {
+import static pt.isel.ls.Html.Source.HtmlSupplier.*;
+
+public class TemplateParser implements HtmlParser<Template> {
 
     @Override
     public String supply(Template source) {
@@ -17,4 +19,13 @@ public class TemplateParcer implements HtmlParcer<Template> {
         )).toHtml();
     }
 
+
+    private static HtmlElement makeRow(Template t) {
+        return tr().with(
+                td().withText(String.valueOf(t.id)),
+                td().withText(String.valueOf(t.name)),
+                td().withText(t.description)
+
+        );
+    }
 }

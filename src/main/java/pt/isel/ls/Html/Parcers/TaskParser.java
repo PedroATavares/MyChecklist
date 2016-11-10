@@ -1,14 +1,13 @@
 package pt.isel.ls.Html.Parcers;
 
 import pt.isel.ls.Html.Source.HtmlElement;
-import pt.isel.ls.Html.Source.HtmlNestedElement;
 import pt.isel.ls.Model.Task;
 
 import java.util.List;
 
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 
-public class TaskParcer implements HtmlParcer<Task> {
+public class TaskParser implements HtmlParser<Task> {
 
     public static HtmlElement parceList(List<Task> list){
         if(list==null || list.isEmpty()) return paragraph().withText("No Tasks To Show");
@@ -21,7 +20,8 @@ public class TaskParcer implements HtmlParcer<Task> {
                         td().withText("Due Date"),
                         td().withText("Is Closed")
                 )
-        );
+        ).withAttribute(attribute("style", "width:50%"),
+                attribute("border", "1"));
 
         for (Task t: list) {
             table.with(makeRow(t));
