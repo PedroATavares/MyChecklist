@@ -19,6 +19,7 @@ public class CommandManager {
     private TreeNode root;
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
+    private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
     public void searchAndExecute(String[] args){
 
@@ -68,13 +69,6 @@ public class CommandManager {
             headers.put(div2[0],div2[1]);
         }
     }
-
-<<<<<<< HEAD
-    private TreeNode root;
-    private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
-    private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
-=======
->>>>>>> b4b5fe8decf8c8672713b1336dca4b21838bc805
 
     public void addCommand(String str, Command cmd){
         TreeNode aux;

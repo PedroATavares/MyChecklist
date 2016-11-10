@@ -45,7 +45,8 @@ public class TagParcer implements HtmlParcer<Tag> {
                 paragraph().withText("Id: " + source.gid ),
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Color: " + source.color),
-                paragraph().withText("Checklists: " + CheckListParcer.parceList(source.checkLists))
+                h3().withText("Checklists: "),
+                CheckListParcer.parceList(source.checkLists)
         )).toHtml();
     }
 }
