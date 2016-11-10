@@ -28,6 +28,7 @@ public class CheckList {
         this.dueDate = dueDate;
         this.isClosed = isClosed;
         this.templateId=templateId;
+        this.tags=new ArrayList<>();
 
     }
 
