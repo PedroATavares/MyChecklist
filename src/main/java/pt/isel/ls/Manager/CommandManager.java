@@ -19,6 +19,7 @@ public class CommandManager {
     public TreeNode root;
     private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
+    private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
     public void searchAndExecute(String[] args){
 
