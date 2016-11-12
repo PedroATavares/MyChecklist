@@ -6,7 +6,7 @@ import pt.isel.ls.Model.TemplateTask;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
 import static pt.isel.ls.Json.Source.JsonSupplier.jsonString;
 
-public class TemplateTaskJsonParser implements JsonParcer<TemplateTask>{
+public class TemplateTaskJsonFormat implements JsonFormat<TemplateTask> {
     @Override
     public JsonElement supply(TemplateTask source) {
 

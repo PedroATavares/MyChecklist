@@ -465,13 +465,4 @@ public class CommandTests {
         con.close();
     }
 
-    @Test
-    public void test_Exit() throws SQLException, ParseException {
-        Connection  con = src.getConnection();
-
-        Exit teste = new Exit();
-        int result = teste.execute(null, null);
-    }
-
-
 }

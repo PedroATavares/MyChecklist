@@ -18,14 +18,14 @@ public class JsonObject implements JsonNestedElement{
     }
 
     @Override
-    public String toJson() {
+    public String toStr() {
         StringBuilder sb = new StringBuilder();
         if(name != null){
             sb.append('\"' + name + "\":");
         }
         sb.append("{ \n");
         for (JsonElement e :fields)
-            sb.append(e.toJson() + ", \n");
+            sb.append(e.toStr() + ", \n");
         if(sb.lastIndexOf(",")!=-1)
             sb.delete(sb.lastIndexOf(","),sb.length()-1);
 
