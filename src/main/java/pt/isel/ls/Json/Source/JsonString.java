@@ -14,7 +14,7 @@ public class JsonString implements JsonElement{
     }
 
     @Override
-    public String toJson() {
+    public String toStr() {
         if(name == null) return '\"'+ value + "\" \n";
         return '\"' + name + "\": " + '\"' + value + '\"'+ '\n';
     }

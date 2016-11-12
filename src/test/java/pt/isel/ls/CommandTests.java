@@ -369,7 +369,4 @@ public class CommandTests {
         con.rollback();
         con.close();
     }
-
-
-
 }

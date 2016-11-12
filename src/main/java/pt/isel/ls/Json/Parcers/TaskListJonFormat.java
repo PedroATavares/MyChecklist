@@ -2,20 +2,21 @@ package pt.isel.ls.Json.Parcers;
 
 import pt.isel.ls.Json.Source.JsonElement;
 import pt.isel.ls.Json.Source.JsonNestedElement;
-import pt.isel.ls.Model.CheckList;
+import pt.isel.ls.Model.Task;
 
 import java.util.List;
 
-import static pt.isel.ls.Json.Parcers.ChecklistJsonParser.makeEntitie;
+import static pt.isel.ls.Json.Parcers.TaskJsonFormat.makeEntitie;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
+import static pt.isel.ls.Json.Source.JsonSupplier.jsonArray;
 
+public class TaskListJonFormat implements JsonFormat<List<Task>> {
 
-public class ChecklistListJsonParser implements JsonParcer<List<CheckList>> {
     @Override
-      public JsonElement supply(List<CheckList> source) {
+    public JsonElement supply(List<Task> source) {
         JsonNestedElement root = jsonObject().whith(
                 jsonArray("class").whith(
-                        jsonString("checklist"),
+                        jsonString("task"),
                         jsonString("collection")
                 ),
                 jsonObject("properties").whith(
@@ -26,11 +27,10 @@ public class ChecklistListJsonParser implements JsonParcer<List<CheckList>> {
         JsonNestedElement entities=jsonArray("entities");
         root.whith(entities);
 
-        for (CheckList c : source) {
-            entities.whith(makeEntitie(c));
+        for (Task t : source) {
+            entities.whith(makeEntitie(t));
         }
         return root;
     }
-
 
 }

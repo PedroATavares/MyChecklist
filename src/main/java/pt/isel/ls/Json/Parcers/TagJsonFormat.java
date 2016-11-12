@@ -7,7 +7,7 @@ import pt.isel.ls.Model.Tag;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
 import static pt.isel.ls.Json.Source.JsonSupplier.jsonString;
 
-public class TagJsonParser implements JsonParcer<Tag> {
+public class TagJsonFormat implements JsonFormat<Tag> {
     @Override
     public JsonElement supply(Tag source) {
 
@@ -16,7 +16,7 @@ public class TagJsonParser implements JsonParcer<Tag> {
         root.whith(entities);
 
         for (CheckList t : source.checkLists) {
-            entities.whith(ChecklistJsonParser.makeEntitie(t));
+            entities.whith(CheckListJsonFormat.makeEntitie(t));
         }
         return root;
     }

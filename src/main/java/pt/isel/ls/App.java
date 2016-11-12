@@ -3,8 +3,7 @@ package pt.isel.ls;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Html.Parcers.*;
-import pt.isel.ls.Json.Parcers.ChecklistJsonParser;
-import pt.isel.ls.Json.Parcers.ChecklistListJsonParser;
+import pt.isel.ls.Json.Parcers.*;
 import pt.isel.ls.Manager.CommandManager;
 
 import java.util.Scanner;
@@ -33,16 +32,16 @@ public class App {
         manager.addCommand("POST /templates/{tid}/create",new PostTemplateInstance());
         manager.addCommand("POST /checklists/{cid}/tasks/{lid}", new ChangeTaskIsClose() );
         manager.addCommand("GET /checklists", new GetCommand( new GetAllCheckLists(),
-                new ChecklistListJsonParser(),
+                new ChecklistListJsonFormat(),
                 new ChecklistListParser()
         ));
 
         manager.addCommand("GET /checklists/{cid}", new GetCommand( new GetCheckListByID(),
-                new ChecklistJsonParser(),
+                new CheckListJsonFormat(),
                 new ChecklistParser()
         ));
         manager.addCommand("GET /templates", new GetCommand( new GetTemplates(),
-                null,
+                new TemplateJsonFormat(),
                 new TemplateParser()
         ));
         manager.addCommand("POST /checklists", new PostCheckLists() );
@@ -50,26 +49,26 @@ public class App {
         manager.addCommand("POST /templates", new PostTemplate() );
         manager.addCommand("POST /templates/{tid}/tasks", new PostTemplateTask());
         manager.addCommand("GET /templates/{tid}", new GetCommand( new GetTemplateInfoByID(),
-                null,
+                new FullTemplateJsonFormat(),
                 new FullTemplateParser()
         ));
         manager.addCommand("GET /checklists/closed", new GetCommand( new GetCheckListsClosed(),
-                new ChecklistListJsonParser(),
+                new ChecklistListJsonFormat(),
                 new ChecklistListParser()
         ));
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCommand( new GetCheckListsOpenSortedByDueDate(),
-                new ChecklistListJsonParser(),
+                new ChecklistListJsonFormat(),
                 new ChecklistListParser()
         ));
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetCommand( new GetAllUncompletedChecklistsOrderedByOpenTasks(),
-                new ChecklistListJsonParser(),
+                new ChecklistListJsonFormat(),
                 new ChecklistListParser()
         ));
         manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID());
         manager.addCommand("EXIT /", new Exit() );
         manager.addCommand("POST /tags", new PostTags());
         manager.addCommand("GET /tags", new GetCommand( new GetAllTags(),
-                null,
+                new TagListJsonFormat(),
                 new TagListParser()
         ));
         manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());

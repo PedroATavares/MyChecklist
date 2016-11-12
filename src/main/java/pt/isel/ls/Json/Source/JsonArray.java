@@ -25,13 +25,13 @@ public class JsonArray implements JsonNestedElement {
     }
 
     @Override
-    public String toJson() {
+    public String toStr() {
         StringBuilder sb = new StringBuilder();
         if(name!=null)
             sb.append('\"' + name + "\":\n");
         sb.append( "[ \n");
         for (JsonElement e :fields) {
-            sb.append(e.toJson());
+            sb.append(e.toStr());
             sb.append(", \n");
         }
         if(sb.lastIndexOf(",")!=-1)

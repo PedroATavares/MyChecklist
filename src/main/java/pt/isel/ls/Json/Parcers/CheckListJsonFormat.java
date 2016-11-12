@@ -6,7 +6,7 @@ import pt.isel.ls.Model.CheckList;
 import pt.isel.ls.Model.Task;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
 
-public class ChecklistJsonParser implements JsonParcer<CheckList> {
+public class CheckListJsonFormat implements JsonFormat<CheckList> {
         @Override
         public JsonElement supply(CheckList source) {
             JsonNestedElement root = makeEntitie(source);
@@ -14,7 +14,7 @@ public class ChecklistJsonParser implements JsonParcer<CheckList> {
             root.whith(entities);
 
             for (Task t : source.tasks) {
-                entities.whith(TaskJsonParser.makeEntitie(t));
+                entities.whith(TaskJsonFormat.makeEntitie(t));
             }
             return root;
         }

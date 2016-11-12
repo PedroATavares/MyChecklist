@@ -7,7 +7,7 @@ import static pt.isel.ls.Json.Source.JsonSupplier.*;
 import static pt.isel.ls.Json.Source.JsonSupplier.jsonBool;
 import static pt.isel.ls.Json.Source.JsonSupplier.jsonString;
 
-public class TaskJsonParser implements JsonParcer<Task>{
+public class TaskJsonFormat implements JsonFormat<Task> {
     @Override
     public JsonElement supply(Task source) {
         return makeEntitie(source);

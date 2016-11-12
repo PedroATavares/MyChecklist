@@ -2,18 +2,19 @@ package pt.isel.ls.Json.Parcers;
 
 import pt.isel.ls.Json.Source.JsonElement;
 import pt.isel.ls.Json.Source.JsonNestedElement;
-import pt.isel.ls.Model.Template;
+import pt.isel.ls.Model.TemplateTask;
 import java.util.List;
-import static pt.isel.ls.Json.Parcers.TemplateJsonParser.makeEntitie;
+import static pt.isel.ls.Json.Parcers.TemplateTaskJsonFormat.makeEntitie;
 import static pt.isel.ls.Json.Source.JsonSupplier.*;
+import static pt.isel.ls.Json.Source.JsonSupplier.jsonArray;
 
-public class TemplateListParserJson implements JsonParcer<List<Template>> {
+public class TemplateTaskListJsonFormat implements JsonFormat<List<TemplateTask>> {
     @Override
-    public JsonElement supply(List<Template> source) {
+    public JsonElement supply(List<TemplateTask> source) {
 
         JsonNestedElement root = jsonObject().whith(
                 jsonArray("class").whith(
-                        jsonString("template"),
+                        jsonString("templateTask"),
                         jsonString("collection")
                 ),
                 jsonObject("properties").whith(
@@ -23,9 +24,10 @@ public class TemplateListParserJson implements JsonParcer<List<Template>> {
         JsonNestedElement entities=jsonArray("entities");
         root.whith(entities);
 
-        for (Template c : source) {
+        for ( TemplateTask c : source) {
             entities.whith(makeEntitie(c));
         }
+
         return root;
     }
 }
