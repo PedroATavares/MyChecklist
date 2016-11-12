@@ -29,53 +29,22 @@ public class CommandTests {
 
     @BeforeClass
     public static  void initialize() throws SQLException {
-        String serverName = env.get("LS_DBCONN_TEST_SQLSRV");
+        String amb = env.get("LS_DBCONN_TEST_SQLSRV");
         HashMap<String,String> map=new HashMap<>();
-        
 
+        String div [] = amb.split(";");
 
-        src.setServerName(serverName);
-        String database=env.get("DATABASE_NAME");
-        if(database!=null)src.setDatabaseName(database);
-        src.setUser(user);
-        src.setPassword(pass);
-
-       // "sqlcmd -U <USERNAME> -P <PASSWORD> -d <DATABASE> -S <SERVER> -i <FILENAME.sql>"
-
-        StringBuilder arguments=new StringBuilder();
-        arguments.append("sqlcmd -U ");
-        arguments.append(user);
-        arguments.append(" -P ");
-        arguments.append(pass);
-        if(database!=null){
-            arguments.append(" -d ");
-            arguments.append(database);
+        for(String str: div){
+            String nameAndValue[]= str.split("=");
+            if(nameAndValue.length==2)
+                map.put(nameAndValue[0],nameAndValue[1]);
         }
-        arguments.append(" -S ");
-        arguments.append(serverName);
-        arguments.append(" -i create.sql");
 
-       // createData(arguments.toString());
+        src.setServerName(map.get("server"));
+        src.setDatabaseName(map.get("database"));
+        src.setUser(map.get("user"));
+        src.setPassword(map.get("password"));
 
-    }
-
-    private static void createData(String command){
-        try {
-            String line;
-            Process p = Runtime.getRuntime().exec(command);
-
-            BufferedReader input =
-                    new BufferedReader
-                            (new InputStreamReader(p.getInputStream()));
-            while ((line = input.readLine()) != null) {
-                System.out.println(line);
-            }
-            input.close();
-        }
-        catch (Exception err) {
-            err.printStackTrace();
-        }
-        System.out.println("done");
     }
 
     @Test
@@ -374,70 +343,6 @@ public class CommandTests {
         con.close();
 
     }
-
-    /*
-    @Test
-    public void test_PostTemplateInstance() throws SQLException {
-
-        Connection con = src.getConnection();
-
-        PostTemplateInstance teste = new PostTemplateInstance();
-        Arguments arg = new Arguments();
-        arg.addArgument("name", "Benfica");
-        arg.addArgument("description", "E o maior do mundo");
-        arg.addArgument("duedate", "01-01-2010");
-        arg.addVariableParameter("{tid}", "1");
-
-        int result = teste.execute(arg,con);
-
-        PreparedStatement stm1 = con.prepareStatement("select Checklist.tid from Checklist\n" +
-                "where Checklist.cid = ?" );
-        stm1.setInt(1, result);
-
-        ResultSet res = stm1.executeQuery();
-        res.next();
-
-        Assert.assertEquals(res.getInt(1) , 1 );
-
-        PreparedStatement stm2 = con.prepareStatement("delete from task where task.cid = " + result );
-        stm2.executeUpdate();
-        stm2 = con.prepareStatement("delete from Checklist where Checklist.cid = " + result );
-        stm2.executeUpdate();
-
-        con.close();
-    }
-*/
-
-    /*
-    @Test
-    public void test_PostTaskByID() throws SQLException, ParseException {
-        Connection con = src.getConnection();
-        con.setAutoCommit(false);
-
-        PostTaskByID teste = new PostTaskByID();
-        Arguments arg = new Arguments();
-        Integer input = 1;
-
-        arg.addArgument("name", "Goncalo");
-        arg.addArgument("description", "carrega benfas");
-        arg.addArgument("dueDate", null);
-        arg.addArgument("isClosed", "false");
-        arg.addVariableParameter("{cid}", input.toString());
-
-        int result = teste.execute(arg, con);
-        PreparedStatement stm = con.prepareStatement("select * from Task \n" +
-                "where lid = ? AND cid = ? ");
-        stm.setInt(1, result);
-        stm.setInt(2, input);
-        ResultSet res = stm.executeQuery();
-        res.next();
-        Assert.assertEquals(res.getString(3), "Goncalo");
-        Assert.assertEquals(res.getString(1), input.toString());
-
-        con.rollback();
-        con.close();
-    }
-*/
 
     @Test
     public void test_PostTagInCheckListByID() throws SQLException, ParseException {

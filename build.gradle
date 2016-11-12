@@ -2,41 +2,35 @@ apply plugin: 'java'
 
 version = '1.0'
 
+task initDbTests(type:Exec){
+    def home = System.getenv("LS_DBCONN_TEST_SQLSRV");
+    def map = [:]
+    def String[] nameAndValue = home.split(";")
 
-task initDb(type:Exec) {
-	def home = "$System.env.LS_DBCONN_APP_SQLSRV"
+    for (def i =0;i<nameAndValue.size(); i++){
+        def String[] string = nameAndValue[i].split("=")
+        map.put(string[0],string[1])
+    }
+    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'create.sql'
 
-	def (server, database, user, password) = home.split(';')
-
-	def (serverName,serverValue) = server.split('=')
-
-	def(databaseName,databaseValue) = database.split('=')
-
-	def(userName,userValue) = user.split('=')
-
-	def(passwordName,passwordValue) = password.split('=')
-
-	commandLine 'sqlcmd' ,'-U' ,userValue ,'-P' , passwordValue ,'-S' , serverValue ,'-d', databaseValue,'-i' ,'create.sql'
 }
 
-task initDbTests(type:Exec) {
-	def home = "$System.env.LS_DBCONN_TEST_SQLSRV"
+task initDb(type:Exec){
+    def home = System.getenv("LS_DBCONN_APP_SQLSRV");
+    def map = [:]
+    def String[] nameAndValue = home.split(";")
 
-	def (server, database, user, password) = home.split(';')
+    for (def i =0;i<nameAndValue.size(); i++){
+        def String[] string = nameAndValue[i].split("=")
+        map.put(string[0],string[1])
+    }
 
-	def (serverName,serverValue) = server.split('=')
-
-	def(databaseName,databaseValue) = database.split('=')
-
-	def(userName,userValue) = user.split('=')
-
-	def(passwordName,passwordValue) = password.split('=')
-
-	commandLine 'sqlcmd' ,'-U' ,userValue ,'-P' , passwordValue ,'-S' , serverValue ,'-d', databaseValue,'-i' ,'create.sql'
+    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'create.sql'
+    
 }
 
-build.dependsOn initDb
 test.dependsOn initDbTests
+build.dependsOn initDb
 
 dependencies {
     compile fileTree(dir: 'vendor/main', include: '*.jar')

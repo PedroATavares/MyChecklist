@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectionManager {
@@ -11,11 +12,21 @@ public class ConnectionManager {
     private final SQLServerDataSource src = new SQLServerDataSource();
 
     public ConnectionManager() {
-        src.setServerName(env.get("SERVER_NAME"));
-        String curr=env.get("DATABASE_NAME");
-        if(curr!=null)  src.setDatabaseName(curr);
-        src.setUser(env.get("USER"));
-        src.setPassword(env.get("PASSWORD"));
+        String amb = env.get("LS_DBCONN_APP_SQLSRV");
+        HashMap<String,String> map=new HashMap<>();
+
+        String div [] = amb.split(";");
+
+        for(String str: div){
+            String nameAndValue[]= str.split("=");
+            if(nameAndValue.length==2)
+                map.put(nameAndValue[0],nameAndValue[1]);
+        }
+
+        src.setServerName(map.get("server"));
+        src.setDatabaseName(map.get("database"));
+        src.setUser(map.get("user"));
+        src.setPassword(map.get("password"));
     }
 
     public Connection getConection(){
