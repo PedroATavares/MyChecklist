@@ -7,7 +7,7 @@ public class Tag
     public final int gid;
     public final String name;
     public final String color;
-    public final ArrayList<CheckList> checkLists;
+    public ArrayList<CheckList> checkLists;
 
 
     public Tag(int gid, String name, String color, ArrayList<CheckList> checkLists){
@@ -15,6 +15,11 @@ public class Tag
         this.name = name;
         this.color = color;
         this.checkLists = checkLists;
+    }
+    public Tag(int gid, String name, String color){
+        this.gid = gid;
+        this.name = name;
+        this.color = color;
     }
 
     @Override

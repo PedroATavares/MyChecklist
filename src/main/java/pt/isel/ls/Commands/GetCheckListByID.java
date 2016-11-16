@@ -24,23 +24,40 @@ public class GetCheckListByID implements Command {
 
     @Override
     public CheckList execute(Arguments args,Connection con) throws SQLException {
+        int cid = Integer.parseInt( args.variableParameters.get("{cid}"));
 
-        PreparedStatement stm = con.prepareStatement(" select * from Checklist \n" +
-                "INNER join Task on CheckList.cid = Task.cid \n" +
-                "where CheckList.cid = ? ");
-        stm.setInt(1, Integer.parseInt( args.variableParameters.get("{cid}") ) );
-        ResultSet rs = stm.executeQuery();
+        PreparedStatement stm1 = con.prepareStatement("select * from Checklist\n" +
+                "where cid = ?");
+        stm1.setInt(1,  cid );
+        ResultSet rs1 = stm1.executeQuery();
         CheckList cl = null;
 
-        if( rs.next()) {
-            cl = new CheckList(rs.getInt(CheckListCid),
-                    rs.getString(CheckListName),
-                    rs.getString(CheckListDescript),
-                    rs.getString(CheckListDuedate),
-                    rs.getBoolean(CheckListIsClosed),
-                    rs.getInt(CheckListTid),
-                    ToolsList.makeListFromResultSet(rs));
+        if( rs1.next()) {
+            cl = new CheckList(rs1.getInt(CheckListCid),
+                    rs1.getString(CheckListName),
+                    rs1.getString(CheckListDescript),
+                    rs1.getString(CheckListDuedate),
+                    rs1.getBoolean(CheckListIsClosed),
+                    rs1.getInt(CheckListTid));
         }
+
+        PreparedStatement stm2 = con.prepareStatement("select * from Checklist \n" +
+                "INNER join Task on CheckList.cid = Task.cid \n" +
+                "where CheckList.cid = ? ");
+        stm2.setInt(1,  cid );
+        ResultSet rs2 = stm2.executeQuery();
+        if(rs2.next())
+            cl.setTasks(ToolsList.makeTaskListFromResultSet(rs2));
+
+        PreparedStatement stm3 = con.prepareStatement("\n" +
+                "select * from TagCheckList\n" +
+                "INNER JOIN Tag on Tag.gid = TagCheckList.gid\n" +
+                "\twhere TagCheckList.cid = ?");
+        stm3.setInt(1,  cid );
+        ResultSet rs3 = stm3.executeQuery();
+        if( rs3.next())
+            cl.setTag(ToolsList.makeTagListFromResultSet(rs3));
+
         return cl;
     }
     @Override
