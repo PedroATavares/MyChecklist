@@ -25,7 +25,7 @@ task initDb(type:Exec){
         map.put(string[0],string[1])
     }
 
-    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'create.sql'
+    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'Modelo_Físico.sql'
     
 }
 

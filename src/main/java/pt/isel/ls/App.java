@@ -15,7 +15,7 @@ public class App {
 
         initialize();
 
-        if (args.length>=2)
+        if (args.length>=1)
             manager.searchAndExecute(args);
         else{
             Scanner sc = new Scanner(System.in);
@@ -41,7 +41,7 @@ public class App {
                 new ChecklistParser()
         ));
         manager.addCommand("GET /templates", new GetCommand( new GetTemplates(),
-                new TemplateJsonFormat(),
+                new TemplateListJsonFormat(),
                 new TemplateParser()
         ));
         manager.addCommand("POST /checklists", new PostCheckLists() );
