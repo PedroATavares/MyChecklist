@@ -23,7 +23,9 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                 h3().withText("Tasks"),
                 TaskParser.parceList(source.tasks),
                 h3().withText("Tags"),
-                TagParser.parceList(source.tags)
+                TagParser.parceList(source.tags),
+                h3().with(hyperlink("Back","./"))
+
         ).toHtml();
     }
 
@@ -37,7 +39,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         th().withText("Name"),
                         th().withText("Descricao"),
                         th().withText("Due Date"),
-                        th().withText("Is Closed")
+                        th().withText("Is Closed"),
+                        th().withText("Lisks")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border", "1"));
@@ -57,7 +60,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                 td().withText(c.name),
                 td().withText(c.description),
                 td().withText(c.dueDate),
-                td().withText(String.valueOf(c.isClosed))
+                td().withText(String.valueOf(c.isClosed)),
+                td().with(hyperlink("Link","/checklists/" + c.id))
 
         );
     }

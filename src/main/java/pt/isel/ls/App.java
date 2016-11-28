@@ -74,6 +74,7 @@ public class App {
         manager.addCommand("DELETE /tags/{gid}", new DeleteTagsByID());
         manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
         manager.addCommand("OPTIONS /", new OptionCommand(manager));
+        manager.addCommand("LISTEN /", new ListenCommand(manager));
 
 
 

@@ -17,9 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandManager {
-    private  final ConnectionManager conManager= new ConnectionManager();
+    public  final ConnectionManager conManager= new ConnectionManager();
     public TreeNode root;
-    private final String[] variables = new String[]{"{tid}","{cid}","{lid}"};
     private final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
@@ -72,7 +71,7 @@ public class CommandManager {
         }
     }
 
-    private String getResultString(Command cmd, Object result) {
+    public String getResultString(Command cmd, Object result) {
         GetCommand getCmd = (GetCommand) cmd;
         String accept = headers.get("accept");
 

@@ -2,6 +2,9 @@ package pt.isel.ls.Html.Source;
 
 public class HtmlSupplier {
 
+    public static HtmlElement hyperlink(String txt,String dest) {return new HtmlNestedElement("a").withText(txt)
+                                                                .withAttribute(new HtmlAttribute("href",  dest));}
+
     public static HtmlElement html(){return new HtmlNestedElement("html");}
 
     public static HtmlElement body(){return new HtmlNestedElement("body");}
