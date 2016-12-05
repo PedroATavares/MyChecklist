@@ -49,6 +49,16 @@ public class CommandManager {
             System.out.println(e.getMessage());
         } catch (ParseException e) {
             System.out.println(e.getMessage());
+        }finally{
+            try {
+                if(!con.isClosed()){
+                    con.commit();
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
 
 
