@@ -8,7 +8,6 @@ import java.util.List;
 import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 import static pt.isel.ls.Html.Source.HtmlSupplier.paragraph;
 
-
 public class TagParser implements HtmlParser<Tag> {
 
     public static HtmlElement parceList(List<Tag> tags) {
@@ -17,7 +16,8 @@ public class TagParser implements HtmlParser<Tag> {
                 tr().with(
                         th().withText("Id"),
                         th().withText("Name"),
-                        th().withText("Color")
+                        th().withText("Color"),
+                        th().withText("Link")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border","1"));
@@ -27,15 +27,14 @@ public class TagParser implements HtmlParser<Tag> {
         }
 
         return table;
-
     }
-
 
     private static HtmlElement makeRow(Tag t) {
         return tr().with(
                 td().withText(String.valueOf(t.gid)),
                 td().withText(t.name),
-                td().withText(t.color)
+                td().withText(t.color),
+                td().with(hyperlink("Link","/tags/" + t.gid))
         );
     }
 
