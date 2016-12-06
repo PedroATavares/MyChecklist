@@ -21,10 +21,13 @@ public class TemplateParser implements HtmlParser<List<Template>> {
                 )
         ).withAttribute(attribute("style", "width:50%"), attribute("border", "1"));
 
-        for (Template c: source) {
-            table.with(makeRow(c));
+        for (Template t: source) {
+            table.with(makeRow(t));
         }
-        return  html().with(body().with(table,h3().with(hyperlink("CheckLists","/checklists"))
+        return  html().with(body().with(
+                table,
+                h3().with(hyperlink("CheckLists","/checklists")),
+                h3().with(hyperlink("Home","./"))
         )).toHtml();
 
     }

@@ -4,9 +4,16 @@ import pt.isel.ls.Model.CheckList;
 
 import java.util.List;
 
+import static pt.isel.ls.Html.Source.HtmlSupplier.*;
+
 public class ChecklistListParser implements HtmlParser<List<CheckList>> {
     @Override
     public String supply(List<CheckList> source) {
-        return ChecklistParser.parceList(source).toHtml();
+        return html().with(
+                body().with(
+                        h3().withText("Checklists"),
+                        ChecklistParser.parceList(source),
+                        h3().with(hyperlink("Home","./"))
+                )).toHtml();
     }
 }
