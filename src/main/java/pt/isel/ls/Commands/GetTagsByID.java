@@ -15,10 +15,10 @@ import java.util.List;
 public class GetTagsByID implements Command {
     @Override
     public Tag execute(Arguments args, Connection con) throws SQLException, ParseException {
-        int tid = Integer.parseInt( args.variableParameters.get("{tid}"));
+        int gid = Integer.parseInt( args.variableParameters.get("{gid}"));
 
         PreparedStatement stm = con.prepareStatement("select * from Tag where(tag.gid=?)");
-        stm.setInt(1,  tid );
+        stm.setInt(1,  gid );
         ResultSet rs = stm.executeQuery();
         Tag t = new Tag(rs.getInt("gid"), rs.getString("Name"), rs.getString("Color"),null);
         return  t;

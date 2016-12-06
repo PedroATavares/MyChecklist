@@ -16,11 +16,11 @@ public class GetChecklistsByTagID implements Command
 {
     @Override
     public List<CheckList> execute(Arguments args, Connection con) throws SQLException, ParseException {
-        int tid = Integer.parseInt( args.variableParameters.get("{tid}"));
+        int gid = Integer.parseInt( args.variableParameters.get("{gid}"));
         ArrayList<CheckList> list = new ArrayList<CheckList>();
 
         PreparedStatement stm = con.prepareStatement("select * from Checklist where(checklist.tid=?)");
-        stm.setInt(1,  tid );
+        stm.setInt(1,  gid );
         ResultSet rs = stm.executeQuery();
         while (rs.next()){
             list.add(new CheckList(
