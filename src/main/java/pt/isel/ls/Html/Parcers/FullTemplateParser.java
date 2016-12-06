@@ -14,7 +14,8 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
                 h3().withText("Checklists"),
                 ChecklistParser.parceList(source.listCkL),
                 h3().withText("Tasks"),
-                TemplateTaskParser.parceList(source.listTsk)
+                TemplateTaskParser.parceList(source.listTsk),
+                h3().with(hyperlink("Templates","/templates"))
         ).toHtml();
     }
 

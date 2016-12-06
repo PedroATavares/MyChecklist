@@ -54,15 +54,15 @@ public class App {
         ));
         manager.addCommand("GET /checklists/closed", new GetCommand( new GetCheckListsClosed(),
                 new ChecklistListJsonFormat(),
-                new ChecklistListParser()
+                new CheckListClosedParser()
         ));
         manager.addCommand("GET /checklists/open/sorted/duedate", new GetCommand( new GetCheckListsOpenSortedByDueDate(),
                 new ChecklistListJsonFormat(),
-                new ChecklistListParser()
+                new CheckListSortedDuedateParser()
         ));
         manager.addCommand("GET /checklists/open/sorted/noftasks", new GetCommand( new GetAllUncompletedChecklistsOrderedByOpenTasks(),
                 new ChecklistListJsonFormat(),
-                new ChecklistListParser()
+                new CheckListSortedNofTasksParser()
         ));
         manager.addCommand("POST /checklists/{cid}/tags", new PostTagInCheckListByID());
         manager.addCommand("EXIT /", new Exit() );

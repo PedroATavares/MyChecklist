@@ -37,7 +37,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         th().withText("Id"),
                         th().withText("Template Id"),
                         th().withText("Name"),
-                        th().withText("Descricao"),
+                        th().withText("Description"),
                         th().withText("Due Date"),
                         th().withText("Is Closed"),
                         th().withText("Lisks")

@@ -14,10 +14,11 @@ public class TemplateParser implements HtmlParser<List<Template>> {
         if(source==null || source.isEmpty()) return paragraph().withText("No Templates To Show.").toHtml();
         HtmlElement table = table().with(
                 tr().with(
-                h3().withText("TEMPLATE"),
-                th().withText("Id" ),
-                th().withText("Name"),
-                th().withText("Description")
+                    h3().withText("TEMPLATE"),
+                    th().withText("Id" ),
+                    th().withText("Name"),
+                    th().withText("Description"),
+                    th().withText("Lisks")
                 )
         ).withAttribute(attribute("style", "width:50%"), attribute("border", "1"));
 
@@ -27,7 +28,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
         return  html().with(body().with(
                 table,
                 h3().with(hyperlink("CheckLists","/checklists")),
-                h3().with(hyperlink("Home","./"))
+                h3().with(hyperlink("Home","/"))
         )).toHtml();
 
     }
@@ -36,7 +37,8 @@ public class TemplateParser implements HtmlParser<List<Template>> {
         return tr().with(
                 td().withText(String.valueOf(t.id)),
                 td().withText(String.valueOf(t.name)),
-                td().withText(t.description)
+                td().withText(t.description),
+                td().with(hyperlink("Link","/templates/" + t.id))
         );
     }
 }
