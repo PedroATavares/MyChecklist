@@ -2,6 +2,7 @@ package pt.isel.ls.Server;
         import pt.isel.ls.Commands.Command;
         import pt.isel.ls.Commands.GetCommand;
         import pt.isel.ls.Exceptions.NoSuchCommandException;
+        import pt.isel.ls.Exceptions.NoSuchElementException;
         import pt.isel.ls.Logic.Arguments;
         import pt.isel.ls.Manager.CommandManager;
         import pt.isel.ls.Manager.ConnectionManager;
@@ -11,6 +12,7 @@ package pt.isel.ls.Server;
         import java.nio.charset.Charset;
         import java.sql.SQLException;
         import java.text.ParseException;
+        import java.util.ArrayList;
 
         import javax.servlet.http.HttpServlet;
         import javax.servlet.http.HttpServletRequest;
@@ -26,26 +28,31 @@ public class HttpServer extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String [] path = new String[]{req.getMethod(),req.getPathInfo()};
+        ArrayList<String> path= new ArrayList<>();
+        path.add(req.getMethod());
+        path.add(req.getPathInfo());
+
+        String s=req.getHeader("accept");
+        if (s!=null) manager.addHeader("accept",s);
 
         String respBody = null;
         try {
-            Arguments args= new Arguments();
-            Command cmd  = manager.searchCommand(path, args);
-            Object result =cmd.execute(args,manager.conManager.getConection());
-            if(cmd instanceof GetCommand) {
-                respBody = manager.getResultString(cmd, result);
-            }
+            respBody = manager.searchAndExecute(path.toArray(new String[path.size()]));
 
         } catch (NoSuchCommandException e) {
-            System.out.println("Can't find command in: " + req.getMethod() + ' ' + req.getPathInfo());
+            resp.setStatus(404);
             return;
         } catch (SQLException e) {
-            e.printStackTrace();
+            resp.setStatus(500);
+            return;
         } catch (ParseException e) {
-            e.printStackTrace();
-        }catch (NullPointerException e){
+            resp.setStatus(400);
+            return;
+        } catch (NoSuchElementException e) {
             resp.setStatus(404);
+            return;
+        }catch (NumberFormatException e){
+            resp.setStatus(400);
             return;
         }
 

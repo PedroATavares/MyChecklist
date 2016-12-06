@@ -3,6 +3,7 @@ package pt.isel.ls.Manager;
 import pt.isel.ls.Commands.Command;
 import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
+import pt.isel.ls.Exceptions.NoSuchElementException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
 
@@ -22,33 +23,27 @@ public class CommandManager {
     private final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
-    public void searchAndExecute(String[] args){
+    public String searchAndExecute(String[] args) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
 
         Arguments commandArguments = new Arguments();
         Command cmd=null;
         Connection con = conManager.getConection();
-        if(con == null) return;
+        Object result=null;
+        if(con == null) return null;
         try {
-            cmd = searchCommand(args,commandArguments);
+            cmd = searchCommand(args, commandArguments);
 
             fillParametersAndHeaders(args, commandArguments);
 
-            Object result = cmd.execute(commandArguments, con);
+            result = cmd.execute(commandArguments, con);
+            if(result == null) throw new NoSuchElementException();
 
-            if(cmd instanceof GetCommand){
-                String resultStr = getResultString(cmd, result);
-                if(resultStr!= null)
-                    handlePrint(resultStr);
+            if (cmd instanceof GetCommand) {
+                return getResultString(cmd, result);
             }
 
             headers.clear();
-        } catch (NoSuchCommandException e) {
-            System.out.println(e.getMessage());
-            return;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
+
         }finally{
             try {
                 if(!con.isClosed()){
@@ -61,10 +56,10 @@ public class CommandManager {
 
         }
 
-
+            return result.toString();
     }
 
-    private void handlePrint(String resultStr) {
+    public void handlePrint(String resultStr) {
         String fileName=headers.get("file-name");
         if(fileName==null){
             System.out.println(resultStr);
@@ -81,7 +76,7 @@ public class CommandManager {
         }
     }
 
-    public String getResultString(Command cmd, Object result) {
+    private String getResultString(Command cmd, Object result) {
         GetCommand getCmd = (GetCommand) cmd;
         String accept = headers.get("accept");
 
@@ -95,10 +90,7 @@ public class CommandManager {
                 if(accept.equals("application/json")){
                     resultStr = getCmd.jsonParser.supply(result).toStr();
                 }else {
-                    if(accept.equals("text/html")) {
                         resultStr = getCmd.htmlParser.supply(result);
-                    } else
-                        System.out.println( "accept:" + accept + " not recgonized");
                 }
             }
         }
@@ -229,4 +221,7 @@ public class CommandManager {
         }
     }
 
+    public void addHeader(String key, String value) {
+        headers.put(key,value);
+    }
 }

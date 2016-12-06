@@ -9,6 +9,6 @@ import java.util.Map;
 
 public interface Command {
 
-    public Object execute(Arguments args, Connection con) throws SQLException, ParseException;
+    public Object execute(Arguments args, Connection con) throws SQLException, ParseException,NumberFormatException;
 
 }

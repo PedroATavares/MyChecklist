@@ -9,6 +9,6 @@ import java.text.ParseException;
 public class HomeCommand implements Command {
     @Override
     public Object execute(Arguments args, Connection con) throws SQLException, ParseException {
-        return null;
+        return 0;
     }
 }
