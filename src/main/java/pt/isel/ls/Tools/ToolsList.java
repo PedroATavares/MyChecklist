@@ -1,5 +1,6 @@
 package pt.isel.ls.Tools;
 
+import pt.isel.ls.Model.CheckList;
 import pt.isel.ls.Model.Tag;
 import pt.isel.ls.Model.Task;
 
@@ -19,6 +20,12 @@ public class ToolsList {
     private static final int TagId = 1;
     private static final int TagName = 4;
     private static final int TagColor = 5;
+    private static final int CheckListID = 3;
+    private static final int CheckListName = 4;
+    private static final int CheckListDescription = 5;
+    private static final int CheckListDuedate = 6;
+    private static final int CheckListIsClosed = 7;
+    private static final int CheckListTemplateId = 8;
 
     public static ArrayList<Task> makeTaskListFromResultSet(ResultSet rs) throws SQLException {
 
@@ -43,6 +50,23 @@ public class ToolsList {
         while ( rs.next() )
         {
             arr.add(new Tag(rs.getInt(TagId), rs.getString(TagName), rs.getString(TagColor)) );
+        }
+        return arr;
+    }
+
+    public static ArrayList<CheckList> makeCheckListFromResultSet(ResultSet rs) throws SQLException {
+
+        ArrayList<CheckList> arr = new ArrayList<>();
+
+        arr.add(new CheckList(rs.getInt(CheckListID), rs.getString(CheckListName),
+                rs.getString(CheckListDescription),rs.getString(CheckListDuedate), rs.getBoolean(CheckListIsClosed),
+                rs.getInt(CheckListTemplateId)));
+
+        while ( rs.next() )
+        {
+            arr.add(new CheckList(rs.getInt(CheckListID), rs.getString(CheckListName),
+                    rs.getString(CheckListDescription),rs.getString(CheckListDuedate), rs.getBoolean(CheckListIsClosed),
+                    rs.getInt(CheckListTemplateId)));
         }
         return arr;
     }

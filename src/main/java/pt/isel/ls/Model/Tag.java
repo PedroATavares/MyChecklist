@@ -38,4 +38,5 @@ public class Tag
             }
         return sb.toString();
     }
+    public void setCheckLists(ArrayList<CheckList> cl){this.checkLists = cl;}
 }

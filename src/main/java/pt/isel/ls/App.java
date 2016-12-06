@@ -108,8 +108,11 @@ public class App {
         manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
         manager.addCommand("OPTIONS /", new OptionCommand(manager));
         manager.addCommand("LISTEN /", new ListenCommand(manager));
-        manager.addCommand("GET /checklists/{gid}/tags",new GetChecklistsByTagID());
-        manager.addCommand("GET /tags/{gid}/tags",new GetTagsByID());
+        //manager.addCommand("GET /checklists/{gid}/tags",new GetChecklistsByTagID());
+        manager.addCommand("GET /tags/{gid}", new GetCommand( new GetTagsByID(),
+                new TagJsonFormat(),
+                new TagParser()
+        ));
         manager.addCommand("GET /", new GetCommand(new HomeCommand(),null,new HomePageParser()));
 
     }

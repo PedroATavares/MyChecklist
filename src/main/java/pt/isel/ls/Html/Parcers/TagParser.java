@@ -46,7 +46,8 @@ public class TagParser implements HtmlParser<Tag> {
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Color: " + source.color),
                 h3().withText("Checklists: "),
-                ChecklistParser.parceList(source.checkLists)
+                ChecklistParser.parceList(source.checkLists),
+                h3().with(hyperlink("Back","./"))
         )).toHtml();
     }
 }

@@ -19,7 +19,8 @@ public class GetChecklistsByTagID implements Command
         int gid = Integer.parseInt( args.variableParameters.get("{gid}"));
         ArrayList<CheckList> list = new ArrayList<CheckList>();
 
-        PreparedStatement stm = con.prepareStatement("select * from Checklist where(checklist.tid=?)");
+        PreparedStatement stm = con.prepareStatement("select * from TagCheckList\n" +
+                "where TagCheckList.gid = ? ");
         stm.setInt(1,  gid );
         ResultSet rs = stm.executeQuery();
         while (rs.next()){
