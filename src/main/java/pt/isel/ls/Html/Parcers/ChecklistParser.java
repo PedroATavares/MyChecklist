@@ -40,7 +40,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         th().withText("Descricao"),
                         th().withText("Due Date"),
                         th().withText("Is Closed"),
-                        th().withText("Lisks")
+                        th().withText("Links")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border", "1"));
