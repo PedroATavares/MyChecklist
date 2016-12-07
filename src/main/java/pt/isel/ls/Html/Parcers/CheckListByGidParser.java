@@ -6,7 +6,7 @@ import static pt.isel.ls.Html.Source.HtmlSupplier.*;
 import static pt.isel.ls.Html.Source.HtmlSupplier.h3;
 import static pt.isel.ls.Html.Source.HtmlSupplier.hyperlink;
 
-public class CheckListClosedParser implements HtmlParser<List<CheckList>> {
+public class CheckListByGidParser implements HtmlParser<List<CheckList>> {
 
     @Override
     public String supply(List<CheckList> source) {
@@ -14,9 +14,7 @@ public class CheckListClosedParser implements HtmlParser<List<CheckList>> {
                 body().with(
                         h3().withText("Checklists"),
                         ChecklistParser.parceList(source),
-                        h3().with(hyperlink("Back", "/checklists"))
+                        h3().with(hyperlink("Back", "./" ))
                 )).toHtml();
     }
 }
-
-

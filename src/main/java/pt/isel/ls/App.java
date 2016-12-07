@@ -68,7 +68,6 @@ public class App {
                 new ChecklistListJsonFormat(),
                 new ChecklistListParser()
         ));
-
         manager.addCommand("GET /checklists/{cid}", new GetCommand( new GetCheckListByID(),
                 new CheckListJsonFormat(),
                 new ChecklistParser()
@@ -108,7 +107,10 @@ public class App {
         manager.addCommand("DELETE /checklists/{cid}/tags/{gid}", new DeleteCheckListWithCidBygID());
         manager.addCommand("OPTIONS /", new OptionCommand(manager));
         manager.addCommand("LISTEN /", new ListenCommand(manager));
-        //manager.addCommand("GET /checklists/{gid}/tags",new GetChecklistsByTagID());
+        manager.addCommand("GET /tags/{gid}/checklists",new GetCommand(new GetChecklistsByTagID(),
+                new ChecklistListJsonFormat(),
+                new CheckListByGidParser()
+        ));
         manager.addCommand("GET /tags/{gid}", new GetCommand( new GetTagsByID(),
                 new TagJsonFormat(),
                 new TagParser()

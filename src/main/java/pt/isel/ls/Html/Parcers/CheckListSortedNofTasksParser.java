@@ -14,8 +14,7 @@ public class CheckListSortedNofTasksParser implements HtmlParser<List<CheckList>
                 body().with(
                         h3().withText("Checklists"),
                         ChecklistParser.parceList(source),
-                        h3().with(hyperlink("Checklists", "/checklists")),
-                        h3().with(hyperlink("Home", "/"))
+                        h3().with(hyperlink("Back", "/checklists"))
                 )).toHtml();
     }
 }

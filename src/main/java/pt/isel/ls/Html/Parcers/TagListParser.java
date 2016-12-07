@@ -12,7 +12,7 @@ public class TagListParser implements HtmlParser<List<Tag>> {
         return html().with(
                 body().with(
                         h3().withText("Tags"),
-                        TagParser.parceList(source),
+                        TagAllParser.parceList(source),
                         h3().with(hyperlink("Home","/"))
                 )).toHtml();
     }

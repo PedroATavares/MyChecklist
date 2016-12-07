@@ -91,3 +91,4 @@ insert into TagCheckList (gid,cid) values (2, 3)
 insert into TagCheckList (gid,cid) values (2, 4)
 
 --select * from tag
+

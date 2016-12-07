@@ -13,9 +13,9 @@ public class ChecklistListParser implements HtmlParser<List<CheckList>> {
                 body().with(
                         h3().withText("Checklists"),
                         ChecklistParser.parceList(source),
-                        h3().with(hyperlink("Closed", "/checklists/closed")),
-                        h3().with(hyperlink("Open sorted Duedate", "/checklists/open/sorted/duedate")),
-                        h3().with(hyperlink("Open sorted number of tasks", "/checklists/open/sorted/noftasks")),
+                        h3().with(hyperlink("Checklists closed", "/checklists/closed")),
+                        h3().with(hyperlink("Checklists open sorted Duedate", "/checklists/open/sorted/duedate")),
+                        h3().with(hyperlink("Checklists open sorted number of tasks", "/checklists/open/sorted/noftasks")),
                         h3().with(hyperlink("Templates", "/templates")),
                         h3().with(hyperlink("Home","/"))
                 )).toHtml();
