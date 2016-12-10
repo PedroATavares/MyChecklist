@@ -13,6 +13,7 @@ import java.sql.Connection;
 public class ListenCommand implements Command {
 
     private final CommandManager manager;
+    private String defaultPort="8080";
 
 
     public ListenCommand(CommandManager manager) {
@@ -21,7 +22,9 @@ public class ListenCommand implements Command {
 
     @Override
     public Object execute(Arguments args, Connection con) {
-        Server server = new Server(Integer.parseInt(args.arguments.get("port")));
+        String port =args.arguments.get("port");
+        if(port==null) port=defaultPort;
+        Server server = new Server(Integer.parseInt(port));
         ServletHandler handler = new ServletHandler();
         server.setHandler(handler);
         handler.addServletWithMapping(new ServletHolder(new HttpServer(manager)), "/*");
