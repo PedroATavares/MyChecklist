@@ -20,12 +20,14 @@ public class GetTemplateInfoByID implements Command {
     }
 
     private Template tmp = null;
-    private List<CheckList> listCkl = new ArrayList<CheckList>();
-    private List<TemplateTask> listTsk = new ArrayList<TemplateTask>();
+    private List<CheckList> listCkl = null;
+    private List<TemplateTask> listTsk = null;
 
     @Override
     public FullTemplate execute(Arguments args,Connection con) throws SQLException {
 
+        listCkl= new ArrayList<CheckList>();
+        listTsk=new ArrayList<TemplateTask>();
         PreparedStatement stm1 = con.prepareStatement(" select * from Template\n" +
                 "where tid = ?");
         stm1.setInt(1, Integer.parseInt( args.variableParameters.get("{tid}") ) );

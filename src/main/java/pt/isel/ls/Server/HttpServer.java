@@ -57,7 +57,7 @@ public class HttpServer extends HttpServlet{
         }
 
         Charset utf8 = Charset.forName("utf-8");
-        resp.setContentType(String.format("text/html; charset=%s",utf8.name()));
+        setContentType(resp);
         byte[] respBodyBytes = respBody.getBytes(utf8);
         resp.setStatus(200);
         resp.setContentLength(respBodyBytes.length);
@@ -65,5 +65,25 @@ public class HttpServer extends HttpServlet{
         os.write(respBodyBytes);
         os.close();
 
+    }
+
+    private void setContentType(HttpServletResponse resp) {
+        Charset utf8 = Charset.forName("utf-8");
+        String accept=manager.headers.get("accept");
+
+        switch (accept) {
+            case"application/json":
+                resp.setContentType(String.format("application/json; charset=%s",utf8.name()));
+                break;
+            case"text/html":
+                resp.setContentType(String.format("text/html; charset=%s",utf8.name()));
+                break;
+            case"text/plain":
+                resp.setContentType(String.format("text/plain; charset=%s",utf8.name()));
+                break;
+            default:
+                resp.setContentType(String.format("text/html; charset=%s",utf8.name()));
+                break;
+        }
     }
 }

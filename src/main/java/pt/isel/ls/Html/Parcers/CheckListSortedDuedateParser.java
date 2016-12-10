@@ -14,7 +14,8 @@ public class CheckListSortedDuedateParser implements HtmlParser<List<CheckList>>
                 body().with(
                         h3().withText("Checklists"),
                         ChecklistParser.parceList(source),
-                        h3().with(hyperlink("Back", "/checklists"))
+                        h3().with(hyperlink("Back", "/checklists")),
+                        h3().with(hyperlink("Home", "/"))
                 )).toHtml();
     }
 }

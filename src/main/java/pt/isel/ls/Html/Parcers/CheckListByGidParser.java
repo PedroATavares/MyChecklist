@@ -14,7 +14,8 @@ public class CheckListByGidParser implements HtmlParser<List<CheckList>> {
                 body().with(
                         h3().withText("Checklists"),
                         ChecklistParser.parceList(source),
-                        h3().with(hyperlink("Back", "./" ))
+                        h3().with(hyperlink("Back", "./" )),
+                        h3().with(hyperlink("Home", "/" ))
                 )).toHtml();
     }
 }

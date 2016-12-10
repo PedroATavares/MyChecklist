@@ -20,7 +20,7 @@ import java.util.Set;
 public class CommandManager {
     public  final ConnectionManager conManager= new ConnectionManager();
     public TreeNode root;
-    private final Map<String,String> headers = new HashMap();
+    public final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
     public String searchAndExecute(String[] args) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
@@ -59,9 +59,10 @@ public class CommandManager {
             return result.toString();
     }
 
+
     public void handlePrint(String resultStr) {
-        String fileName=headers.get("file-name");
-        if(fileName==null){
+        String fileName = headers.get("file-name");
+        if (fileName == null) {
             System.out.println(resultStr);
             return;
         }
@@ -76,7 +77,7 @@ public class CommandManager {
         }
     }
 
-    private String getResultString(Command cmd, Object result) {
+    public String getResultString(Command cmd, Object result) {
         GetCommand getCmd = (GetCommand) cmd;
         String accept = headers.get("accept");
 
