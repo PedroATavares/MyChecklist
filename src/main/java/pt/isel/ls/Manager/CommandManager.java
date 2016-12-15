@@ -45,18 +45,12 @@ public class CommandManager {
             headers.clear();
 
         }finally{
-            try {
-                if(!con.isClosed()){
-                    con.commit();
-                    con.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+            if(con!=null){
+                con.close();
             }
-
         }
 
-            return result.toString();
+        return result.toString();
     }
 
 

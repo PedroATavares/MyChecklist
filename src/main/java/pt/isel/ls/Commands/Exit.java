@@ -11,18 +11,19 @@ public class Exit implements Command {
     }
 
     @Override
-    public Integer execute(Arguments args, Connection con) throws SQLException, ParseException {
+    public String execute(Arguments args, Connection con) throws SQLException, ParseException {
         System.out.println("Exit done ");
+        /*
         try {
             if(!con.isClosed()){
-                con.commit();
                 con.close();
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         System.exit(0);
-        return 0;
+        */
+        return "EXIT";
     }
 
     @Override

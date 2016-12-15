@@ -43,6 +43,7 @@ public class App {
                 String input = sc.nextLine();
                 try {
                     result=manager.searchAndExecute(input.split(" "));
+                    if(result.equals("EXIT"))break;
                     manager.handlePrint(result);
                 } catch (NoSuchCommandException e) {
                     System.out.println(e.getMessage());
