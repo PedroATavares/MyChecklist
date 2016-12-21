@@ -27,6 +27,13 @@ public class TemplateParser implements HtmlParser<List<Template>> {
         }
         return  html().with(body().with(
                 table,
+                form("/templates").with(
+                        br().withText("Name:"),
+                        inputTxt("name"),
+                        br().withText("Description:"),
+                        inputTxt("description"),
+                        inputSubmit()
+                ),
                 h3().with(hyperlink("CheckLists","/checklists")),
                 h3().with(hyperlink("Home","/"))
         )).toHtml();

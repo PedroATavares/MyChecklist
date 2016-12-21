@@ -13,16 +13,7 @@ public class Exit implements Command {
     @Override
     public String execute(Arguments args, Connection con) throws SQLException, ParseException {
         System.out.println("Exit done ");
-        /*
-        try {
-            if(!con.isClosed()){
-                con.close();
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        System.exit(0);
-        */
+
         return "EXIT";
     }
 

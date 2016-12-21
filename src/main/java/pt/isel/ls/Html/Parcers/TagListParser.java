@@ -13,6 +13,13 @@ public class TagListParser implements HtmlParser<List<Tag>> {
                 body().with(
                         h3().withText("Tags"),
                         TagAllParser.parceList(source),
+                        form("/tags").with(
+                                br().withText("Name:"),
+                                inputTxt("name"),
+                                br().withText("Color:"),
+                                inputTxt("color"),
+                                inputSubmit()
+                        ),
                         h3().with(hyperlink("Home","/"))
                 )).toHtml();
     }
