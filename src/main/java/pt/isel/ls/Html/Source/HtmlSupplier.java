@@ -5,7 +5,21 @@ public class HtmlSupplier {
     public static HtmlElement hyperlink(String txt,String dest) {return new HtmlNestedElement("a").withText(txt)
                                                                 .withAttribute(new HtmlAttribute("href",  dest));}
 
+    public static HtmlElement form(String action){return new HtmlNestedElement("form")
+            .withAttribute(new HtmlAttribute("action", action))
+            .withAttribute(new HtmlAttribute("method","post"));}
+
+    public static HtmlElement inputTxt(String name){return new HtmlNestedElement("input")
+            .withAttribute(new HtmlAttribute("type", "text"))
+            .withAttribute(new HtmlAttribute("name", name));}
+
+    public static HtmlElement inputSubmit(){return new HtmlNestedElement("input")
+            .withAttribute(new HtmlAttribute("type", "submit"))
+            .withAttribute(new HtmlAttribute("value", "Submit"));}
+
     public static HtmlElement html(){return new HtmlNestedElement("html");}
+
+    public static HtmlElement br(){return new HtmlNestedElement("br");}
 
     public static HtmlElement body(){return new HtmlNestedElement("body");}
 

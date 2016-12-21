@@ -23,9 +23,7 @@ public class CommandManager {
     public final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
 
-    public String searchAndExecute(String[] args) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
-
-        Arguments commandArguments = new Arguments();
+    public String searchAndExecute(String[] args, Arguments commandArguments) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
         Command cmd=null;
         Connection con = conManager.getConection();
         Object result=null;
@@ -53,7 +51,9 @@ public class CommandManager {
         return result.toString();
     }
 
-
+    public String searchAndExecute(String[] args) throws SQLException, NoSuchCommandException, NoSuchElementException, ParseException {
+        return searchAndExecute(args,new Arguments());
+    }
     public void handlePrint(String resultStr) {
         String fileName = headers.get("file-name");
         if (fileName == null) {

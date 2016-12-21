@@ -33,6 +33,15 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                 TaskParser.parceList(source.tasks),
                 h3().withText("Tags"),
                 TagParser.parceList(source.tags),
+                form("/checklists/" + source.id + "/tasks").with(
+                        br().withText("Name:"),
+                        inputTxt("name"),
+                        br().withText("Description:"),
+                        inputTxt("description"),
+                        br().withText("Due Date in format yyyy-mm-dd:"),
+                        inputTxt("dueDate"),
+                        inputSubmit()
+                ),
                 h3().with(hyperlink("Back","./")),
                 h3().with(hyperlink("Home","/"))
         );

@@ -29,7 +29,7 @@ public class PostTaskByID implements Command {
             con.setAutoCommit(false);
 
             Date dueDate=null;
-            if(dueDateStr!=null) {
+            if(dueDateStr!=null && dueDateStr!="") {
                 dueDate = ft.parse(dueDateStr);
             }
 

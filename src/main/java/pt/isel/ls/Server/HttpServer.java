@@ -13,7 +13,9 @@ package pt.isel.ls.Server;
         import java.sql.SQLException;
         import java.text.ParseException;
         import java.util.ArrayList;
+        import java.util.Map;
 
+        import javax.servlet.ServletException;
         import javax.servlet.http.HttpServlet;
         import javax.servlet.http.HttpServletRequest;
         import javax.servlet.http.HttpServletResponse;
@@ -25,19 +27,31 @@ public class HttpServer extends HttpServlet{
         this.manager = manager;
     }
 
+
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doMethod(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doMethod(req,resp);
+    }
+
+    public void doMethod(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         ArrayList<String> path= new ArrayList<>();
         path.add(req.getMethod());
         path.add(req.getPathInfo());
+        Arguments arguments= new Arguments();
+        req.getParameterMap().forEach((key,value)-> arguments.addArgument(key,value[0]));
 
         String s=req.getHeader("accept");
         if (s!=null) manager.addHeader("accept",s);
 
         String respBody = null;
         try {
-            respBody = manager.searchAndExecute(path.toArray(new String[path.size()]));
+            respBody = manager.searchAndExecute(path.toArray(new String[path.size()]),arguments);
 
         } catch (NoSuchCommandException e) {
             resp.setStatus(404);
