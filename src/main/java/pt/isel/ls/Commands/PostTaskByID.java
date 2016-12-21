@@ -29,7 +29,7 @@ public class PostTaskByID implements Command {
             con.setAutoCommit(false);
 
             Date dueDate=null;
-            if(dueDateStr!=null && dueDateStr!="") {
+            if(dueDateStr!=null || dueDateStr!="") {
                 dueDate = ft.parse(dueDateStr);
             }
 
@@ -40,7 +40,11 @@ public class PostTaskByID implements Command {
 
             stm.setString(1,name );
             stm.setString(2,desc );
-            stm.setString(3, dueDateStr);
+
+            if (dueDateStr!=null && dueDateStr!="")
+                stm.setString(3,dueDateStr);
+            else
+                stm.setString(3, null);
             stm.setInt(4, cid);
 
             stm.executeUpdate();

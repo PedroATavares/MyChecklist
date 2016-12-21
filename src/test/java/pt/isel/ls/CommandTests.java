@@ -86,7 +86,7 @@ public class CommandTests {
     }
 
     @Test
-    public void test_PostCheckLists() throws SQLException {
+    public void test_PostCheckLists() throws SQLException, ParseException {
         Connection  con = src.getConnection();
         con.setAutoCommit(false);
 

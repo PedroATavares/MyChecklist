@@ -36,17 +36,19 @@ public class PostTemplateInstance implements Command {
             String desc = args.arguments.get("description");
             String dueDate = args.arguments.get("dueDate");
 
-           if( !selectRs.next()) {
+          /* if( !selectRs.next()) {
                PreparedStatement selectTemplate= con.prepareStatement("select * from Template \n" +
                        "where tid = ?");
+               selectTemplate.setInt(1, tid);
                selectRs = selectTemplate.executeQuery();
                hasTasks=false;
            }
-
+*/
             if (name == null)
                 name = selectRs.getString(TempName);
             if (desc == null)
                 desc = selectRs.getString(TempDescript);
+
             selectRs.beforeFirst();
 
             PreparedStatement stm2 = con.prepareStatement("insert into Checklist (Name, Descrip, DueDate, tid)" +
@@ -54,7 +56,10 @@ public class PostTemplateInstance implements Command {
                     Statement.RETURN_GENERATED_KEYS);
             stm2.setString(1, name);
             stm2.setString(2, desc);
-            stm2.setString(3, dueDate);
+            if(dueDate!=null && dueDate!="")
+                stm2.setString(3, dueDate);
+            else
+                stm2.setString(3, null);
             stm2.setInt(4, tid);
 
             stm2.executeUpdate();

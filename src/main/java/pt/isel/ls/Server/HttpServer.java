@@ -10,6 +10,7 @@ package pt.isel.ls.Server;
         import java.io.IOException;
         import java.io.OutputStream;
         import java.nio.charset.Charset;
+        import java.sql.Connection;
         import java.sql.SQLException;
         import java.text.ParseException;
         import java.util.ArrayList;
@@ -45,12 +46,14 @@ public class HttpServer extends HttpServlet{
         path.add(req.getPathInfo());
         Arguments arguments= new Arguments();
         req.getParameterMap().forEach((key,value)-> arguments.addArgument(key,value[0]));
+        Command cmd=null;
 
         String s=req.getHeader("accept");
         if (s!=null) manager.addHeader("accept",s);
 
         String respBody = null;
         try {
+
             respBody = manager.searchAndExecute(path.toArray(new String[path.size()]),arguments);
 
         } catch (NoSuchCommandException e) {

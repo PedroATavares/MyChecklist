@@ -3,6 +3,10 @@ package pt.isel.ls.Commands;
 import pt.isel.ls.Logic.Arguments;
 
 import java.sql.*;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class PostCheckLists implements Command {
 
@@ -12,16 +16,18 @@ public class PostCheckLists implements Command {
     }
 
     @Override
-    public Integer execute(Arguments args,Connection con) throws SQLException {
+    public Integer execute(Arguments args,Connection con) throws SQLException, ParseException {
 
         PreparedStatement stm = con.prepareStatement("insert into CheckList(Name, Descrip, DueDate)" +
                 " values ( ? ,?, ?)", Statement.RETURN_GENERATED_KEYS);
         stm.setString(1, args.arguments.get("name"));
         stm.setString(2, args.arguments.get("description"));
-        String date= args.arguments.get("dueDate");
-        if(date==null) stm.setDate(3, null);
+        String dueDateStr= args.arguments.get("dueDate");
+
+        if (dueDateStr!=null && dueDateStr!="")
+            stm.setString(3,dueDateStr);
         else
-        stm.setDate(3, java.sql.Date.valueOf(args.arguments.get("dueDate")));
+            stm.setString(3, null);
 
         stm.executeUpdate();
         ResultSet rs = stm.getGeneratedKeys();
