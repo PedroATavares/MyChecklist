@@ -1,8 +1,11 @@
 package pt.isel.ls.Commands;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
 import pt.isel.ls.Manager.CommandManager;
+import pt.isel.ls.Server.HttpServer;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,9 +15,11 @@ import java.util.Set;
 
 public class OptionCommand implements Command {
     CommandManager manager;
+    private Logger logger;
 
     public OptionCommand(CommandManager manager) {
         this.manager = manager;
+        logger = LoggerFactory.getLogger(HttpServer.class);
     }
 
     @Override
@@ -28,7 +33,7 @@ public class OptionCommand implements Command {
         Map<String,TreeNode> map=root.getMap();
         Command cmd= root.getCmd();
         if(cmd !=null) {
-            System.out.println(cmd.toString());
+            logger.info(cmd.toString());
         }
         if(map.isEmpty()) return;
 

@@ -14,7 +14,6 @@ public class PostTaskByID implements Command {
     private static final int dueDatePos=1;
 
     public PostTaskByID() {
-
     }
 
     @Override
@@ -83,7 +82,6 @@ public class PostTaskByID implements Command {
             throw e;
         } catch (ParseException e) {
             con.rollback();
-            System.out.print("Unparseable using " + ft);
             throw e;
         }
     }
