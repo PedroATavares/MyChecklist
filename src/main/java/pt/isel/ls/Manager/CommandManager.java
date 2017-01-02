@@ -22,22 +22,22 @@ public class CommandManager {
     public TreeNode root;
     public final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
+    private Command lastCommand=null;
 
     public String searchAndExecute(String[] args, Arguments commandArguments) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
-        Command cmd=null;
         Connection con = conManager.getConection();
         Object result=null;
         if(con == null) return null;
         try {
-            cmd = searchCommand(args, commandArguments);
+            lastCommand = searchCommand(args, commandArguments);
 
             fillParametersAndHeaders(args, commandArguments);
 
-            result = cmd.execute(commandArguments, con);
+            result = lastCommand.execute(commandArguments, con);
             if(result == null) throw new NoSuchElementException();
 
-            if (cmd instanceof GetCommand) {
-                return getResultString(cmd, result);
+            if (lastCommand instanceof GetCommand) {
+                return getResultString(lastCommand, result);
             }
 
             headers.clear();
@@ -189,15 +189,6 @@ public class CommandManager {
 
                 aux=map.get(variable);
                 arg.addVariableParameter(variable,divided[i]);
-                /*
-                int k;
-                for (k=0;k<variables.length;k++){
-                    aux=map.get(variables[k]);
-                    if(aux!=null) break;
-                }
-                if (aux==null) throw new NoSuchCommandException(comp[0] + comp[1]);
-                arg.addVariableParameter(variables[k],divided[i]);
-                */
             }
             map=aux.getMap();
         }
@@ -218,5 +209,10 @@ public class CommandManager {
 
     public void addHeader(String key, String value) {
         headers.put(key,value);
+    }
+
+
+    public Command getLastCommand() {
+        return lastCommand;
     }
 }
