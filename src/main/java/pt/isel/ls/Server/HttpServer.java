@@ -86,12 +86,10 @@ public class HttpServer extends HttpServlet{
         setContentType(resp);
         byte[] respBodyBytes = respBody.getBytes(utf8);
         logger.info("Request has no error");
-
         resp.setStatus(200);
         resp.setContentLength(respBodyBytes.length);
         OutputStream os = resp.getOutputStream();
-        logger.info(respBody);
-        os.write(respBodyBytes);
+
         os.close();
 
     }
