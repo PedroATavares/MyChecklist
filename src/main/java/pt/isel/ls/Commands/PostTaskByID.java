@@ -1,7 +1,10 @@
 package pt.isel.ls.Commands;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.isel.ls.Logic.Arguments;
+import pt.isel.ls.Server.HttpServer;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -12,9 +15,10 @@ import java.util.Date;
 public class PostTaskByID implements Command {
 
     private static final int dueDatePos=1;
+    private Logger logger;
 
     public PostTaskByID() {
-
+        logger = LoggerFactory.getLogger(HttpServer.class);
     }
 
     @Override
@@ -83,7 +87,7 @@ public class PostTaskByID implements Command {
             throw e;
         } catch (ParseException e) {
             con.rollback();
-            System.out.print("Unparseable using " + ft);
+            logger.info("Unparseable using of " + ft);
             throw e;
         }
     }

@@ -1,11 +1,14 @@
 package pt.isel.ls.Manager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.isel.ls.Commands.Command;
 import pt.isel.ls.Commands.GetCommand;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Exceptions.NoSuchElementException;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Logic.TreeNode;
+import pt.isel.ls.Server.HttpServer;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -22,6 +25,7 @@ public class CommandManager {
     public TreeNode root;
     public final Map<String,String> headers = new HashMap();
     private Map<String,TreeNode> map; // para ser acedido no comando OPTIONS
+    private Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
     public String searchAndExecute(String[] args, Arguments commandArguments) throws NoSuchCommandException, SQLException, ParseException, NoSuchElementException {
         Command cmd=null;
@@ -57,7 +61,7 @@ public class CommandManager {
     public void handlePrint(String resultStr) {
         String fileName = headers.get("file-name");
         if (fileName == null) {
-            System.out.println(resultStr);
+            logger.info(resultStr);
             return;
         }
 
@@ -67,7 +71,7 @@ public class CommandManager {
             writer.println(resultStr);
             writer.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot write in file: " + fileName);
+            logger.info("Cannot write in file: " + fileName);
         }
     }
 
