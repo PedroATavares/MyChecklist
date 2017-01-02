@@ -55,6 +55,7 @@ public class HttpServer extends HttpServlet{
         try {
 
             respBody = manager.searchAndExecute(path.toArray(new String[path.size()]),arguments);
+            cmd = manager.getLastCommand();
 
         } catch (NoSuchCommandException e) {
             resp.setStatus(404);
@@ -73,15 +74,21 @@ public class HttpServer extends HttpServlet{
             return;
         }
 
-        Charset utf8 = Charset.forName("utf-8");
-        setContentType(resp);
-        byte[] respBodyBytes = respBody.getBytes(utf8);
-        resp.setStatus(200);
-        resp.setContentLength(respBodyBytes.length);
-        OutputStream os = resp.getOutputStream();
-        os.write(respBodyBytes);
-        os.close();
-
+        if (cmd instanceof GetCommand){
+            Charset utf8 = Charset.forName("utf-8");
+            setContentType(resp);
+            byte[] respBodyBytes = respBody.getBytes(utf8);
+            resp.setStatus(200);
+            resp.setContentLength(respBodyBytes.length);
+            OutputStream os = resp.getOutputStream();
+            os.write(respBodyBytes);
+            os.close();
+        }else{
+            String destPath = arguments.arguments.get("reload");
+            if(destPath == null) destPath = arguments.arguments.get("dest")+ respBody;
+            resp.addHeader("Location",destPath);
+            resp.setStatus(303);
+        }
     }
 
     private void setContentType(HttpServletResponse resp) {
