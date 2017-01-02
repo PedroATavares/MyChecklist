@@ -1,15 +1,12 @@
 package pt.isel.ls;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Exceptions.NoSuchElementException;
 import pt.isel.ls.Html.Parcers.*;
 import pt.isel.ls.Json.Parcers.*;
 import pt.isel.ls.Manager.CommandManager;
-import pt.isel.ls.Server.HttpServer;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -17,24 +14,23 @@ import java.util.Scanner;
 
 public class App {
     private static final CommandManager manager= new CommandManager();
-    private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
-    public static void  main(String [] args) throws SQLServerException {
+    public  static void  main(String [] args) throws SQLServerException {
 
         initialize();
         if (args.length >= 1)
             try {
                 manager.searchAndExecute(args);
             } catch (NoSuchCommandException e) {
-                logger.info(e.getMessage());
+                System.out.print(e.getMessage());
             } catch (ParseException e) {
-                logger.info(e.getMessage());
+                System.out.print(e.getMessage());
             } catch (SQLException e) {
-                logger.info(e.getMessage());
+                System.out.print(e.getMessage());
             }catch (NumberFormatException e){
-                logger.info(e.getMessage());
+                System.out.println(e.getMessage());
             } catch (NoSuchElementException e) {
-               logger.info(e.getMessage());
+               System.out.println(e.getMessage());
             }
 
         else {
@@ -43,23 +39,23 @@ public class App {
             Scanner sc = new Scanner(System.in);
 
             while (true) {
-                logger.info(">");
+                System.out.print('>');
                 String input = sc.nextLine();
                 try {
                     result=manager.searchAndExecute(input.split(" "));
                     if(result.equals("EXIT"))break;
                     manager.handlePrint(result);
                 } catch (NoSuchCommandException e) {
-                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 } catch (ParseException e) {
-                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 } catch (SQLException e) {
-                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 }catch (NumberFormatException e){
-                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 }catch (NullPointerException e){
                 } catch (NoSuchElementException e) {
-                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 }
             }
         }
