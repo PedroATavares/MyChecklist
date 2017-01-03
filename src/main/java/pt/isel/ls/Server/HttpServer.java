@@ -12,8 +12,11 @@ package pt.isel.ls.Server;
         import java.nio.charset.Charset;
         import java.sql.Connection;
         import java.sql.SQLException;
+        import java.text.DateFormat;
         import java.text.ParseException;
+        import java.text.SimpleDateFormat;
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.Map;
 
         import javax.servlet.ServletException;
@@ -26,13 +29,16 @@ package pt.isel.ls.Server;
 public class HttpServer extends HttpServlet{
     private final CommandManager manager;
     private Logger logger;
+    private DateFormat dateFormat;
+    private Date date;
 
     public HttpServer(CommandManager manager) {
         this.manager = manager;
         logger = LoggerFactory.getLogger(HttpServer.class);
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        date = new Date();
     }
-
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doMethod(req,resp);
@@ -62,24 +68,29 @@ public class HttpServer extends HttpServlet{
             cmd = manager.getLastCommand();
 
         } catch (NoSuchCommandException e) {
-            logger.info("The command being requested does not exist.");
+            //logger.info("The command being requested does not exist. Status code 404 \n");
             resp.setStatus(404);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 404");
             return;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            //logger.info(e.getMessage() + ". Status code 500\n");
             resp.setStatus(500);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 500");
             return;
         } catch (ParseException e) {
-            logger.info("Some error has been reached unexpectedly while parsing.");
+            //logger.info("Some error has been reached unexpectedly while parsing. Status code 400\n");
             resp.setStatus(400);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 400");
             return;
         } catch (NoSuchElementException e) {
-            logger.info("The element being requested does not exist.");
+            //logger.info("The element being requested does not exist. Status code 404\n");
             resp.setStatus(404);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 404");
             return;
         }catch (NumberFormatException e){
-            logger.info("The application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format.");
+            //logger.info("The application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format. Status code 400\n");
             resp.setStatus(400);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 400");
             return;
         }
 
@@ -87,8 +98,8 @@ public class HttpServer extends HttpServlet{
             Charset utf8 = Charset.forName("utf-8");
             setContentType(resp);
             byte[] respBodyBytes = respBody.getBytes(utf8);
-            logger.info("Request has no error");
             resp.setStatus(200);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | Status code 200");
             resp.setContentLength(respBodyBytes.length);
             OutputStream os = resp.getOutputStream();
             os.write(respBodyBytes);
@@ -98,6 +109,7 @@ public class HttpServer extends HttpServlet{
             if(destPath == null) destPath = arguments.arguments.get("dest")+ respBody;
             resp.addHeader("Location",destPath);
             resp.setStatus(303);
+            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 303");
         }
     }
 
