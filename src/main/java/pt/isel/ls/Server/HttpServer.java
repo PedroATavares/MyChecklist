@@ -30,15 +30,14 @@ public class HttpServer extends HttpServlet{
     private final CommandManager manager;
     private Logger logger;
     private DateFormat dateFormat;
-    private Date date;
+    private HttpStatusCode statusCode;
 
     public HttpServer(CommandManager manager) {
         this.manager = manager;
         logger = LoggerFactory.getLogger(HttpServer.class);
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        date = new Date();
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doMethod(req,resp);
@@ -68,29 +67,24 @@ public class HttpServer extends HttpServlet{
             cmd = manager.getLastCommand();
 
         } catch (NoSuchCommandException e) {
-            //logger.info("The command being requested does not exist. Status code 404 \n");
-            resp.setStatus(404);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 404");
+            resp.setStatus(statusCode.NotFound.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
             return;
         } catch (SQLException e) {
-            //logger.info(e.getMessage() + ". Status code 500\n");
-            resp.setStatus(500);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 500");
+            resp.setStatus(statusCode.InternalServerError.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.InternalServerError.valueOf());
             return;
         } catch (ParseException e) {
-            //logger.info("Some error has been reached unexpectedly while parsing. Status code 400\n");
-            resp.setStatus(400);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 400");
+            resp.setStatus(statusCode.BadRequest.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
             return;
         } catch (NoSuchElementException e) {
-            //logger.info("The element being requested does not exist. Status code 404\n");
-            resp.setStatus(404);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 404");
+            resp.setStatus(statusCode.NotFound.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
             return;
         }catch (NumberFormatException e){
-            //logger.info("The application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format. Status code 400\n");
-            resp.setStatus(400);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 400");
+            resp.setStatus(statusCode.BadRequest.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
             return;
         }
 
@@ -98,8 +92,8 @@ public class HttpServer extends HttpServlet{
             Charset utf8 = Charset.forName("utf-8");
             setContentType(resp);
             byte[] respBodyBytes = respBody.getBytes(utf8);
-            resp.setStatus(200);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | Status code 200");
+            resp.setStatus(statusCode.Ok.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | Status code " + statusCode.Ok.valueOf() );
             resp.setContentLength(respBodyBytes.length);
             OutputStream os = resp.getOutputStream();
             os.write(respBodyBytes);
@@ -108,8 +102,8 @@ public class HttpServer extends HttpServlet{
             String destPath = arguments.arguments.get("reload");
             if(destPath == null) destPath = arguments.arguments.get("dest")+ respBody;
             resp.addHeader("Location",destPath);
-            resp.setStatus(303);
-            logger.info( dateFormat.format(date) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code 303");
+            resp.setStatus(statusCode.SeeOther.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.SeeOther.valueOf());
         }
     }
 
