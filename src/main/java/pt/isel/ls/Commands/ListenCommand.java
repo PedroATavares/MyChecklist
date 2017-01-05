@@ -33,7 +33,7 @@ public class ListenCommand implements Command {
         server.setHandler(handler);
         handler.addServletWithMapping(new ServletHolder(new HttpServer(manager)), "/*");
         try {
-            logger.info("The server started in the port: " + defaultPort );
+            logger.info("The server started in the port: " + port );
             server.start();
         } catch (Exception e) {
             logger.info("The error: " + e.getMessage() + " has been reached, so the server was shutdown");

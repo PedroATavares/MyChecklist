@@ -71,6 +71,7 @@ public class HttpServer extends HttpServlet{
             logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.NotFound.valueOf(),true));
             return;
         } catch (SQLException e) {
+            logger.info("----------SQL Exception --------");
             resp.setStatus(statusCode.InternalServerError.valueOf());
             logger.info(getLoggerStr(req.getMethod(), req.getPathInfo(), statusCode.InternalServerError.valueOf(), true));
             return;

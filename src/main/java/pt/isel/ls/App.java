@@ -22,7 +22,7 @@ public class App {
 
         initialize();
         Logger logger = LoggerFactory.getLogger(App.class);
-        
+
         Command cmd=new ListenCommand(manager);
 
         try {
