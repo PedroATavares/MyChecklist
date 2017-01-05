@@ -20,6 +20,7 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
                         inputTxt("description"),
                         br().withText("Due Date in format yyyy-mm-dd:"),
                         inputTxt("dueDate"),
+                        hiddenInput("/checklists/","dest"),
                         inputSubmit()
                 ),
                 h3().withText("Tasks"),
@@ -29,6 +30,7 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
                         inputTxt("name"),
                         br().withText("Description:"),
                         inputTxt("description"),
+                        hiddenInput("/templates/" + source.temp.id,"reload"),
                         inputSubmit()
                 ),
                 h3().with(hyperlink("Templates","/templates")),
