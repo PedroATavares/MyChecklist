@@ -11,4 +11,9 @@ public class HomeCommand implements Command {
     public Object execute(Arguments args, Connection con) throws SQLException, ParseException {
         return 0;
     }
+    @Override
+    public String toString() {
+        return "Home - pagina inicial .\n";
+    }
+
 }

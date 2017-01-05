@@ -12,8 +12,11 @@ package pt.isel.ls.Server;
         import java.nio.charset.Charset;
         import java.sql.Connection;
         import java.sql.SQLException;
+        import java.text.DateFormat;
         import java.text.ParseException;
+        import java.text.SimpleDateFormat;
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.Map;
 
         import javax.servlet.ServletException;
@@ -26,12 +29,14 @@ package pt.isel.ls.Server;
 public class HttpServer extends HttpServlet{
     private final CommandManager manager;
     private Logger logger;
+    private DateFormat dateFormat;
+    private HttpStatusCode statusCode;
 
     public HttpServer(CommandManager manager) {
         this.manager = manager;
         logger = LoggerFactory.getLogger(HttpServer.class);
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,24 +67,24 @@ public class HttpServer extends HttpServlet{
             cmd = manager.getLastCommand();
 
         } catch (NoSuchCommandException e) {
-            logger.info("The command being requested does not exist."); // dizer o erro
-            resp.setStatus(404);
+            resp.setStatus(statusCode.NotFound.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
             return;
         } catch (SQLException e) {
-            logger.info(e.getMessage()); // nao sei oque dizer
-            resp.setStatus(500);
+            resp.setStatus(statusCode.InternalServerError.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.InternalServerError.valueOf());
             return;
         } catch (ParseException e) {
-            logger.info("Some error has been reached unexpectedly while parsing.");
-            resp.setStatus(400);
+            resp.setStatus(statusCode.BadRequest.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
             return;
         } catch (NoSuchElementException e) {
-            logger.info("The element being requested does not exist.");
-            resp.setStatus(404);
+            resp.setStatus(statusCode.NotFound.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
             return;
         }catch (NumberFormatException e){
-            logger.info("The application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format.");
-            resp.setStatus(400);
+            resp.setStatus(statusCode.BadRequest.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
             return;
         }
 
@@ -87,8 +92,8 @@ public class HttpServer extends HttpServlet{
             Charset utf8 = Charset.forName("utf-8");
             setContentType(resp);
             byte[] respBodyBytes = respBody.getBytes(utf8);
-            logger.info("Request has no error");
-            resp.setStatus(200);
+            resp.setStatus(statusCode.Ok.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | Status code " + statusCode.Ok.valueOf() );
             resp.setContentLength(respBodyBytes.length);
             OutputStream os = resp.getOutputStream();
             os.write(respBodyBytes);
@@ -97,7 +102,8 @@ public class HttpServer extends HttpServlet{
             String destPath = arguments.arguments.get("reload");
             if(destPath == null) destPath = arguments.arguments.get("dest")+ respBody;
             resp.addHeader("Location",destPath);
-            resp.setStatus(303);
+            resp.setStatus(statusCode.SeeOther.valueOf());
+            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.SeeOther.valueOf());
         }
     }
 
