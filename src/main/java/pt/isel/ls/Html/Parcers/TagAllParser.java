@@ -15,8 +15,7 @@ public class TagAllParser implements HtmlParser<Tag> {
                 tr().with(
                         th().withText("Id"),
                         th().withText("Name"),
-                        th().withText("Color"),
-                        th().withText("Link")
+                        th().withText("Color")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border","1"));
@@ -31,9 +30,8 @@ public class TagAllParser implements HtmlParser<Tag> {
     private static HtmlElement makeRow(Tag t) {
         return tr().with(
                 td().withText(String.valueOf(t.gid)),
-                td().withText(t.name),
-                td().withText(t.color),
-                td().with(hyperlink("Link", "/tags/" + t.gid))
+                td().with(hyperlink(t.name, "/tags/" + t.gid)),
+                td().withText(t.color)
         );
     }
 

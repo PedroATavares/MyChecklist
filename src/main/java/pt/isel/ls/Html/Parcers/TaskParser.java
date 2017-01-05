@@ -18,8 +18,7 @@ public class TaskParser implements HtmlParser<Task> {
                         td().withText("Name"),
                         td().withText("Descricao"),
                         td().withText("Due Date"),
-                        td().withText("Is Closed"),
-                        td().withText("Change")
+                        td().withText("Is Closed")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border", "1"));
@@ -39,12 +38,10 @@ public class TaskParser implements HtmlParser<Task> {
                 td().withText(t.name),
                 td().withText(t.description),
                 td().withText(t.dueDate),
-                td().withText(String.valueOf(t.isClosed)),
                 td().with(form("/checklists/" + t.checklistId +"/tasks/"+ t.id)
-                        .with(inputSubmit())
+                        .with(inputSubmit(t.isClosed ? "True" : "False"))
                         .with(hiddenInput("" + !t.isClosed,"isClosed"))
                         .with(hiddenInput("/checklists/" + t.checklistId,"reload"))
-
                 )
         );
     }

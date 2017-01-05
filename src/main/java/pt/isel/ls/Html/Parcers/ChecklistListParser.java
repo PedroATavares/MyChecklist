@@ -21,7 +21,7 @@ public class ChecklistListParser implements HtmlParser<List<CheckList>> {
                                 br().withText("Due Date in format yyyy-mm-dd:"),
                                 inputTxt("dueDate"),
                                 hiddenInput("/checklists/", "dest"),
-                                inputSubmit()
+                                inputSubmit("Submit")
                         ),
                         h3().with(hyperlink("Checklists closed", "/checklists/closed")),
                         h3().with(hyperlink("Checklists open sorted Duedate", "/checklists/open/sorted/duedate")),

@@ -19,9 +19,9 @@ public class HtmlSupplier {
             .withAttribute(new HtmlAttribute("name", name))
             .withAttribute(new HtmlAttribute("value", value));
     }
-    public static HtmlElement inputSubmit(){return new HtmlNestedElement("input")
+    public static HtmlElement inputSubmit(String txt){return new HtmlNestedElement("input")
             .withAttribute(new HtmlAttribute("type", "submit"))
-            .withAttribute(new HtmlAttribute("value", "Submit"));}
+            .withAttribute(new HtmlAttribute("value", txt));}
 
     public static HtmlElement html(){return new HtmlNestedElement("html");}
 

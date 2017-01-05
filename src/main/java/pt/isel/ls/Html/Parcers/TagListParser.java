@@ -19,7 +19,7 @@ public class TagListParser implements HtmlParser<List<Tag>> {
                                 br().withText("Color:"),
                                 inputTxt("color"),
                                 hiddenInput("/tags/","dest"),
-                                inputSubmit()
+                                inputSubmit("Submit")
                         ),
                         h3().with(hyperlink("Home","/"))
                 )).toHtml();

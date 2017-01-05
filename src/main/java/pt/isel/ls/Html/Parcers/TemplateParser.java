@@ -17,8 +17,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
                     h3().withText("TEMPLATE"),
                     th().withText("Id" ),
                     th().withText("Name"),
-                    th().withText("Description"),
-                    th().withText("Lisks")
+                    th().withText("Description")
                 )
         ).withAttribute(attribute("style", "width:50%"), attribute("border", "1"));
 
@@ -33,7 +32,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
                         br().withText("Description:"),
                         inputTxt("description"),
                         hiddenInput("/templates/","dest"),
-                        inputSubmit()
+                        inputSubmit("Submit")
                 ),
                 h3().with(hyperlink("CheckLists","/checklists")),
                 h3().with(hyperlink("Home","/"))
@@ -44,9 +43,8 @@ public class TemplateParser implements HtmlParser<List<Template>> {
     private static HtmlElement makeRow(Template t) {
         return tr().with(
                 td().withText(String.valueOf(t.id)),
-                td().withText(String.valueOf(t.name)),
-                td().withText(t.description),
-                td().with(hyperlink("Link","/templates/" + t.id))
+                td().with(hyperlink(t.name,"/templates/" + t.id)),
+                td().withText(t.description)
         );
     }
 }

@@ -39,7 +39,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         br().withText("Due Date in format yyyy-mm-dd:"),
                         inputTxt("dueDate"),
                         hiddenInput("/checklists/" + source.id,"reload"),
-                        inputSubmit()
+                        inputSubmit("Submit")
                 ),
                 h3().withText("Tags"),
                 TagParser.parceList(source.tags),
@@ -47,7 +47,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         br().withText("Gid:"),
                         inputTxt("gid"),
                         hiddenInput("/checklists/" + source.id,"reload"),
-                        inputSubmit()
+                        inputSubmit("Submit")
                 ),
                 h3().with(hyperlink("Back","./")),
                 h3().with(hyperlink("Home","/"))
@@ -65,8 +65,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         th().withText("Name"),
                         th().withText("Description"),
                         th().withText("Due Date"),
-                        th().withText("Is Closed"),
-                        th().withText("Links")
+                        th().withText("Is Closed")
                 )
         ).withAttribute(attribute("style", "width:50%"),
                 attribute("border", "1"));
@@ -83,12 +82,10 @@ public class ChecklistParser implements HtmlParser<CheckList> {
         return tr().with(
                 td().withText(String.valueOf(c.id)),
                 td().withText(c.templateId!=null ? String.valueOf(c.templateId) : ""),
-                td().withText(c.name),
+                td().with( hyperlink("Name:" + c.name,"/checklists/" + c.id)),
                 td().withText(c.description),
                 td().withText(c.dueDate),
-                td().withText(String.valueOf(c.isClosed)),
-                td().with(hyperlink("Link", "/checklists/" + c.id))
-
+                td().withText(String.valueOf(c.isClosed))
         );
     }
 }
