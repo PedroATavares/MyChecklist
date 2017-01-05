@@ -38,6 +38,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                         inputTxt("description"),
                         br().withText("Due Date in format yyyy-mm-dd:"),
                         inputTxt("dueDate"),
+                        hiddenInput("/checklists/" + source.id,"reload"),
                         inputSubmit()
                 ),
                 h3().withText("Tags"),
@@ -45,6 +46,7 @@ public class ChecklistParser implements HtmlParser<CheckList> {
                 form("/checklists/" + source.id + "/tags").with(
                         br().withText("Gid:"),
                         inputTxt("gid"),
+                        hiddenInput("/checklists/" + source.id,"reload"),
                         inputSubmit()
                 ),
                 h3().with(hyperlink("Back","./")),

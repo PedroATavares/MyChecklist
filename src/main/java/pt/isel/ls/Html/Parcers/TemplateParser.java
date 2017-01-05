@@ -32,6 +32,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
                         inputTxt("name"),
                         br().withText("Description:"),
                         inputTxt("description"),
+                        hiddenInput("/templates/","dest"),
                         inputSubmit()
                 ),
                 h3().with(hyperlink("CheckLists","/checklists")),

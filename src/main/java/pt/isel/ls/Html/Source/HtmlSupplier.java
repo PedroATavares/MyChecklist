@@ -2,6 +2,7 @@ package pt.isel.ls.Html.Source;
 
 public class HtmlSupplier {
 
+
     public static HtmlElement hyperlink(String txt,String dest) {return new HtmlNestedElement("a").withText(txt)
                                                                 .withAttribute(new HtmlAttribute("href",  dest));}
 
@@ -13,6 +14,11 @@ public class HtmlSupplier {
             .withAttribute(new HtmlAttribute("type", "text"))
             .withAttribute(new HtmlAttribute("name", name));}
 
+    public static HtmlElement hiddenInput(String value,String name){return new HtmlNestedElement("input")
+            .withAttribute(new HtmlAttribute("type", "hidden"))
+            .withAttribute(new HtmlAttribute("name", name))
+            .withAttribute(new HtmlAttribute("value", value));
+    }
     public static HtmlElement inputSubmit(){return new HtmlNestedElement("input")
             .withAttribute(new HtmlAttribute("type", "submit"))
             .withAttribute(new HtmlAttribute("value", "Submit"));}

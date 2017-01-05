@@ -36,19 +36,22 @@ public class PostTemplateInstance implements Command {
             String desc = args.arguments.get("description");
             String dueDate = args.arguments.get("dueDate");
 
-          /* if( !selectRs.next()) {
+           if( !selectRs.next()) {
                PreparedStatement selectTemplate= con.prepareStatement("select * from Template \n" +
-                       "where tid = ?");
+                       "where tid = ?",
+                       ResultSet.TYPE_SCROLL_INSENSITIVE,
+                       ResultSet.CONCUR_READ_ONLY);
                selectTemplate.setInt(1, tid);
                selectRs = selectTemplate.executeQuery();
                hasTasks=false;
            }
-*/
-            if (name == null)
-                name = selectRs.getString(TempName);
-            if (desc == null)
-                desc = selectRs.getString(TempDescript);
 
+            if(selectRs.next()) {
+                if (name == null || name == "")
+                    name = selectRs.getString(TempName);
+                if (desc == null || desc == "")
+                    desc = selectRs.getString(TempDescript);
+            }
             selectRs.beforeFirst();
 
             PreparedStatement stm2 = con.prepareStatement("insert into Checklist (Name, Descrip, DueDate, tid)" +
@@ -66,7 +69,10 @@ public class PostTemplateInstance implements Command {
             ResultSet rs1= stm2.getGeneratedKeys();
             rs1.next();
 
-            if(!hasTasks) return rs1.getInt(1);
+            if(!hasTasks) {
+                con.commit();
+                return rs1.getInt(1);
+            }
 
             PreparedStatement stm3 = con.prepareStatement("insert into Task (Name, Descrip, cid)" +
                     " values (?, ?, ?)");

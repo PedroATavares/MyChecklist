@@ -68,23 +68,23 @@ public class HttpServer extends HttpServlet{
 
         } catch (NoSuchCommandException e) {
             resp.setStatus(statusCode.NotFound.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.NotFound.valueOf(),true));
             return;
         } catch (SQLException e) {
             resp.setStatus(statusCode.InternalServerError.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.InternalServerError.valueOf());
+            logger.info(getLoggerStr(req.getMethod(), req.getPathInfo(), statusCode.InternalServerError.valueOf(), true));
             return;
         } catch (ParseException e) {
             resp.setStatus(statusCode.BadRequest.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.BadRequest.valueOf(),true));
             return;
         } catch (NoSuchElementException e) {
             resp.setStatus(statusCode.NotFound.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.NotFound.valueOf());
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.NotFound.valueOf(),true));
             return;
         }catch (NumberFormatException e){
             resp.setStatus(statusCode.BadRequest.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.BadRequest.valueOf());
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.BadRequest.valueOf(),true));
             return;
         }
 
@@ -93,7 +93,7 @@ public class HttpServer extends HttpServlet{
             setContentType(resp);
             byte[] respBodyBytes = respBody.getBytes(utf8);
             resp.setStatus(statusCode.Ok.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | Status code " + statusCode.Ok.valueOf() );
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.Ok.valueOf(),false));
             resp.setContentLength(respBodyBytes.length);
             OutputStream os = resp.getOutputStream();
             os.write(respBodyBytes);
@@ -103,8 +103,12 @@ public class HttpServer extends HttpServlet{
             if(destPath == null) destPath = arguments.arguments.get("dest")+ respBody;
             resp.addHeader("Location",destPath);
             resp.setStatus(statusCode.SeeOther.valueOf());
-            logger.info( dateFormat.format(new Date()) + " | " + req.getMethod() + req.getPathInfo() + " | ERROR, status code " + statusCode.SeeOther.valueOf());
+            logger.info(getLoggerStr(req.getMethod(),req.getPathInfo(),statusCode.SeeOther.valueOf(),false));
         }
+    }
+
+    private String getLoggerStr(String method,String path,int statusCode, boolean error ){
+        return dateFormat.format(new Date()) + " | " + method + path + (error? " | ERROR,":"|") + " status code " + statusCode;
     }
 
     private void setContentType(HttpServletResponse resp) {

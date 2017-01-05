@@ -41,7 +41,11 @@ public class TaskParser implements HtmlParser<Task> {
                 td().withText(t.dueDate),
                 td().withText(String.valueOf(t.isClosed)),
                 td().with(form("/checklists/" + t.checklistId +"/tasks/"+ t.id)
-                .with(inputSubmit()))
+                        .with(inputSubmit())
+                        .with(hiddenInput("" + !t.isClosed,"isClosed"))
+                        .with(hiddenInput("/checklists/" + t.checklistId,"reload"))
+
+                )
         );
     }
 

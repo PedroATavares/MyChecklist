@@ -20,13 +20,14 @@ public class ChecklistListParser implements HtmlParser<List<CheckList>> {
                                 inputTxt("description"),
                                 br().withText("Due Date in format yyyy-mm-dd:"),
                                 inputTxt("dueDate"),
+                                hiddenInput("/checklists/", "dest"),
                                 inputSubmit()
                         ),
                         h3().with(hyperlink("Checklists closed", "/checklists/closed")),
                         h3().with(hyperlink("Checklists open sorted Duedate", "/checklists/open/sorted/duedate")),
                         h3().with(hyperlink("Checklists open sorted number of tasks", "/checklists/open/sorted/noftasks")),
                         h3().with(hyperlink("Templates", "/templates")),
-                        h3().with(hyperlink("Home","/"))
+                        h3().with(hyperlink("Home", "/"))
                 )).toHtml();
     }
 }
