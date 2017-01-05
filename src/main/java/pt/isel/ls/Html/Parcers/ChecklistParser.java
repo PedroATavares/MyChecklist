@@ -81,8 +81,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
     private static HtmlElement makeRow(CheckList c) {
         return tr().with(
                 td().withText(String.valueOf(c.id)),
-                td().withText(c.templateId!=null ? String.valueOf(c.templateId) : ""),
                 td().with( hyperlink("Name:" + c.name,"/checklists/" + c.id)),
+                td().withText((c.templateId!=null&&c.templateId!=0) ? String.valueOf(c.templateId) : "None"),
                 td().withText(c.description),
                 td().withText(c.dueDate),
                 td().withText(String.valueOf(c.isClosed))
