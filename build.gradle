@@ -3,36 +3,6 @@ apply plugin: 'application'
 
 version = '1.0'
 
-task initDbTests(type:Exec){
-    def home = System.getenv("LS_DBCONN_TEST_SQLSRV");
-    def map = [:]
-    def String[] nameAndValue = home.split(";")
-
-    for (def i =0;i<nameAndValue.size(); i++){
-        def String[] string = nameAndValue[i].split("=")
-        map.put(string[0],string[1])
-    }
-    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'create.sql'
-
-}
-
-task initDb(type:Exec){
-    def home = System.getenv("LS_DBCONN_APP_SQLSRV");
-    def map = [:]
-    def String[] nameAndValue = home.split(";")
-
-    for (def i =0;i<nameAndValue.size(); i++){
-        def String[] string = nameAndValue[i].split("=")
-        map.put(string[0],string[1])
-    }
-
-    commandLine 'sqlcmd', '-U', map.get("user"), '-P', map.get("password"), '-S', map.get("server"), '-d', map.get("database") ,'-i', 'Modelo_Físico.sql'
-    
-}
-
-//test.dependsOn initDbTests
-//build.dependsOn initDb
-
 mainClassName = "pt.isel.ls.App"
 
 dependencies {
