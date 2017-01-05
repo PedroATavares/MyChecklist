@@ -26,6 +26,7 @@ public class ListenCommand implements Command {
     @Override
     public Object execute(Arguments args, Connection con) {
         String port =args.arguments.get("port");
+        if(port==null) port=System.getenv("PORT");
         if(port==null) port=defaultPort;
         Server server = new Server(Integer.parseInt(port));
         ServletHandler handler = new ServletHandler();
