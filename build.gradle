@@ -30,8 +30,8 @@ task initDb(type:Exec){
     
 }
 
-test.dependsOn initDbTests
-build.dependsOn initDb
+//test.dependsOn initDbTests
+//build.dependsOn initDb
 
 mainClassName = "pt.isel.ls.App"
 
