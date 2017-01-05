@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
 version = '1.0'
 
@@ -31,6 +32,8 @@ task initDb(type:Exec){
 
 test.dependsOn initDbTests
 build.dependsOn initDb
+
+mainClassName = "pt.isel.ls.App"
 
 dependencies {
     compile fileTree(dir: 'vendor/main', include: '*.jar')
