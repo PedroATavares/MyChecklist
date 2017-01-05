@@ -1,1 +1,1 @@
-web: java -cp build\classes\main;vendor\main\* pt.isel.ls.App LISTEN / port=3030
+web: ./build/install/1617-1-LI41N-G3/bin/1617-1-LI41N-G3

@@ -39,3 +39,5 @@ dependencies {
     compile fileTree(dir: 'vendor/main', include: '*.jar')
     testCompile fileTree(dir: 'vendor/test', include: '*.jar')
 }
+
+task stage(dependsOn:['clean','installApp'])
