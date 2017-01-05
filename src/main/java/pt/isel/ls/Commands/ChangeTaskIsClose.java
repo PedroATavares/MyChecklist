@@ -33,6 +33,13 @@ public class ChangeTaskIsClose implements Command {
             stm2.setInt(1, Integer.parseInt(cid) );
             stm2.executeUpdate();
         }
+        else{
+            PreparedStatement stm4 = con.prepareStatement("UPDATE Checklist\n" +
+                        "SET IsClosed='false'\n" +
+                        "WHERE cid= ?;\n");
+            stm4.setInt(1, Integer.parseInt(cid));
+            stm4.executeUpdate();
+        }
 
         return isClose ;
    }

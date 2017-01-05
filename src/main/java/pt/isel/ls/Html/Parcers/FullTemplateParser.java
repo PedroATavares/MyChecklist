@@ -24,7 +24,7 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
                         br().withText("Due Date in format yyyy-mm-dd:"),
                         inputTxt("dueDate"),
                         hiddenInput("/checklists/","dest"),
-                        inputSubmit()
+                        inputSubmit("Submit")
                 ),
                 h3().withText("Tasks"),
                 TemplateTaskParser.parceList(source.listTsk),
@@ -34,7 +34,7 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
                         br().withText("Description:"),
                         inputTxt("description"),
                         hiddenInput("/templates/" + source.temp.id,"reload"),
-                        inputSubmit()
+                        inputSubmit("Submit")
                 ),
                 h3().with(hyperlink("Templates","/templates")),
                 h3().with(hyperlink("Home","/"))
