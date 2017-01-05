@@ -1,11 +1,14 @@
 package pt.isel.ls;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.isel.ls.Commands.*;
 import pt.isel.ls.Exceptions.NoSuchCommandException;
 import pt.isel.ls.Exceptions.NoSuchElementException;
 import pt.isel.ls.Html.Parcers.*;
 import pt.isel.ls.Json.Parcers.*;
+import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
 
 import java.sql.SQLException;
@@ -18,47 +21,18 @@ public class App {
     public  static void  main(String [] args) throws SQLServerException {
 
         initialize();
-        if (args.length >= 1)
-            try {
-                manager.searchAndExecute(args);
-            } catch (NoSuchCommandException e) {
-                System.out.print(e.getMessage());
-            } catch (ParseException e) {
-                System.out.print(e.getMessage());
-            } catch (SQLException e) {
-                System.out.print(e.getMessage());
-            }catch (NumberFormatException e){
-                System.out.println(e.getMessage());
-            } catch (NoSuchElementException e) {
-               System.out.println(e.getMessage());
-            }
+        Logger logger = LoggerFactory.getLogger(App.class);
+        
+        Command cmd=new ListenCommand(manager);
 
-        else {
-
-            String result=null;
-            Scanner sc = new Scanner(System.in);
-
-            while (true) {
-                System.out.print('>');
-                String input = sc.nextLine();
-                try {
-                    result=manager.searchAndExecute(input.split(" "));
-                    if(result.equals("EXIT"))break;
-                    manager.handlePrint(result);
-                } catch (NoSuchCommandException e) {
-                    System.out.println(e.getMessage());
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }catch (NumberFormatException e){
-                    System.out.println(e.getMessage());
-                }catch (NullPointerException e){
-                } catch (NoSuchElementException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
+        try {
+            cmd.execute(new Arguments(),null);
+        } catch (SQLException e) {
+            logger.info("error:" + e.getMessage());
+        } catch (ParseException e) {
+            logger.info("error:" + e.getMessage());
         }
+
     }
 
     private static void initialize() throws SQLServerException {
