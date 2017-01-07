@@ -33,12 +33,7 @@ public class ConnectionManager {
         src.setPassword(map.get("password"));
     }
 
-    public Connection getConection(){
-        try {
+    public Connection getConection() throws SQLServerException {
             return src.getConnection();
-        } catch (SQLServerException e) {
-            logger.info("Cannot get connection at: " + src.getServerName() + "DB name: " + src.getDatabaseName());
-            return null;
-        }
     }
 }
