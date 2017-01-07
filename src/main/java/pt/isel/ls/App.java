@@ -25,12 +25,58 @@ public class App {
 
         Command cmd=new ListenCommand(manager);
 
-        try {
-            cmd.execute(new Arguments(),null);
-        } catch (SQLException e) {
-            logger.info("error:" + e.getMessage());
-        } catch (ParseException e) {
-            logger.info("error:" + e.getMessage());
+        if(System.getenv("PORT")!=null) {
+
+
+            try {
+                cmd.execute(new Arguments(), null);
+            } catch (SQLException e) {
+                logger.info("error:" + e.getMessage());
+            } catch (ParseException e) {
+                logger.info("error:" + e.getMessage());
+            }
+        }
+        else
+        if (args.length >= 1)
+            try {
+                manager.searchAndExecute(args);
+            } catch (NoSuchCommandException e) {
+                System.out.print(e.getMessage());
+            } catch (ParseException e) {
+                System.out.print(e.getMessage());
+            } catch (SQLException e) {
+                System.out.print(e.getMessage());
+            }catch (NumberFormatException e){
+                System.out.println(e.getMessage());
+            } catch (NoSuchElementException e) {
+                System.out.println(e.getMessage());
+            }
+
+        else {
+
+            String result=null;
+            Scanner sc = new Scanner(System.in);
+
+            while (true) {
+                System.out.print('>');
+                String input = sc.nextLine();
+                try {
+                    result=manager.searchAndExecute(input.split(" "));
+                    if(result.equals("EXIT"))break;
+                    manager.handlePrint(result);
+                } catch (NoSuchCommandException e) {
+                    System.out.println(e.getMessage());
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }catch (NumberFormatException e){
+                    System.out.println(e.getMessage());
+                }catch (NullPointerException e){
+                } catch (NoSuchElementException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
 
     }
