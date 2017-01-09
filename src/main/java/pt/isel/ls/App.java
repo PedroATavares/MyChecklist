@@ -10,9 +10,13 @@ import pt.isel.ls.Html.Parcers.*;
 import pt.isel.ls.Json.Parcers.*;
 import pt.isel.ls.Logic.Arguments;
 import pt.isel.ls.Manager.CommandManager;
+import pt.isel.ls.Server.HttpServer;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class App {
@@ -78,7 +82,9 @@ public class App {
                 }
             }
         }
-
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        logger.info( dateFormat.format(date) + " | Exit has been done ");
     }
 
     private static void initialize() throws SQLServerException {

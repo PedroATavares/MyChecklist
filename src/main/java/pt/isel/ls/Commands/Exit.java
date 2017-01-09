@@ -13,19 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Exit implements Command {
-    private Logger logger;
-    private DateFormat dateFormat;
-    private Date date;
-
-    public Exit(){
-        logger = LoggerFactory.getLogger(HttpServer.class);
-        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        date = new Date();
-    }
 
     @Override
     public String execute(Arguments args, Connection con) throws SQLException, ParseException {
-        logger.info( dateFormat.format(date) + " | Exit has been done ");
         return "EXIT";
     }
 

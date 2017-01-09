@@ -60,8 +60,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
         if(checkLists==null || checkLists.isEmpty()) return paragraph().withText("No CheckLists To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        th().withText("Id"),
-                        th().withText("Template Id"),
+                        //th().withText("Id"),
+                        //th().withText("Template Id"),
                         th().withText("Name"),
                         th().withText("Description"),
                         th().withText("Due Date"),
@@ -80,8 +80,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
 
     private static HtmlElement makeRow(CheckList c) {
         return tr().with(
-                td().withText(String.valueOf(c.id)),
-                td().withText((c.templateId!=null&&c.templateId!=0) ? String.valueOf(c.templateId) : "None"),
+                //td().withText(String.valueOf(c.id)),
+                //td().withText((c.templateId!=null&&c.templateId!=0) ? String.valueOf(c.templateId) : "None"),
                 td().with(hyperlink(c.name, "/checklists/" + c.id)),
                 td().withText(c.description),
                 td().withText(c.dueDate),
