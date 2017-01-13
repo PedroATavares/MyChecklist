@@ -13,8 +13,8 @@ public class TaskParser implements HtmlParser<Task> {
         if(list==null || list.isEmpty()) return paragraph().withText("No Tasks To Show");
         HtmlElement table = table().with(
                 tr().with(
-                        td().withText("Id"),
-                        td().withText("CheckList Id"),
+                        //td().withText("Id"),
+                        //td().withText("CheckList Id"),
                         td().withText("Name"),
                         td().withText("Descricao"),
                         td().withText("Due Date"),
@@ -33,8 +33,8 @@ public class TaskParser implements HtmlParser<Task> {
 
     private static HtmlElement makeRow(Task t) {
         return tr().with(
-                td().withText(String.valueOf(t.id)),
-                td().withText(String.valueOf(t.checklistId)),
+                //td().withText(String.valueOf(t.id)),
+                //td().withText(String.valueOf(t.checklistId)),
                 td().withText(t.name),
                 td().withText(t.description),
                 td().withText(t.dueDate),
@@ -51,8 +51,8 @@ public class TaskParser implements HtmlParser<Task> {
     public String supply(Task source) {
        return html().with(body().with(
                 h3().withText("TASK"),
-                paragraph().withText("Id: " + source.id ),
-                paragraph().withText("CheckListID: " + source.checklistId),
+                //paragraph().withText("Id: " + source.id ),
+                //paragraph().withText("CheckListID: " + source.checklistId),
                 paragraph().withText("Description: " + source.description),
                 paragraph().withText("DueDate: " + source.dueDate)
         )).toHtml();

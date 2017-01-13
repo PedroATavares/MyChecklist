@@ -14,18 +14,18 @@ public class ChecklistParser implements HtmlParser<CheckList> {
     public String supply(CheckList source) {
         HtmlElement base = html().with(
                 h2().withText("Checklist"),
-                paragraph().withText("Id: " + source.id),
+                //paragraph().withText("Id: " + source.id),
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Description: " + source.description),
                 paragraph().withText("Due date: " + source.dueDate)
                 );
 
-        if (source.templateId!=0)
+        /*if (source.templateId!=0)
             base.with(
                     paragraph().with(
                             hyperlink("Template Id:" + source .templateId,"/templates/" + source.templateId)
                     )
-            );
+            );*/
 
         base.with(
                 paragraph().withText("Is Closed: " + source.isClosed),

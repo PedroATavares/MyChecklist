@@ -13,7 +13,7 @@ public class TagAllParser implements HtmlParser<Tag> {
         if(tags==null || tags.isEmpty()) return paragraph().withText("No Tags To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        th().withText("Id"),
+                        //th().withText("Id"),
                         th().withText("Name"),
                         th().withText("Color")
                 )
@@ -29,7 +29,7 @@ public class TagAllParser implements HtmlParser<Tag> {
 
     private static HtmlElement makeRow(Tag t) {
         return tr().with(
-                td().withText(String.valueOf(t.gid)),
+                //td().withText(String.valueOf(t.gid)),
                 td().with(hyperlink(t.name, "/tags/" + t.gid)),
                 td().withText(t.color)
         );
@@ -39,7 +39,7 @@ public class TagAllParser implements HtmlParser<Tag> {
     public String supply(Tag source) {
         return html().with(body().with(
                 h3().withText("TAG"),
-                paragraph().withText("Id: " + source.gid ),
+                //paragraph().withText("Id: " + source.gid ),
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Color: " + source.color),
                 h3().withText("Checklists: "),

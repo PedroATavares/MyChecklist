@@ -10,7 +10,7 @@ public class FullTemplateParser implements HtmlParser<FullTemplate> {
 
         return html().with(
                 h2().withText("FullTemplate"),
-                paragraph().withText("Id: " + source.temp.id),
+                //paragraph().withText("Id: " + source.temp.id),
                 paragraph().withText("Name: " + source.temp.name),
                 paragraph().withText("Description: " + source.temp.description),
 

@@ -12,10 +12,10 @@ public class TemplateTaskParser implements HtmlParser<TemplateTask> {
     public String supply(TemplateTask source) {
         return html().with(
                 h2().withText("TEMPLATE TASK"),
-                paragraph().withText("Id: "+ source.id),
+                //paragraph().withText("Id: "+ source.id),
                 paragraph().withText("Name: " + source.name),
-                paragraph().withText("Description: " + source.description),
-                paragraph().withText("Template Id: " + source.templateId)
+                paragraph().withText("Description: " + source.description)
+                //paragraph().withText("Template Id: " + source.templateId),
         ).toHtml();
     }
 
@@ -24,8 +24,8 @@ public class TemplateTaskParser implements HtmlParser<TemplateTask> {
         if(templateTasks==null || templateTasks.isEmpty()) return paragraph().withText("No Template Tasks To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        th().withText("Id"),
-                        th().withText("Template Id"),
+                        //th().withText("Id"),
+                        //th().withText("Template Id"),
                         th().withText("Name"),
                         th().withText("Descricao")
                 )
@@ -42,8 +42,8 @@ public class TemplateTaskParser implements HtmlParser<TemplateTask> {
 
     private static HtmlElement makeRow(TemplateTask tt) {
         return tr().with(
-                td().withText(String.valueOf(tt.id)),
-                td().withText(String.valueOf(tt.templateId)),
+                //td().withText(String.valueOf(tt.id)),
+                //td().withText(String.valueOf(tt.templateId)),
                 td().withText(tt.name),
                 td().withText(tt.description)
 
