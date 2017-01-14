@@ -105,7 +105,6 @@ public class PrintTests {
     @Test
     public void test_TasktoString(){
         Task t = new Task(5, 3, "Batata", "2", "10-8-2017", false);
-        System.out.println(t);
         Assert.assertEquals(t.toString(), "Task id: 3\n" +
                 "\tName: Batata\n" +
                 "\tDescription: 2\n" +
@@ -124,7 +123,6 @@ public class PrintTests {
     @Test
     public void test_TemplateTasktoString(){
         TemplateTask tt = new TemplateTask(1,2, "Lista de Frutas", "Template Lista de Frutas");
-        System.out.println(tt);
         Assert.assertEquals(tt.toString(), "id: 1\n" +
                 "\tName: Lista de Frutas\n" +
                 "\tDescription: Template Lista de Frutas\n" +
@@ -153,9 +151,6 @@ public class PrintTests {
         listCkL.add(cl1);
 
         FullTemplate ft = new FullTemplate(t, listCkL, listTT );
-
-
-        System.out.println(ft);
 
         Assert.assertEquals(ft.toString(), "Template id: 2\n" +
                 "\tName: Lista de Compras\n" +

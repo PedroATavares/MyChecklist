@@ -15,7 +15,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
         HtmlElement table = table().with(
                 tr().with(
                     h3().withText("TEMPLATE"),
-                    th().withText("Id" ),
+                    //th().withText("Id" ),
                     th().withText("Name"),
                     th().withText("Description")
                 )
@@ -42,7 +42,7 @@ public class TemplateParser implements HtmlParser<List<Template>> {
 
     private static HtmlElement makeRow(Template t) {
         return tr().with(
-                td().withText(String.valueOf(t.id)),
+                //td().withText(String.valueOf(t.id)),
                 td().with(hyperlink(t.name,"/templates/" + t.id)),
                 td().withText(t.description)
         );

@@ -14,18 +14,18 @@ public class ChecklistParser implements HtmlParser<CheckList> {
     public String supply(CheckList source) {
         HtmlElement base = html().with(
                 h2().withText("Checklist"),
-                paragraph().withText("Id: " + source.id),
+                //paragraph().withText("Id: " + source.id),
                 paragraph().withText("Name: " + source.name),
                 paragraph().withText("Description: " + source.description),
                 paragraph().withText("Due date: " + source.dueDate)
                 );
 
-        if (source.templateId!=0)
+        /*if (source.templateId!=0)
             base.with(
                     paragraph().with(
                             hyperlink("Template Id:" + source .templateId,"/templates/" + source.templateId)
                     )
-            );
+            );*/
 
         base.with(
                 paragraph().withText("Is Closed: " + source.isClosed),
@@ -60,8 +60,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
         if(checkLists==null || checkLists.isEmpty()) return paragraph().withText("No CheckLists To Show.");
         HtmlElement table = table().with(
                 tr().with(
-                        th().withText("Id"),
-                        th().withText("Template Id"),
+                        //th().withText("Id"),
+                        //th().withText("Template Id"),
                         th().withText("Name"),
                         th().withText("Description"),
                         th().withText("Due Date"),
@@ -80,8 +80,8 @@ public class ChecklistParser implements HtmlParser<CheckList> {
 
     private static HtmlElement makeRow(CheckList c) {
         return tr().with(
-                td().withText(String.valueOf(c.id)),
-                td().withText((c.templateId!=null&&c.templateId!=0) ? String.valueOf(c.templateId) : "None"),
+                //td().withText(String.valueOf(c.id)),
+                //td().withText((c.templateId!=null&&c.templateId!=0) ? String.valueOf(c.templateId) : "None"),
                 td().with(hyperlink(c.name, "/checklists/" + c.id)),
                 td().withText(c.description),
                 td().withText(c.dueDate),
